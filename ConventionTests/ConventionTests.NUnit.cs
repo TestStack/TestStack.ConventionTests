@@ -6,8 +6,10 @@ using ApprovalTests;
 using ApprovalTests.Core;
 using ApprovalTests.Namers;
 using Castle.MicroKernel;
+using Castle.MicroKernel.Handlers;
 using Castle.Windsor;
 using Castle.Windsor.Diagnostics;
+using Castle.Windsor.Diagnostics.DebuggerViews;
 using Castle.Windsor.Diagnostics.Helpers;
 using NUnit.Framework;
 using Approvals = ApprovalTests.Approvals;
@@ -176,6 +178,12 @@ namespace ConventionTests
 			{
 				Assert.AreEqual(0, invalidData.Count(), message);
 			}
+		}
+
+		protected string MissingDependenciesDescription(IHandler var)
+		{
+			var item = new ComponentStatusDebuggerViewItem((IExposeDependencyInfo) var);
+			return item.Message;
 		}
 
 		private TDiagnosticData[] GetDataToTest(WindsorConventionData<TDiagnosticData> data)
