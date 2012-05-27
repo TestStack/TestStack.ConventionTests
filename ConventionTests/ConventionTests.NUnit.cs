@@ -81,6 +81,12 @@ namespace ConventionTests
 		}
 
 		public abstract void Execute();
+
+		protected void Approve(string message)
+		{
+			Approvals.Verify(new ApprovalTextWriter(message), new ConventionTestNamer(GetType().Name),
+			                 Approvals.GetReporter());
+		}
 	}
 
 	/// <summary>
@@ -130,12 +136,6 @@ namespace ConventionTests
 		/// </summary>
 		/// <returns> </returns>
 		protected abstract ConventionData SetUp();
-
-		private void Approve(string message)
-		{
-			Approvals.Verify(new ApprovalTextWriter(message), new ConventionTestNamer(GetType().Name),
-			                 Approvals.GetReporter());
-		}
 
 		protected virtual Type[] GetTypesToTest(ConventionData data)
 		{
