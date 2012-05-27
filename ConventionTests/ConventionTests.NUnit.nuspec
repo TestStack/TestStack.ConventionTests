@@ -6,12 +6,13 @@
     <owners>Krzysztof Kozmic</owners>
     <dependencies>
       <dependency id="ApprovalTests" version="1.9" />
+      <dependency id="Castle.Windsor" />
       <dependency id="NUnit" version="2.5.10" />
     </dependencies>
-    <id>ConventionTests.NUnit</id>
-    <title>ConventionTests for NUnit</title>
+    <id>ConventionTests</id>
+    <title>ConventionTests</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>My package description.</description>
+    <description>Simple convention-tester</description>
     <summary>Simple code-only package offering some structure to tests validating conventions.</summary>
   </metadata>
 </package>
