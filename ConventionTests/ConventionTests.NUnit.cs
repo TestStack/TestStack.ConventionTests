@@ -73,20 +73,23 @@ namespace ConventionTests
 		}
 	}
 
-	/// <summary>
-	///   Base class for convention tests. Inherited types should be put in "/Conventions" folder in test assembly and follow Sentence_naming_convention_with_underscores_indead_of_spaces These tests will be ran by <see
-	///    cref="ConventionTestsRunner" /> .
-	/// </summary>
-	public abstract class ConventionTest : IConventionTest
+	public abstract class ConventionTestBase: IConventionTest
 	{
-		#region IConventionTest Members
-
 		public virtual string Name
 		{
 			get { return GetType().Name.Replace('_', ' '); }
 		}
 
-		public virtual void Execute()
+		public abstract void Execute();
+	}
+
+	/// <summary>
+	///   Base class for convention tests. Inherited types should be put in "/Conventions" folder in test assembly and follow Sentence_naming_convention_with_underscores_indead_of_spaces These tests will be ran by <see
+	///    cref="ConventionTestsRunner" /> .
+	/// </summary>
+	public abstract class ConventionTest : ConventionTestBase
+	{
+		public override void Execute()
 		{
 			var data = SetUp();
 			var typesToTest = GetTypesToTest(data);
@@ -108,8 +111,6 @@ namespace ConventionTests
 				Assert.AreEqual(0, invalidTypes.Count(), message);
 			}
 		}
-
-		#endregion
 
 		protected virtual Assembly[] GetAssembliesToScan(ConventionData data)
 		{
@@ -153,13 +154,9 @@ namespace ConventionTests
 			this.name = name;
 		}
 
-		#region IApprovalNamer Members
-
 		string IApprovalNamer.Name
 		{
 			get { return name; }
 		}
-
-		#endregion
 	}
 }
