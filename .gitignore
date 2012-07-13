@@ -4,3 +4,12 @@ obj
 
 # mstest test results
 TestResults
+
+# Misc
+_ReSharper.*
+*.user
+*.suo
+*.crunchproject.local.xml
+*.crunchsolution.local.xml
+*.ncrunchsolution
+*.ncrunchproject
