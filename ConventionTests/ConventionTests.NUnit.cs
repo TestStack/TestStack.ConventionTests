@@ -147,10 +147,22 @@ namespace ConventionTests
 		protected virtual Type[] GetTypesToTest(ConventionData data)
 		{
 			return
-				GetAssembliesToScan(data).SelectMany(a => a.GetTypes()).Where(data.Types.Invoke).OrderBy(t => t.FullName)
-					.ToArray();
-		}
-	}
+                GetAssembliesToScan(data).SelectMany(GetTypesSafely).Where(data.Types.Invoke).OrderBy(t => t.FullName)
+                    .ToArray();
+        }
+
+        private static IEnumerable<Type> GetTypesSafely(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(x => x != null);
+            }
+        }
+    }
 
 	public abstract class WindsorConventionTest<TDiagnostic> : WindsorConventionTest<TDiagnostic, IHandler>
 		where TDiagnostic : class, IDiagnostic<IEnumerable<IHandler>>, IDiagnostic<object>
