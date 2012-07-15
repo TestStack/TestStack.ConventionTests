@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="ConventionTests : ConventionTests help you go beyond the compiler with conventions!" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>ConventionTests</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/TestStack/ConventionTests">View on GitHub</a>
+
+          <h1 id="project_title">ConventionTests</h1>
+          <h2 id="project_tagline">ConventionTests help you go beyond the compiler with conventions!</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/TestStack/ConventionTests/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/TestStack/ConventionTests/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>What is ConventionTests?</h3>
+
+<p>Convention over Configuration is a great way to cut down repetitive boilerplate code. But how do you validate that your code adheres to your conventions? Convention Tests is a code-only NuGet that provides a simple API to build validation rules for convention validation tests.</p>
+
+<h3>Using Con­ven­tion­Tests</h3>
+
+<p>Con­ven­tion­Tests is a sim­ple code-only Nuget that pro­vides a min­i­mal­is­tic and lim­ited API enforc­ing cer­tain struc­ture when writ­ing con­ven­tion tests and inte­grat­ing with NUnit. Installing it will add two .cs files to the project and a few depen­den­cies (<a href="http://www.nunit.org/">NUnit</a>, <a href="http://stw.castleproject.org/Windsor.MainPage.ashx">Castle Wind­sor</a> and <a href="http://approvaltests.sourceforge.net/">ApprovalTests</a>).</p>
+
+<p>ConventionTests.NUnit file is where all the rel­e­vant code is located and __Run file is the file that runs your tests. The approach is to cre­ate a file per con­ven­tion and name them in a descrip­tive man­ner, so that you can learn what the con­ven­tions you have in the project are by just look­ing at the files in your Con­ven­tions folder, with­out hav­ing to open them.</p>
+
+<p>Each con­ven­tion test inher­its (directly or indi­rectly) from the ICon­ven­tion­Test inter­face. There’s an abstract imple­men­ta­tion of the inter­face, Con­ven­tion­Test­Base and a few spe­cial­ized imple­men­ta­tions for com­mon sce­nar­ios pro­vided out of the box: Type-based one (Con­ven­tion­Test) and two for Wind­sor (Wind­sor­Con­ven­tion­Test, non-generic and generic for diagnostics-based tests).</p>
+
+<h4>Type-based con­ven­tion tests</h4>
+
+<p>The most com­mon and most generic group of con­ven­tions are ones based around types and type infor­ma­tion. Con­ven­tions like “every controller’s name ends with ‘Con­troller’”, or “Every method on WCF ser­vice con­tracts must have Oper­a­tionCon­trac­tAt­tribute” are exam­ples of such conventions.</p>
+
+<p>You write them by cre­at­ing a class inher­it­ing Con­ven­tion­Test, which forces you to over­ride one method. Here’s a min­i­mal example</p>
+
+<pre><code>public class Controllers_have_Controller_suffix_in_type_name : ConventionTest
+{
+    protected override ConventionData SetUp()
+    {
+        return new ConventionData
+            {
+                Types = t =&gt; t.IsConcrete&lt;IController&gt;(),
+                Must = t =&gt; t.Name.EndsWith("Controller")
+            };
+    }
+}
+</code></pre>
+
+<h4>Windsor-based con­ven­tion tests</h4>
+
+<p>Another com­mon set of con­ven­tion tests are tests regard­ing an IoC con­tainer. Cas­tle Wind­sor is sup­ported out of the box. The struc­ture of the tests and API is sim­i­lar, with the dif­fer­ence being that instead of types we’re deal­ing with Windsor’s com­po­nent Han­dlers.</p>
+
+<pre><code>public class List_classes_registered_in_Windsor : WindsorConventionTest
+{
+    protected override WindsorConventionData SetUp()
+    {
+        return new WindsorConventionData(new WindsorContainer()
+                                                .Install(FromAssembly.Containing&lt;AuditedAction&gt;()))
+            {
+                FailDescription = "All Windsor components",
+                FailItemDescription = h =&gt; BuildDetailedHandlerDescription(h)+" | "+
+                    h.ComponentModel.GetLifestyleDescription(),
+            }.WithApprovedExceptions("We just list all of them.");
+
+    }
+}
+</code></pre>
+
+<h4>Cus­tom con­ven­tion tests</h4>
+
+<p>Say we wanted to cre­ate a con­ven­tion test that lists all of our NHibernate col­lec­tions where we do cas­cade deletes, so that when we add a new col­lec­tion the test would fail remind­ing us of the issue, and force us to pay atten­tion to how we struc­ture rela­tion­ships in the appli­ca­tion. To do this we could cre­ate a base NHiber­nate­Con­ven­tion­Test and NHi­iber­nate­Con­ven­tion­Data to cre­ate sim­i­lar struc­ture, or just build a sim­ple one-class con­ven­tion like that:</p>
+
+<pre><code>public class List_collection_that_cascade_deletes:ConventionTestBase
+{
+    public override void Execute()
+    {
+        // NH Bootstrapper is our custom class to set up NH
+        var bootstrapper = new NHibernateBootstrapper();
+        var configuration = bootstrapper.BuildConfiguration();
+
+        var message = new StringBuilder("Collections with cascade delete orphan");
+        foreach (var @class in configuration.ClassMappings)
+        {
+            foreach (var property in @class.PropertyIterator)
+            {
+                if(property.CascadeStyle.HasOrphanDelete)
+                {
+                    message.AppendLine(@class.NodeName + "." + property.Name);
+                }
+            }
+        }
+        Approve(message.ToString());
+    }
+}
+</code></pre>
+
+<h3>Where to find out more</h3>
+
+<p><a href="https://github.com/kkozmic">Krzysztof Koźmic</a> spoke about ConventionTests at NDC 2012. You can find the video of that talk <a href="http://vimeo.com/43676874">here</a>, slides <a href="http://kozmic.pl/presentations/">here</a> and the introductory blog post <a href="http://kozmic.pl/2012/06/14/using-conventiontests/">here</a>.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">ConventionTests maintained by <a href="https://github.com/TestStack">TestStack</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
