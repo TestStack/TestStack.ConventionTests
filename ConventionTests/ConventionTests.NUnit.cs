@@ -28,7 +28,16 @@ namespace ConventionTests
 	/// </summary>
 	public class ConventionData
 	{
-		/// <summary>
+        public static readonly Predicate<Type> All = _ => true;
+        public static readonly Predicate<Type> Fail = _ => false; 
+
+	    public ConventionData()
+	    {
+	        Types = All;
+	        Must = Fail;
+	    }
+
+	    /// <summary>
 		///   list of assemblies to scan for types that our convention is related to. Can be null, in which case all assemblies starting with 'Als.' will be scanned
 		/// </summary>
 		public Assembly[] Assemblies { get; set; }
