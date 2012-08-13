@@ -144,7 +144,8 @@ namespace ConventionTests
 			var companyName = assembly.FullName.Substring(0, assembly.FullName.IndexOf('.'));
 			var assemblyNames = assembly.GetReferencedAssemblies();
 			var applicationAssemblies = Array.FindAll(assemblyNames, n => n.FullName.StartsWith(companyName));
-			return Array.ConvertAll(applicationAssemblies, Assembly.Load);
+		    var assemblies = Array.ConvertAll(applicationAssemblies, n => n.TryLoadAssembly());
+            return Array.FindAll(assemblies, a => a != null);
 		}
 
 		/// <summary>
@@ -156,22 +157,10 @@ namespace ConventionTests
 		protected virtual Type[] GetTypesToTest(ConventionData data)
 		{
 			return
-                GetAssembliesToScan(data).SelectMany(GetTypesSafely).Where(data.Types.Invoke).OrderBy(t => t.FullName)
+                GetAssembliesToScan(data).SelectMany(a => a.SafeGetTypes()).Where(data.Types.Invoke).OrderBy(t => t.FullName)
                     .ToArray();
         }
-
-        private static IEnumerable<Type> GetTypesSafely(Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                return ex.Types.Where(x => x != null);
-            }
-        }
-    }
+	}
 
 	public abstract class WindsorConventionTest<TDiagnostic> : WindsorConventionTest<TDiagnostic, IHandler>
 		where TDiagnostic : class, IDiagnostic<IEnumerable<IHandler>>, IDiagnostic<object>
