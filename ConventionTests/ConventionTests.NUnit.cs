@@ -51,7 +51,7 @@ namespace ConventionTests
 
 
         /// <summary>
-        ///   list of assemblies to scan for types that our convention is related to. Can be null, in which case all assemblies starting with 'Als.' will be scanned
+        ///   list of assemblies to scan for types that our convention is related to. Can be null, in which case all assemblies starting with The same prefix as your test assembly will be scanned
         /// </summary>
         public Assembly[] Assemblies { get; set; }
 
