@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
 
@@ -9,6 +10,7 @@ using NUnit.Framework;
 
 namespace ConventionTests
 {
+
     [TestFixture]
     public class ConventionTestsRunner
     {
@@ -53,6 +55,7 @@ namespace ConventionTests
 
         [Test]
         [TestCaseSource("Conventions")]
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public void Run(IConventionTest test)
         {
             test.Execute();
