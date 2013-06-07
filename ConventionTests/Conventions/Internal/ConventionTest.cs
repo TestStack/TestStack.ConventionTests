@@ -62,10 +62,11 @@
                 return data.SourceTypes;
             }
 
-            return
-                GetAssembliesToScan(data).SelectMany(a => a.SafeGetTypes()).Where(data.Types.Invoke).OrderBy(
-                    t => t.FullName)
-                                         .ToArray();
+            return GetAssembliesToScan(data)
+                .SelectMany(a => a.SafeGetTypes())
+                .Where(data.Types.Invoke)
+                .OrderBy(t => t.FullName)
+                .ToArray();
         }
     }
 }

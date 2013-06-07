@@ -32,6 +32,16 @@
         public string Description { get; set; }
 
         public bool HasApprovedExceptions { get; set; }
+
+        /// <summary>
+        ///     helper method to set <see cref="HasApprovedExceptions" /> in a more convenient manner.
+        /// </summary>
+        /// <returns> </returns>
+        public WindsorConventionData WithApprovedExceptions(string explanation = null)
+        {
+            HasApprovedExceptions = true;
+            return this;
+        }
     }
 
     public class WindsorConventionData<TDiagnosticData>
@@ -62,5 +72,15 @@
         public bool HasApprovedExceptions { get; set; }
 
         public Func<TDiagnosticData, object> OrderBy { get; set; }
+
+        /// <summary>
+        ///     helper method to set <see cref="HasApprovedExceptions" /> in a more convenient manner.
+        /// </summary>
+        /// <returns> </returns>
+        public WindsorConventionData<TDiagnosticData> WithApprovedExceptions(string explanation = null)
+        {
+            HasApprovedExceptions = true;
+            return this;
+        }
     }
 }
