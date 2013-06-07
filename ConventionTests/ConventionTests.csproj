@@ -55,8 +55,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conventions\Internal\ConventionData.cs" />
+    <Compile Include="Conventions\Internal\ConventionTest.cs" />
+    <Compile Include="Conventions\Internal\ConventionTestBase.cs" />
+    <Compile Include="Conventions\Internal\ConventionTestNamer.cs" />
+    <Compile Include="Conventions\Internal\IAssert.cs" />
+    <Compile Include="Conventions\Internal\IConventionTest.cs" />
+    <Compile Include="Conventions\Internal\ReflectionExtensions.cs" />
+    <Compile Include="Conventions\Internal\WindsorConventionData.cs" />
+    <Compile Include="Conventions\Internal\WindsorConventionTest.cs" />
     <Compile Include="Conventions\__Run.cs" />
-    <Compile Include="ConventionTests.NUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

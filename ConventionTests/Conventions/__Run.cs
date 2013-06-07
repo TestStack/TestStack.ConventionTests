@@ -1,15 +1,13 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using ApprovalTests.Reporters;
-using NUnit.Framework;
 
 [assembly: UseReporter(typeof (DiffReporter))]
 
 namespace ConventionTests
 {
+    using System;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using NUnit.Framework;
 
     [TestFixture]
     public class ConventionTestsRunner
@@ -21,36 +19,31 @@ namespace ConventionTests
 
         public TestCaseData[] Conventions
         {
+            [MethodImpl(MethodImplOptions.NoInlining)]
             get
             {
-                var types = GetConventionTypes();
-                var conventionTests = Array.ConvertAll(types, BuildTestData);
-                return conventionTests;
+                var conventions = ReflectionExtensions.GetAllConventions(Assembly.GetExecutingAssembly());
+                var tests = Array.ConvertAll(conventions, BuildTestData);
+                return tests;
             }
         }
 
-        private TestCaseData BuildTestData(Type t)
+        TestCaseData BuildTestData(IConventionTest convention)
         {
-            var convention = CreateConvention(t);
             return new TestCaseData(convention).SetName(convention.Name);
         }
 
-        private static IConventionTest CreateConvention(Type t)
+        class NUnitAssert : IAssert
         {
-            return (IConventionTest) Activator.CreateInstance(t);
-        }
+            public void Inconclusive(string message)
+            {
+                Assert.Inconclusive(message);
+            }
 
-        private static Type[] GetConventionTypes()
-        {
-            var types =
-                Assembly.GetExecutingAssembly().GetExportedTypes().Where(
-                    IsConventionTest).ToArray();
-            return types;
-        }
-
-        private static bool IsConventionTest(Type type)
-        {
-            return type.IsClass && type.IsAbstract == false && typeof (IConventionTest).IsAssignableFrom(type);
+            public void AreEqual(int expected, int actual, string message)
+            {
+                Assert.AreEqual(expected, actual, message);
+            }
         }
 
         [Test]
@@ -58,46 +51,7 @@ namespace ConventionTests
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void Run(IConventionTest test)
         {
-            test.Execute();
-        }
-    }
-
-    public static class ReflectionExtensions
-    {
-        public static Assembly TryLoadAssembly(this AssemblyName name)
-        {
-            try
-            {
-                return Assembly.Load(name);
-            }
-            catch (FileNotFoundException)
-            {
-                return null;
-            }
-            catch (FileLoadException)
-            {
-                return null;
-            }
-            catch (BadImageFormatException)
-            {
-                return null;
-            }
-            catch (ReflectionTypeLoadException)
-            {
-                return null;
-            }
-        }
-
-        public static Type[] SafeGetTypes(this Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                return Array.FindAll(ex.Types, x => x != null);
-            }
+            test.Execute(new NUnitAssert());
         }
     }
 }
