@@ -21,11 +21,11 @@
         {
             var conventionData = SetUp();
             var diagnosticData = GetDataToTest(conventionData);
-            var itemDescription = (conventionData.FailItemDescription ?? (h => h.ToString() + "*"));
+            var itemDescription = (conventionData.ItemDescription ?? (h => h.ToString() + "*"));
             var invalidData = conventionData.Must == null
                                   ? diagnosticData
                                   : Array.FindAll(diagnosticData, h => conventionData.Must(h) == false);
-            var message = (conventionData.FailDescription ?? "Invalid elements found") + Environment.NewLine + "\t" +
+            var message = (conventionData.Description ?? "Invalid elements found") + Environment.NewLine + "\t" +
                           string.Join(Environment.NewLine + "\t", invalidData.Select(itemDescription));
             if (conventionData.HasApprovedExceptions)
             {
@@ -83,11 +83,11 @@
                 assert.Inconclusive(
                     "No handlers found to apply the convention to. Make sure the handlesr predicate is correct and that the right components were registered in the container.");
             }
-            var itemDescription = (data.FailItemDescription ?? (h => h.GetComponentName()));
+            var itemDescription = (data.ItemDescription ?? (h => h.GetComponentName()));
             var invalidComponents = data.Must == null
                                         ? handlersToTest
                                         : Array.FindAll(handlersToTest, h => data.Must(h) == false);
-            var message = (data.FailDescription ?? "Invalid components found") + Environment.NewLine + "\t" +
+            var message = (data.Description ?? "Invalid components found") + Environment.NewLine + "\t" +
                           string.Join(Environment.NewLine + "\t", invalidComponents.Select(itemDescription));
             if (data.HasApprovedExceptions)
             {

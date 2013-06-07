@@ -27,9 +27,9 @@
             get { return container; }
         }
 
-        public Func<IHandler, string> FailItemDescription { get; set; }
+        public Func<IHandler, string> ItemDescription { get; set; }
 
-        public string FailDescription { get; set; }
+        public string Description { get; set; }
 
         public bool HasApprovedExceptions { get; set; }
     }
@@ -53,11 +53,11 @@
             get { return container; }
         }
 
-        public Func<TDiagnosticData, string> FailItemDescription { get; set; }
+        public Func<TDiagnosticData, string> ItemDescription { get; set; }
 
         public Func<TDiagnosticData, bool> Must { get; set; }
 
-        public string FailDescription { get; set; }
+        public string Description { get; set; }
 
         public bool HasApprovedExceptions { get; set; }
 

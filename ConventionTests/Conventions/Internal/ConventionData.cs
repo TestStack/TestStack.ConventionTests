@@ -40,7 +40,7 @@
         /// <summary>
         ///     Descriptive text used for failure message in test. Should explan what is wrong, and how to fix it (how to make types that do not conform to the convention do so).
         /// </summary>
-        public string FailDescription { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         ///     Specifies that there are valid exceptions to the rule specified by the convention.
@@ -60,7 +60,7 @@
         /// </summary>
         public Predicate<Type> Types { get; set; }
 
-        public Func<Type, string> FailItemDescription { get; set; }
+        public Func<Type, string> ItemDescription { get; set; }
 
         /// <summary>
         ///     helper method to set <see cref="Assemblies" /> in a more convenient manner.

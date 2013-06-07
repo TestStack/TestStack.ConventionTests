@@ -21,9 +21,9 @@
                 assert.Inconclusive(
                     "No types found to apply the convention to. Make sure the Types predicate is correct and that the right assemblies to scan are specified.");
             }
-            var itemDescription = (data.FailItemDescription ?? (t => t.ToString()));
+            var itemDescription = (data.ItemDescription ?? (t => t.ToString()));
             var invalidTypes = Array.FindAll(typesToTest, t => data.Must(t) == false);
-            var message = (data.FailDescription ?? "Invalid types found") + Environment.NewLine + "\t" +
+            var message = (data.Description ?? "Invalid types found") + Environment.NewLine + "\t" +
                           string.Join(Environment.NewLine + "\t", invalidTypes.Select(itemDescription));
             if (data.HasApprovedExceptions)
             {
