@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+    using System.Text;
 
     /// <summary>
     ///     This is where we set what our convention is all about
@@ -31,7 +32,6 @@
 
         public Type[] SourceTypes { get; set; }
 
-
         /// <summary>
         ///     list of assemblies to scan for types that our convention is related to. Can be null, in which case all assemblies starting with The same prefix as your test assembly will be scanned
         /// </summary>
@@ -60,7 +60,7 @@
         /// </summary>
         public Predicate<Type> Types { get; set; }
 
-        public Func<Type, string> ItemDescription { get; set; }
+        public Action<Type, StringBuilder> ItemDescription { get; set; }
 
         /// <summary>
         ///     helper method to set <see cref="Assemblies" /> in a more convenient manner.

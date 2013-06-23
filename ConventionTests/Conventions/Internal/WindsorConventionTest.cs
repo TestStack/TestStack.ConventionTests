@@ -71,7 +71,6 @@
         protected abstract WindsorConventionData<TDiagnosticData> SetUp();
     }
 
-
     public abstract class WindsorConventionTest : ConventionTestBase
     {
         public override void Execute(IAssert assert)

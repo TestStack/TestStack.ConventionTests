@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
 
     /// <summary>
     ///     Base class for convention tests. Inherited types should be put in "/Conventions" folder in test assembly and follow Sentence_naming_convention_with_underscores_indead_of_spaces These tests will be ran by
@@ -21,17 +22,22 @@
                 assert.Inconclusive(
                     "No types found to apply the convention to. Make sure the Types predicate is correct and that the right assemblies to scan are specified.");
             }
-            var itemDescription = (data.ItemDescription ?? (t => t.ToString()));
-            var invalidTypes = Array.FindAll(typesToTest, t => data.Must(t) == false);
-            var message = (data.Description ?? "Invalid types found") + Environment.NewLine + "\t" +
-                          string.Join(Environment.NewLine + "\t", invalidTypes.Select(itemDescription));
+            var invalidItems = Array.FindAll(typesToTest, t => data.Must(t) == false);
+
+            var message = new StringBuilder();
+            message.AppendLine(data.Description ?? "Invalid types found");
+            foreach (var invalidType in invalidItems)
+            {
+                message.Append('\t');
+                data.ItemDescription(invalidType, message);
+            }
             if (data.HasApprovedExceptions)
             {
-                Approve(message);
+                Approve(message.ToString());
             }
             else
             {
-                assert.AreEqual(0, invalidTypes.Count(), message);
+                assert.AreEqual(0, invalidItems.Count(), message.ToString());
             }
         }
 

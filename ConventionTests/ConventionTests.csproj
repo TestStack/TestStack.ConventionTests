@@ -43,6 +43,7 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build.Engine" />
     <Reference Include="Mono.Cecil">
       <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
@@ -67,12 +68,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conventions\Internal\AssemblyProjectLocator.cs" />
     <Compile Include="Conventions\Internal\ConventionData.cs" />
+    <Compile Include="Conventions\Internal\ConventionData.Generic.cs" />
     <Compile Include="Conventions\Internal\ConventionTest.cs" />
+    <Compile Include="Conventions\Internal\ConventionTest.Generic.cs" />
     <Compile Include="Conventions\Internal\ConventionTestBase.cs" />
     <Compile Include="Conventions\Internal\ConventionTestNamer.cs" />
     <Compile Include="Conventions\Internal\IAssert.cs" />
     <Compile Include="Conventions\Internal\IConventionTest.cs" />
+    <Compile Include="Conventions\Internal\IProjectLocator.cs" />
+    <Compile Include="Conventions\Internal\ProjectConventionData.cs" />
+    <Compile Include="Conventions\Internal\ProjectConvetionTest.cs" />
     <Compile Include="Conventions\Internal\ReflectionExtensions.cs" />
     <Compile Include="Conventions\Internal\WindsorConventionData.cs" />
     <Compile Include="Conventions\Internal\WindsorConventionTest.cs" />
