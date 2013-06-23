@@ -49,7 +49,7 @@
                     }
                 }
             }
-            throw new InvalidOperationException("Coudln't find any type with methods with body");
+            throw new InvalidOperationException("Couldn't find any type with methods with body");
         }
     }
 }
