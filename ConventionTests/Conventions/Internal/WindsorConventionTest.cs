@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using Castle.MicroKernel;
     using Castle.MicroKernel.Handlers;
     using Castle.Windsor.Diagnostics;
-    using Castle.Windsor.Diagnostics.DebuggerViews;
     using Castle.Windsor.Diagnostics.Helpers;
 
     public abstract class WindsorConventionTest<TDiagnostic> : WindsorConventionTest<TDiagnostic, IHandler>
@@ -39,8 +39,16 @@
 
         protected string MissingDependenciesDescription(IHandler var)
         {
-            var item = new ComponentStatusDebuggerViewItem((IExposeDependencyInfo) var);
-            return item.Message;
+            var message = new StringBuilder("Some dependencies of this component could not be statically resolved.");
+            var info = var as IExposeDependencyInfo;
+            if (info == null)
+            {
+                return message.ToString();
+            }
+            var inspector = new DependencyInspector(message);
+            info.ObtainDependencyDetails(inspector);
+
+            return inspector.Message;
         }
 
         TDiagnosticData[] GetDataToTest(WindsorConventionData<TDiagnosticData> data)
