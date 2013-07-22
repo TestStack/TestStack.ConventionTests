@@ -1,6 +1,7 @@
 ﻿namespace ConventionTests
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
 
@@ -81,6 +82,31 @@
         {
             HasApprovedExceptions = true;
             return this;
+        }
+
+        public void AssertConvention()
+        {
+            var results = ConventionFailureSummary();
+            if (!string.IsNullOrEmpty(results))
+            {
+                throw new ConventionFailedException(results);
+            }
+        }
+
+        public string ConventionFailureSummary()
+        {
+            //TODO Support WithApprovedExecptions?
+            var message = new StringBuilder();
+            var invalidItems = SourceTypes.Where(i => !Must(i)).ToArray();
+
+            message.AppendLine(Description ?? "Convention has failing items");
+            foreach (var invalidType in invalidItems)
+            {
+                message.Append('\t');
+                ItemDescription(invalidType, message);
+            }
+
+            return message.ToString();
         }
     }
 }
