@@ -22,7 +22,7 @@ namespace ConventionTests
             [MethodImpl(MethodImplOptions.NoInlining)]
             get
             {
-                var conventions = ReflectionExtensions.GetAllConventions(Assembly.GetExecutingAssembly());
+                var conventions = ConventionReflectionExtensions.GetAllConventions(Assembly.GetExecutingAssembly());
                 var tests = Array.ConvertAll(conventions, BuildTestData);
                 return tests;
             }
