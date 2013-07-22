@@ -1,0 +1,15 @@
+﻿namespace ConventionTests
+{
+    using System;
+    using System.Runtime.Serialization;
+
+    [Serializable]
+    public class ConventionFailedException : Exception
+    {
+        public ConventionFailedException() { }
+        public ConventionFailedException(string message) : base(message) { }
+        public ConventionFailedException(string message, Exception inner) : base(message, inner) { }
+        protected ConventionFailedException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
+    }
+}

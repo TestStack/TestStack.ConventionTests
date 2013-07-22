@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1E12EA0C-9182-4029-991A-B0B9D38F5783}</ProjectGuid>
+    <ProjectGuid>{1603A139-C9DB-4836-A36D-25A0F4591AED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConventionTests</RootNamespace>
-    <AssemblyName>ConventionTests</AssemblyName>
+    <RootNamespace>AssemblyUnderTest</RootNamespace>
+    <AssemblyName>AssemblyUnderTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Build.Engine" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,21 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConventionFailedException.cs" />
-    <Compile Include="Conventions\AllMethodsAreVirtualConvention.cs" />
-    <Compile Include="Conventions\ClassHasDefaultConstructorConvention.cs" />
-    <Compile Include="LinqExtensions.cs" />
-    <Compile Include="MissingResource.cs" />
-    <Compile Include="ConventionData.cs" />
-    <Compile Include="ConventionData.Generic.cs" />
-    <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="ClassWithNoDefaultCtor.cs" />
+    <Compile Include="ClassWithPrivateDefaultCtor.cs" />
+    <Compile Include="ClassWithProtectedDefaultCtor.cs" />
+    <Compile Include="ClassWithPublicDefaultCtor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceManagerExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ConventionTests.nuspec">
-      <SubType>Designer</SubType>
-    </None>
+    <Compile Include="SampleDomainClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
