@@ -16,6 +16,11 @@
         [Test]
         public void ReferencingBinObj()
         {
+            // Actual syntax will be (when not testing):
+            //
+            // Convention.Is<ProjectDoesNotReferenceDllsFromBinOrObjDirectories>(new[] { typeof(ProjectBasedConventions).Assembly });
+            //
+
             var projectProvider = Substitute.For<IProjectProvider>();
             var projectLocator = Substitute.For<IProjectLocator>();
             projectProvider
@@ -32,6 +37,11 @@
         [Test]
         public void ScriptsNotEmbeddedResources()
         {
+            // Actual syntax will be (when not testing):
+            //
+            // Convention.Is<FilesAreEmbeddedResources>(new[] { typeof(ProjectBasedConventions).Assembly }, i => i.EndsWith(".sql"));
+            //
+
             var projectProvider = Substitute.For<IProjectProvider>();
             var projectLocator = Substitute.For<IProjectLocator>();
             projectProvider
@@ -41,7 +51,7 @@
             var convention = new FilesAreEmbeddedResources(projectLocator, projectProvider);
 
             var exception = Assert.Throws<ConventionFailedException>(() =>
-                Convention.Is(convention, new[] { typeof(ProjectBasedConventions).Assembly }, i=>i.EndsWith(".sql")));
+                Convention.Is(convention, new[] { typeof(ProjectBasedConventions).Assembly }, i => i.EndsWith(".sql")));
             Approvals.Verify(exception.Message);
         }
     }
