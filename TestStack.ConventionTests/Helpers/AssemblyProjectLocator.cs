@@ -7,9 +7,9 @@
 
     public class AssemblyProjectLocator : IProjectLocator
     {
-       public string ResolveProjectFilePath(Assembly assembly)
+        public string ResolveProjectFilePath(Assembly assembly)
         {
-            var readerParameters = new ReaderParameters {ReadSymbols = true, ReadingMode = ReadingMode.Deferred};
+            var readerParameters = new ReaderParameters { ReadSymbols = true, ReadingMode = ReadingMode.Deferred };
             var definition = AssemblyDefinition.ReadAssembly(assembly.Location, readerParameters);
             var methodDefinition = GetMethodWithBody(definition);
             var document = GetMethodDocument(methodDefinition);

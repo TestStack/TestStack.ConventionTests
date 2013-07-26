@@ -9,7 +9,6 @@
     public class ConventionData<TItem>
     {
         readonly Action<TItem, StringBuilder> defaultItemDescription = DefaultItemDescriptionMethod;
-        public static readonly Predicate<TItem> All = _ => true;
         public static readonly Predicate<TItem> None = _ => false;
 
         static void DefaultItemDescriptionMethod(TItem item, StringBuilder message)
@@ -19,7 +18,6 @@
 
         public ConventionData()
         {
-            ItemFilter = All;
             Must = None;
             OrderBy = HashCode;
             ItemDescription = defaultItemDescription;
@@ -36,11 +34,6 @@
         ///     This is the convention. The predicate should return <c>true</c> for types that do conform to the convention, and <c>false</c> otherwise
         /// </summary>
         public Predicate<TItem> Must { get; set; }
-
-        /// <summary>
-        ///     Predicate that finds types that we want to apply out convention to.
-        /// </summary>
-        public Predicate<TItem> ItemFilter { get; set; }
 
         public Action<TItem, StringBuilder> ItemDescription { get; set; }
 

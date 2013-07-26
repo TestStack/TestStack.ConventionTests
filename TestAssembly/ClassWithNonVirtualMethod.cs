@@ -1,10 +1,8 @@
 ﻿namespace TestAssembly
 {
-    public class ClassWithNonVirtualMethod
+    public class SampleDomainClass
     {
-        public string NonVirtual()
-        {
-            return null;
-        }
+        public void TestNonVirtual() { }
+        public virtual void Virtual() { } 
     }
 }

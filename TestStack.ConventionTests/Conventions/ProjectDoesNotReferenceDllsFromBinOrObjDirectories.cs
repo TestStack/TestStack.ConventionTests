@@ -26,15 +26,17 @@
             };
             ItemDescription = (assembly, builder) =>
             {
-                var first = GetProjectReferences(projectLocator, projectProvider, assembly)
+                var matches = GetProjectReferences(projectLocator, projectProvider, assembly)
                     .Select(r => Regex.Match(r, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase))
-                    .First(r => r.Success);
+                    .Where(r => r.Success);
 
-                var message = string.Format(
-                    "{0} is referencing assemblies in the bin or obj folders, {1}",
-                    assembly.GetName().Name,
-                   first.Groups["assembly"].Value);
-                builder.AppendLine(message);
+                builder.AppendLine(string.Format("{0} is referencing assemblies in the bin or obj folders:",
+                    assembly.GetName().Name));
+                foreach (var match in matches.Select(m=>m.Groups["assembly"].Value))
+                {
+                    builder.Append('\t');
+                    builder.AppendLine(match);
+                }
             };
         }
 

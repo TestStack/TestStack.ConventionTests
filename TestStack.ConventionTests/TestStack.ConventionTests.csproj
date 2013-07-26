@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
     <Compile Include="ConventionFailedException.cs" />
+    <Compile Include="Conventions\AllClassesHaveDefaultConstructor.cs" />
+    <Compile Include="Conventions\FilesAreEmbeddedResources.cs" />
     <Compile Include="Helpers\AssemblyProjectLocator.cs" />
     <Compile Include="Convention.cs" />
     <Compile Include="ConventionData.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Helpers\LinqExtensions.cs" />
     <Compile Include="Conventions\ProjectDoesNotReferenceDllsFromBinOrObjDirectories.cs" />
     <Compile Include="Helpers\ProjectProvider.cs" />
+    <Compile Include="IRuntimeFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ReflectionExtensions.cs" />
   </ItemGroup>

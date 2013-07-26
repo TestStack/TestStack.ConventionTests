@@ -61,11 +61,37 @@ namespace TestStack.ConventionTests.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+        ///  &lt;PropertyGroup&gt;
+        ///    &lt;Configuration Condition=&quot; &apos;$(Configuration)&apos; == &apos;&apos; &quot;&gt;Debug&lt;/Configuration&gt;
+        ///    &lt;Platform Condition=&quot; &apos;$(Platform)&apos; == &apos;&apos; &quot;&gt;AnyCPU&lt;/Platform&gt;
+        ///    &lt;SchemaVersion&gt;2.0&lt;/SchemaVersion&gt;
+        ///    &lt;ProjectGuid&gt;{1E12EA0C-9182-4029-991A-B0B9D38F5783}&lt;/ProjectGuid&gt;
+        ///    &lt;FileAlignment&gt;512&lt;/FileAlignment&gt;
+        ///  &lt;/PropertyGroup&gt;
+        ///  &lt;PropertyGroup Cond [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ProjectFileWithBinReference {
             get {
                 return ResourceManager.GetString("ProjectFileWithBinReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+        ///  &lt;ItemGroup&gt;
+        ///    &lt;None Include=&quot;Scripts\Script2.sql&quot; /&gt;
+        ///  &lt;/ItemGroup&gt;
+        ///  &lt;ItemGroup&gt;
+        ///    &lt;EmbeddedResource Include=&quot;Scripts\Script1.sql&quot; /&gt;
+        ///  &lt;/ItemGroup&gt;
+        ///&lt;/Project&gt;.
+        /// </summary>
+        internal static string ProjectFileWithInvalidSqlScriptFile {
+            get {
+                return ResourceManager.GetString("ProjectFileWithInvalidSqlScriptFile", resourceCulture);
             }
         }
     }

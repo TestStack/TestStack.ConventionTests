@@ -39,7 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassWithNoDefaultCtor.cs" />
     <Compile Include="ClassWithNonVirtualMethod.cs" />
+    <Compile Include="ClassWithPrivateDefaultCtor.cs" />
+    <Compile Include="ClassWithProtectedDefaultCtor.cs" />
+    <Compile Include="ClassWithPublicDefaultCtor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

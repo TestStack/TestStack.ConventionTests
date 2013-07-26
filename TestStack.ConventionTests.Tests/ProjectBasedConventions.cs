@@ -28,5 +28,21 @@
                 Convention.Is(convention, new[] { typeof(ProjectBasedConventions).Assembly }));
             Approvals.Verify(exception.Message);
         }
+
+        [Test]
+        public void ScriptsNotEmbeddedResources()
+        {
+            var projectProvider = Substitute.For<IProjectProvider>();
+            var projectLocator = Substitute.For<IProjectLocator>();
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
+
+            var convention = new FilesAreEmbeddedResources(projectLocator, projectProvider);
+
+            var exception = Assert.Throws<ConventionFailedException>(() =>
+                Convention.Is(convention, new[] { typeof(ProjectBasedConventions).Assembly }, i=>i.EndsWith(".sql")));
+            Approvals.Verify(exception.Message);
+        }
     }
 }
