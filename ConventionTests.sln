@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConventionTests", "ConventionTests\ConventionTests.csproj", "{1E12EA0C-9182-4029-991A-B0B9D38F5783}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF9054EE-FE89-47A4-9156-BE54A837F2F7}"
+	ProjectSection(SolutionItems) = preProject
+		Build.cmd = Build.cmd
+		ConventionTests.proj = ConventionTests.proj
+		README.md = README.md
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests", "TestStack.ConventionTests\TestStack.ConventionTests.csproj", "{955B0236-089F-434D-BA02-63A1E24C2B7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests.Tests", "TestStack.ConventionTests.Tests\TestStack.ConventionTests.Tests.csproj", "{FEFF8305-A192-4CEA-A373-6CF2F365A9E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{35B8E1F6-8E97-40A6-91E3-CB765328424F}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
