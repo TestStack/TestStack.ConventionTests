@@ -1,0 +1,3 @@
+﻿Convention has failing items
+	TestAssembly.ClassWithNonVirtualMethod has non virtual method(s):
+	NonVirtual
