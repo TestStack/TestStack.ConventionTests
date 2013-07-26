@@ -5,15 +5,16 @@
     <BuildPlatform Condition="$(BuildPlatform) == ''">Any CPU</BuildPlatform>
     <Configuration Condition="$(Configuration) == ''">Release</Configuration>
     <MSBuildCommunityTasksPath>$(Root)tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+    <NUnitHome>$(MSBuildProjectDirectory)\packages\NUnit.Runners.2.6.2\tools\</NUnitHome>
+    <NUnitConsole>$(NUnitHome)nunit-console.exe</NUnitConsole>
   </PropertyGroup>
   <ItemGroup>
-    <NUnit Include="$(Root)packages\NUnit.Runners.*\tools\nunit-console.exe" />
     <NuGet Include="$(Root)packages\NuGet.CommandLine.*\tools\NuGet.exe" />
   </ItemGroup>
-	
+
   <Target Name="Cleanup">
     <Error Condition="$(Root) == ''" Text="Root variable must be defined" />
-    <Error Condition="@(NUnit) == ''" Text="Cannot find nUnit runner" />
+    <Error Condition="$(NUnitConsole) == ''" Text="Cannot find nUnit runner (have you upgraded NUnit.Runners?)" />
     <Error Condition="@(NuGet) == ''" Text="Cannot find NuGet command line tool" />
 
     <!-- Diagnostics -->
@@ -36,7 +37,14 @@
   </Target>
 
   <Target Name="Test" DependsOnTargets="Build">
-    <Exec Command="@(NUnit) $(Root)TestStack.ConventionTests.Tests\bin\$(Configuration)\TestStack.ConventionTests.Tests.dll" />
+    <ItemGroup>
+      <NUnitAddinFiles Include="$(teamcity_dotnet_nunitaddin)-2.6.2.*" />
+    </ItemGroup>
+    <!--Copy nUnit teamcity into addins directory if we find addins-->
+    <MakeDir Directories="$(NUnitHome)addins" />
+    <Copy SourceFiles="@(NUnitAddinFiles)" DestinationFolder="$(NUnitHome)addins" />
+    
+    <Exec Command="$(NUnitConsole) $(Root)TestStack.ConventionTests.Tests\bin\$(Configuration)\TestStack.ConventionTests.Tests.dll /nologo /noshadow" />
   </Target>
 
   <Target Name="Publish">
