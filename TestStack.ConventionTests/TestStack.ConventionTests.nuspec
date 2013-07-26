@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>Krzysztof Kozmic</authors>
+    <owners>Krzysztof Kozmic</owners>
+    <id>ConventionTests</id>
+    <title>ConventionTests</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simple convention-tester</description>
+    <summary>Simple library offering a simple way to test conventions.</summary>
+  </metadata>
+  <files>
+    <file src="TestStack.ConventionTests.dll" target="lib\net40" />
+    <file src="TestStack.ConventionTests.pdb" target="lib\net40" />
+  </files>
+</package>

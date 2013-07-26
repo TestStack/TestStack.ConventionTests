@@ -3,7 +3,7 @@ bin
 obj
 
 # mstest test results
-TestResults
+TestResult*
 
 # Misc
 _ReSharper.*
@@ -13,3 +13,4 @@ _ReSharper.*
 *.crunchsolution.local.xml
 *.ncrunchsolution
 *.ncrunchproject
+ConventionTests*.nupkg

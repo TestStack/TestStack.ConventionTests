@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Test;Publish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Root>$(MSBuildProjectDirectory)\</Root>
+    <BuildPlatform Condition="$(BuildPlatform) == ''">Any CPU</BuildPlatform>
+    <Configuration Condition="$(Configuration) == ''">Release</Configuration>
+    <MSBuildCommunityTasksPath>$(Root)tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+    <NUnitHome>$(MSBuildProjectDirectory)\packages\NUnit.Runners.2.6.2\tools\</NUnitHome>
+    <NUnitConsole>$(NUnitHome)nunit-console.exe</NUnitConsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <NuGet Include="$(Root)packages\NuGet.CommandLine.*\tools\NuGet.exe" />
+  </ItemGroup>
+
+  <Target Name="Cleanup">
+    <Error Condition="$(Root) == ''" Text="Root variable must be defined" />
+    <Error Condition="$(NUnitConsole) == ''" Text="Cannot find nUnit runner (have you upgraded NUnit.Runners?)" />
+    <Error Condition="@(NuGet) == ''" Text="Cannot find NuGet command line tool" />
+
+    <!-- Diagnostics -->
+    <Message Text="Diagnostics:"/>
+    <Message Text="Project root:    $(Root)" />
+    <Message Text="Drop path:       build\Artifacts" />
+
+    <!-- Clean up -->
+    <ItemGroup>
+      <FilesToDelete Include="$(Root)**\bin\**\*.*" />
+      <FilesToDelete Include="$(Root)**\obj\**\*.*" />
+      <FilesToDelete Include="$(Root)build\Artifacts\**\*.*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" ContinueOnError="true" />
+    <Delete Files="$(Root)build\Artifacts" />
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Cleanup">
+    <MSBuild Projects="$(Root)ConventionTests.sln" Properties="Configuration=$(Configuration);Platform=$(BuildPlatform)" />
+  </Target>
+
+  <Target Name="Test" DependsOnTargets="Build">
+    <ItemGroup>
+      <NUnitAddinFiles Include="$(teamcity_dotnet_nunitaddin)-2.6.2.*" />
+    </ItemGroup>
+    <!--Copy nUnit teamcity into addins directory if we find addins-->
+    <MakeDir Directories="$(NUnitHome)addins" />
+    <Copy SourceFiles="@(NUnitAddinFiles)" DestinationFolder="$(NUnitHome)addins" />
+    
+    <Exec Command="$(NUnitConsole) $(Root)TestStack.ConventionTests.Tests\bin\$(Configuration)\TestStack.ConventionTests.Tests.dll /nologo /noshadow" />
+  </Target>
+
+  <Target Name="Publish">
+    <PropertyGroup>
+      <Version Condition="'$(Version)' == ''">0.0.0.0</Version>
+    </PropertyGroup>
+    <MakeDir Directories="$(Root)build\Artifacts" />
+    <Exec Command="@(NuGet) pack $(Root)TestStack.ConventionTests\TestStack.ConventionTests.nuspec -Version $(Version) -OutputDir $(Root)build\Artifacts -BasePath $(Root)TestStack.ConventionTests\bin\$(Configuration)" />
+  </Target>
+</Project>
