@@ -2,7 +2,7 @@
 {
     using TestStack.ConventionTests.Internal;
 
-    public interface IConvention<T> where T : IConventionData
+    public interface IConvention<in T> where T : IConventionData
     {
         ConventionResult Execute(T data);
     }

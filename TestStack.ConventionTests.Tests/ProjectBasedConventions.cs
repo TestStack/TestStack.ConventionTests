@@ -5,7 +5,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using TestStack.ConventionTests.Conventions;
-    using TestStack.ConventionTests.Helpers;
+    using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Tests.Properties;
 
     [TestFixture]

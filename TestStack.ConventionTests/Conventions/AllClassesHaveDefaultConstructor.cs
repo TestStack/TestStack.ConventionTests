@@ -1,7 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System.Linq;
-    using TestStack.ConventionTests.Helpers;
     using TestStack.ConventionTests.Internal;
 
     public class AllClassesHaveDefaultConstructor : IConvention<Types>

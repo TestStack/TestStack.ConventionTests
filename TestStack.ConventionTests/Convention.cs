@@ -1,10 +1,6 @@
 ﻿namespace TestStack.ConventionTests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
     using ApprovalTests;
 
     public static class Convention
@@ -34,61 +30,16 @@
             Settings.AssertZero(result.InvalidResultsCount, result.Message);
         }
 
-
-        public static void Is<T>(ConventionData<T> convention, IEnumerable<T> itemsToVerify)
+        public class ConventionSettings
         {
-            var results = Result(convention, itemsToVerify);
-            if (!string.IsNullOrEmpty(results))
-                throw new ConventionFailedException(results);
-        }
+            public Action<String> AssertInclunclusive;
 
-        public static void Is<TConvention, T>(TConvention convention, IEnumerable<T> itemsToVerify, Func<string, bool> itemFilter)
-            where TConvention : ConventionData<T>, IRuntimeFilter<string>
-        {
-            Is<TConvention, T, string>(convention, itemsToVerify, itemFilter);
-        }
+            public Action<int, string> AssertZero;
 
-        public static void Is<TConvention, T, TItem>(TConvention convention, IEnumerable<T> itemsToVerify, Func<TItem, bool> itemFilter)
-            where TConvention : ConventionData<T>, IRuntimeFilter<TItem>
-        {
-            var results = Result(convention, itemsToVerify, itemFilter);
-            if (!string.IsNullOrEmpty(results))
-                throw new ConventionFailedException(results);
-        }
-
-        public static string Result<T>(ConventionData<T> convention, IEnumerable<T> itemsToVerify)
-        {
-            var message = new StringBuilder();
-            var invalidItems = itemsToVerify.Where(i => !convention.Must(i)).ToArray();
-            if (!invalidItems.Any()) return null;
-
-            message.AppendLine(convention.Description ?? "Convention has failing items");
-            foreach (var invalidType in invalidItems)
+            public ConventionSettings()
             {
-                message.Append('\t');
-                convention.ItemDescription(invalidType, message);
+                // TODO: initialize the type;
             }
-
-            return message.ToString();
         }
-
-        public static string Result<TConvention, T, TItem>(TConvention convention, IEnumerable<T> itemsToVerify, Func<TItem, bool> itemFilter)
-            where TConvention : ConventionData<T>, IRuntimeFilter<TItem>
-        {
-            convention.SetFilter(itemFilter);
-            return Result(convention, itemsToVerify);
-        }
-    }
-
-    public class ConventionSettings
-    {
-        public ConventionSettings()
-        {
-            // TODO: initialize the type;
-        }
-
-        public Action<String> AssertInclunclusive;
-
-        public Action<int, string> AssertZero;
     }
 }

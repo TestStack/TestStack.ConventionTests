@@ -1,8 +1,10 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace System.Linq
+
+namespace TestStack.ConventionTests.Internal
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public static class LinqExtensions
     {
@@ -10,7 +12,7 @@ namespace System.Linq
         {
             return !enumerable.Any();
         }
- 
+
         public static bool None<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return !enumerable.Any(predicate);

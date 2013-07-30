@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    using TestStack.ConventionTests.Helpers;
     using TestStack.ConventionTests.Internal;
 
     public class AllMethodsAreVirtual : IConvention<Types>

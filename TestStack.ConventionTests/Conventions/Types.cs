@@ -1,4 +1,4 @@
-﻿namespace TestStack.ConventionTests
+﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
     using System.Linq;
