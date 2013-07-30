@@ -1,0 +1,3 @@
+﻿Convention has failing items
+	TestAssembly.ClassWithNoDefaultCtor does not have a default constructor
+	TestAssembly.ClassWithPrivateDefaultCtor does not have a default constructor

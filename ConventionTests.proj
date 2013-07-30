@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Root>$(MSBuildProjectDirectory)\</Root>
     <BuildPlatform Condition="$(BuildPlatform) == ''">Any CPU</BuildPlatform>
-    <Configuration Condition="$(Configuration) == ''">Release</Configuration>
+    <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
     <MSBuildCommunityTasksPath>$(Root)tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
     <NUnitHome>$(MSBuildProjectDirectory)\packages\NUnit.Runners.2.6.2\tools\</NUnitHome>
     <NUnitConsole>$(NUnitHome)nunit-console.exe</NUnitConsole>

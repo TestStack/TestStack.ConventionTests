@@ -11,6 +11,7 @@ _ReSharper.*
 *.suo
 *.crunchproject.local.xml
 *.crunchsolution.local.xml
-*.ncrunchsolution
-*.ncrunchproject
 ConventionTests*.nupkg
+_NCrunch*
+*.received.txt
+*.orig
