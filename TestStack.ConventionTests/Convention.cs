@@ -5,9 +5,33 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using ApprovalTests;
 
     public static class Convention
     {
+        public static readonly ConventionSettings Settings = new ConventionSettings();
+
+        public static void Is<TData>(IConvention<TData> convention, TData data)
+        {
+            var result = convention.Execute(data);
+            if (result.IsConclusive == false)
+            {
+                Settings.AssertInclunclusive(result.Message);
+            }
+            else
+            {
+                if (result.HasExceptions)
+                {
+                    // should we encapsulate Approvals behind Settings?
+                    Approvals.Verify(result.Message);
+                }
+                else
+                {
+                    Settings.AssertZero(result.InvalidResultsCount, result.Message);
+                }
+            }
+        }
+
         public static void Is<T, T2>(IEnumerable<T2> itemsToVerify) where T : ConventionData<T2>, new()
         {
             Is(new T(), itemsToVerify);
@@ -94,5 +118,17 @@
             convention.SetFilter(itemFilter);
             return Result(convention, itemsToVerify);
         }
+    }
+
+    public class ConventionSettings
+    {
+        public ConventionSettings()
+        {
+            // TODO: initialize the type;
+        }
+
+        public Action<String> AssertInclunclusive;
+
+        public Action<int, string> AssertZero;
     }
 }
