@@ -1,6 +1,7 @@
 ﻿### Check me into the root of the repo
 ### as .gitattributes
 
+*.approved.* binary
 
 *.doc  diff=astextplain
 *.DOC diff=astextplain

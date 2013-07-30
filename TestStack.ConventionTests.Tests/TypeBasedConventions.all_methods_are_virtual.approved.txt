@@ -1,0 +1,3 @@
+﻿Convention has failing items
+	TestAssembly.SampleDomainClass has non virtual method(s):
+	TestNonVirtual

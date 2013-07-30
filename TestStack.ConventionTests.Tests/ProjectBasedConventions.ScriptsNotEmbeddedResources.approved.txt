@@ -1,0 +1,3 @@
+﻿Convention has failing items
+	TestStack.ConventionTests.Tests has the following files which should be embedded resources:
+	Scripts\Script2.sql which currently has a build action of 'None'

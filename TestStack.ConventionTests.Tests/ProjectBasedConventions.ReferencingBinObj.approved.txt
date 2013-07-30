@@ -1,0 +1,3 @@
+﻿Convention has failing items
+	TestStack.ConventionTests.Tests is referencing assemblies in the bin or obj folders:
+	bin\Debug\ApprovalTests.dll
