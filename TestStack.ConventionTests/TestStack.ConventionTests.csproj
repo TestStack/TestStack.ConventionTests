@@ -68,6 +68,7 @@
     <Compile Include="Helpers\AssemblyProjectLocator.cs" />
     <Compile Include="Convention.cs" />
     <Compile Include="IConvention.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="Types.cs" />
     <Compile Include="ConventionData`1.cs" />
     <Compile Include="Helpers\IProjectLocator.cs" />

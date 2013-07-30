@@ -34,48 +34,6 @@
             Settings.AssertZero(result.InvalidResultsCount, result.Message);
         }
 
-        public static void Is<T, T2>(IEnumerable<T2> itemsToVerify) where T : ConventionData<T2>, new()
-        {
-            Is(new T(), itemsToVerify);
-        }
-        public static void Is<T, T2>(IEnumerable<T2> itemsToVerify, Func<string, bool> filter)
-            where T : ConventionData<T2>, IRuntimeFilter<string>, new()
-        {
-            Is(new T(), itemsToVerify);
-        }
-        public static void Is<T, T2, TItem>(IEnumerable<T2> itemsToVerify, Func<TItem, bool> filter) 
-            where T : ConventionData<T2>, IRuntimeFilter<TItem>, new()
-        {
-            Is(new T(), itemsToVerify);
-        }
-
-        //Item.Is<ConventionData<Type>>
-        public static void Is<T>(IEnumerable<Type> itemsToVerify) where T : ConventionData<Type>, new()
-        {
-            Is(new T(), itemsToVerify);
-        }
-        public static void Is<T>(IEnumerable<Type> itemsToVerify, Func<string, bool> filter) where T : ConventionData<Type>, IRuntimeFilter<string>, new()
-        {
-            Is(new T(), itemsToVerify, filter);
-        }
-        public static void Is<T, TItem>(IEnumerable<Type> itemsToVerify, Func<TItem, bool> filter) where T : ConventionData<Type>, IRuntimeFilter<TItem>, new()
-        {
-            Is(new T(), itemsToVerify, filter);
-        }
-
-        //Item.Is<ConventionData<Assembly>>
-        public static void Is<T>(IEnumerable<Assembly> itemsToVerify) where T : ConventionData<Assembly>, new()
-        {
-            Is(new T(), itemsToVerify);
-        }
-        public static void Is<T>(IEnumerable<Assembly> itemsToVerify, Func<string, bool> filter) where T : ConventionData<Assembly>, IRuntimeFilter<string>, new()
-        {
-            Is(new T(), itemsToVerify, filter);
-        }
-        public static void Is<T, TItem>(IEnumerable<Assembly> itemsToVerify, Func<TItem, bool> filter) where T : ConventionData<Assembly>, IRuntimeFilter<TItem>, new()
-        {
-            Is(new T(), itemsToVerify, filter);
-        }
 
         public static void Is<T>(ConventionData<T> convention, IEnumerable<T> itemsToVerify)
         {

@@ -2,51 +2,30 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Xml.Linq;
-    using TestStack.ConventionTests.Helpers;
+    using TestStack.ConventionTests.Internal;
 
-    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : ConventionData<Assembly>
+    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<Project>
     {
         const string AssemblyReferencingObjRegex = @"^(?<assembly>.*?(obj|bin).*?)$";
 
-        public ProjectDoesNotReferenceDllsFromBinOrObjDirectories()
-            : this(new AssemblyProjectLocator(), new ProjectProvider())
+        public ConventionResult Execute(Project data)
         {
+            var invalid = AllProjectReferences(data.GetProject()).Where(IsBinOrObjReference);
+            return ConventionResult.For(invalid, "Some invalid references found.", (r, m) => m.AppendLine("\t" + r));
         }
 
-        public ProjectDoesNotReferenceDllsFromBinOrObjDirectories(IProjectLocator projectLocator, IProjectProvider projectProvider)
+
+        static bool IsBinOrObjReference(string reference)
         {
-            Must = assembly =>
-            {
-                var references = GetProjectReferences(projectLocator, projectProvider, assembly);
-
-                return references.All(s => !Regex.IsMatch(s, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase));
-            };
-            ItemDescription = (assembly, builder) =>
-            {
-                var matches = GetProjectReferences(projectLocator, projectProvider, assembly)
-                    .Select(r => Regex.Match(r, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase))
-                    .Where(r => r.Success);
-
-                builder.AppendLine(string.Format("{0} is referencing assemblies in the bin or obj folders:",
-                    assembly.GetName().Name));
-                foreach (var match in matches.Select(m=>m.Groups["assembly"].Value))
-                {
-                    builder.Append('\t');
-                    builder.AppendLine(match);
-                }
-            };
+            return Regex.IsMatch(reference, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase);
         }
 
-        static IEnumerable<string> GetProjectReferences(IProjectLocator projectLocator, IProjectProvider projectProvider,
-            Assembly assembly)
+        static IEnumerable<string> AllProjectReferences(XDocument projDefinition)
         {
             XNamespace msbuild = "http://schemas.microsoft.com/developer/msbuild/2003";
-            var resolveProjectFilePath = projectLocator.ResolveProjectFilePath(assembly);
-            XDocument projDefinition = projectProvider.LoadProjectDocument(resolveProjectFilePath);
-            IEnumerable<string> references = projDefinition
+            var references = projDefinition
                 .Element(msbuild + "Project")
                 .Elements(msbuild + "ItemGroup")
                 .Elements(msbuild + "Reference")
