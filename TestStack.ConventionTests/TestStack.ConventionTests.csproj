@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConventionData.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
     <Compile Include="ConventionFailedException.cs" />

@@ -10,7 +10,6 @@
         public string Message { get; set; }
         public bool IsConclusive { get; set; }
         // TODO: perhaps name it better so that it doesn't get confused with System.Exception and related concepts
-        public bool HasExceptions { get; set; }
         public int InvalidResultsCount { get; set; }
 
         public static ConventionResult For<TResult>(IEnumerable<TResult> items,

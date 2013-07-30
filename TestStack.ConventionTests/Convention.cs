@@ -11,25 +11,27 @@
     {
         public static readonly ConventionSettings Settings = new ConventionSettings();
 
-        public static void Is<TData>(IConvention<TData> convention, TData data)
+        public static void Is<TData>(IConvention<TData> convention, TData data) where TData : IConventionData
         {
+            if (data.HasValidSource == false)
+            {
+                // TODO: this would have to have a more reasonable and helpful message...
+                Settings.AssertInclunclusive("No valid source in " + data);
+                return;
+            }
             var result = convention.Execute(data);
             if (result.IsConclusive == false)
             {
                 Settings.AssertInclunclusive(result.Message);
+                return;
             }
-            else
+            if (data.HasApprovedExceptions)
             {
-                if (result.HasExceptions)
-                {
-                    // should we encapsulate Approvals behind Settings?
-                    Approvals.Verify(result.Message);
-                }
-                else
-                {
-                    Settings.AssertZero(result.InvalidResultsCount, result.Message);
-                }
+                // should we encapsulate Approvals behind Settings?
+                Approvals.Verify(result.Message);
+                return;
             }
+            Settings.AssertZero(result.InvalidResultsCount, result.Message);
         }
 
         public static void Is<T, T2>(IEnumerable<T2> itemsToVerify) where T : ConventionData<T2>, new()

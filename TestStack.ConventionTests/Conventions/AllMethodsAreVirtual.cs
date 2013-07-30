@@ -15,20 +15,14 @@
             HeaderMessage = "The following methods are not virtual.";
         }
 
+        public string HeaderMessage { get; set; }
+
         public ConventionResult Execute(Types data)
         {
-            var types = data.ApplicableTypes;
-            if (types.None())
-            {
-                return ConventionResult.Inconclusive("Put sensible 'inconclusive' message here");
-            }
-
             // do we want to encapsulate that in some way?
             // also notice how data gives us types, yet the convention acts upon methods.
-            var invalid = types.ToLookup(t => t, t => t.NonVirtualMethods()).Where(l => l.Any());
-            var result = ConventionResult.For(invalid, HeaderMessage, DescribeTypeAndMethods);
-            result.HasExceptions = data.HasApprovedExceptions;
-            return result;
+            var invalid = data.ApplicableTypes.ToLookup(t => t, t => t.NonVirtualMethods()).Where(l => l.Any());
+            return ConventionResult.For(invalid, HeaderMessage, DescribeTypeAndMethods);
         }
 
         // I like how that's encapsulated in the reusable convention type, whereas previously it was part of the convention/test code
@@ -40,7 +34,5 @@
                 message.AppendLine("\t\t" + method);
             }
         }
-
-        public string HeaderMessage { get; set; }
     }
 }
