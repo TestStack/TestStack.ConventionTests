@@ -1,37 +1,40 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
-    using System;
-    using ApprovalTests;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
     using TestAssembly;
     using TestStack.ConventionTests.Conventions;
 
     [TestFixture]
-    [UseReporter(typeof(DiffReporter))]
+    [UseReporter(typeof (DiffReporter))]
     public class TypeBasedConventions
     {
-        readonly Type[] itemsToVerify;
+        readonly Types nhibernateEntities;
 
         public TypeBasedConventions()
         {
-            itemsToVerify = typeof(SampleDomainClass).Assembly.GetTypes();
-        }
+            // TODO: This should go to some sort of autodiscovery mechanism so users don't have to see this shit
+            Convention.Settings.AssertInclunclusive = Assert.Inconclusive;
+            Convention.Settings.AssertZero = (v, m) => Assert.AreEqual(0, v, m);
 
-        [Test]
-        public void all_methods_are_virtual()
-        {
-            var exception = Assert.Throws<ConventionFailedException>(() => Convention.Is<AllMethodsAreVirtual>(itemsToVerify));
-
-            Approvals.Verify(exception.Message);
+            var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes();
+            nhibernateEntities = new Types
+            {
+                ApplicableTypes = itemsToVerify,
+                HasApprovedExceptions = false
+            };
         }
 
         [Test]
         public void all_classes_have_default_constructor()
         {
-            var exception = Assert.Throws<ConventionFailedException>(() => Convention.Is<AllClassesHaveDefaultConstructor>(itemsToVerify));
+            Convention.Is(new AllClassesHaveDefaultConstructor(), nhibernateEntities);
+        }
 
-            Approvals.Verify(exception.Message);
+        [Test]
+        public void all_methods_are_virtual()
+        {
+            Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities);
         }
     }
 }
