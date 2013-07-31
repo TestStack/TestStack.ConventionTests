@@ -20,17 +20,23 @@
         {
             // do we want to encapsulate that in some way?
             // also notice how data gives us types, yet the convention acts upon methods.
-            var invalid = data.ApplicableTypes.ToLookup(t => t, t => t.NonVirtualMethods()).Where(l => l.Any());
-            return ConventionResult.For(invalid, HeaderMessage, DescribeTypeAndMethods);
+            var items = from applicableType in data.ApplicableTypes
+                        let nonVirtuals = applicableType.NonVirtualMethods()
+                        where nonVirtuals.Any()
+                        select Tuple.Create(applicableType, nonVirtuals);
+            return ConventionResult.For(items, HeaderMessage, DescribeTypeAndMethods);
         }
 
         // I like how that's encapsulated in the reusable convention type, whereas previously it was part of the convention/test code
-        void DescribeTypeAndMethods(IGrouping<Type, IEnumerable<MethodInfo>> item, StringBuilder message)
+        void DescribeTypeAndMethods(Tuple<Type, IEnumerable<MethodInfo>> item, StringBuilder message)
         {
-            message.AppendLine("\t" + item.Key);
-            foreach (var method in item)
+            foreach (var method in item.Item2)
             {
-                message.AppendLine("\t\t" + method);
+                message.Append("\t");
+                message.Append(item.Item1);
+                message.Append(".");
+                message.Append(method.Name);
+                message.AppendLine();
             }
         }
     }

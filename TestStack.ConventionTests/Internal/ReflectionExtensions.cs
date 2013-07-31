@@ -87,10 +87,10 @@
             var methodInfos =
                 type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
                                 BindingFlags.DeclaredOnly);
-            return methodInfos
-                .Where(
-                    methodInfo =>
-                        !methodInfo.IsPrivate && methodInfo.DeclaringType == type && !methodInfo.Name.StartsWith("<"))
+            return methodInfos .Where(methodInfo =>
+                    !methodInfo.IsPrivate && 
+                    methodInfo.DeclaringType == type && 
+                    !methodInfo.Name.StartsWith("<"))
                 .Where(methodInfo => methodInfo.Name != "Equals")
                 .Where(methodInfo => !methodInfo.IsVirtual || methodInfo.IsFinal);
         }

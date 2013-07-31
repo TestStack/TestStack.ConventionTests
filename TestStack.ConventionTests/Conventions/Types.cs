@@ -1,7 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
-    using System.Linq;
+    using TestStack.ConventionTests.Internal;
 
     /// <summary>
     ///     This is where we set what our convention is all about.
@@ -13,9 +13,10 @@
 
         public bool HasApprovedExceptions { get; set; }
 
-        public bool HasValidSource
+        public void ThrowIfHasInvalidSource()
         {
-            get { return ApplicableTypes.Any(); }
+            if (ApplicableTypes.None())
+                throw new ConventionSourceInvalidException("You must supply types to verify");
         }
     }
 }
