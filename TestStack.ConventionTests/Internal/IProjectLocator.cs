@@ -1,4 +1,4 @@
-﻿namespace TestStack.ConventionTests.Helpers
+﻿namespace TestStack.ConventionTests.Internal
 {
     using System.Reflection;
 
