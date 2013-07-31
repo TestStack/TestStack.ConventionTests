@@ -1,0 +1,3 @@
+﻿Some invalid assembly references found in TestStack.ConventionTests.Tests
+
+	bin\Debug\ApprovalTests.dll

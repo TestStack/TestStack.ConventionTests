@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
@@ -12,8 +13,15 @@
 
         public ConventionResult Execute(Project data)
         {
-            var invalid = AllProjectReferences(data.GetProject()).Where(IsBinOrObjReference);
-            return ConventionResult.For(invalid, "Some invalid references found.", (r, m) => m.AppendLine("\t" + r));
+            var projDefinition = data.GetProject();
+            var invalid = AllProjectReferences(projDefinition).Where(IsBinOrObjReference);
+            var header = string.Format("Some invalid assembly references found in {0}", data.Assembly.GetName().Name);
+            return ConventionResult.For(invalid, header, FormatLine);
+        }
+
+        void FormatLine(string assemblyReference, StringBuilder m)
+        {
+            m.AppendLine("\t" + assemblyReference);
         }
 
         static bool IsBinOrObjReference(string reference)

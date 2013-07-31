@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
     using System.Xml.Linq;
+    using ApprovalTests;
     using ApprovalTests.Reporters;
     using NSubstitute;
     using NUnit.Framework;
@@ -24,24 +25,49 @@
         }
 
         [Test]
-        public void ReferencingBinObj()
+        public void assemblies_referencing_bin_obj()
         {
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
 
-            Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
+            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project));
+
+            Approvals.Verify(ex.Message);
         }
 
         [Test]
-        public void ScriptsNotEmbeddedResources()
+        public void assemblies_referencing_bin_obj_with_approved_exceptions()
+        {
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
+
+            Convention.IsWithApprovedExeptions(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
+        }
+
+        [Test]
+        public void scripts_not_embedded_resources()
         {
             project.Includes = i => i.EndsWith(".sql");
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
 
-            Convention.Is(new FilesAreEmbeddedResources(), project);
+            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new FilesAreEmbeddedResources(), project));
+
+            Approvals.Verify(ex.Message);
+        }
+
+        [Test]
+        public void scripts_not_embedded_resources_with_approved_exceptions()
+        {
+            project.Includes = i => i.EndsWith(".sql");
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
+
+            Convention.IsWithApprovedExeptions(new FilesAreEmbeddedResources(), project);
         }
     }
 }

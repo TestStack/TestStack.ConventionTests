@@ -10,23 +10,27 @@
         {
             data.ThrowIfHasInvalidSource();
             var result = convention.Execute(data);
-            if (data.HasApprovedExceptions)
+
+            if (result.Failed)
+                throw new ConventionFailedException(result.Message);
+        }
+
+        public static void IsWithApprovedExeptions<TData>(IConvention<TData> convention, TData data) where TData : IConventionData
+        {
+            data.ThrowIfHasInvalidSource();
+            var result = convention.Execute(data);
+
+            // should we encapsulate Approvals behind Settings?
+            try
             {
-                // should we encapsulate Approvals behind Settings?
-                try
-                {
-                    Approvals.Verify(result.Message);
+                Approvals.Verify(result.Message);
 
-                    Trace.WriteLine(string.Format("{0} has approved exceptions:\r\n\r\n{1}", convention.GetType().Name, result.Message));
-                }
-                catch (ApprovalException ex)
-                {
-                    throw new ConventionFailedException("Approved exceptions for convention differs, see inner exception for more information", ex);
-                }
-                return;
+                Trace.WriteLine(string.Format("{0} has approved exceptions:\r\n\r\n{1}", convention.GetType().Name, result.Message));
             }
-
-            throw new ConventionFailedException(result.Message);
+            catch (ApprovalException ex)
+            {
+                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n"+ex.Message, ex);
+            }
         }
     }
 }
