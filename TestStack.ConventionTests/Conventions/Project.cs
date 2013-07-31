@@ -22,9 +22,10 @@
 
         public IProjectProvider ProjectProvider { get; private set; }
 
-        public bool HasValidSource
+        public void ThrowIfHasInvalidSource()
         {
-            get { return ProjectLocator.ResolveProjectFilePath(Assembly) != null; }
+            if (ProjectLocator.ResolveProjectFilePath(Assembly) == null)
+                throw new ConventionSourceInvalidException("Cannot resolve project file for assembly {0}");
         }
 
         public bool HasApprovedExceptions { get; set; }

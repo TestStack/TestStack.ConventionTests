@@ -13,15 +13,10 @@
 
         public TypeBasedConventions()
         {
-            // TODO: This should go to some sort of autodiscovery mechanism so users don't have to see this shit
-            Convention.Settings.AssertInclunclusive = Assert.Inconclusive;
-            Convention.Settings.AssertZero = (v, m) => Assert.AreEqual(0, v, m);
-
             var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes();
             nhibernateEntities = new Types
             {
-                ApplicableTypes = itemsToVerify,
-                HasApprovedExceptions = false
+                ApplicableTypes = itemsToVerify
             };
         }
 

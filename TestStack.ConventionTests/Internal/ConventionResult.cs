@@ -8,20 +8,13 @@
     public class ConventionResult
     {
         public string Message { get; set; }
-        public bool IsConclusive { get; set; }
-        // TODO: perhaps name it better so that it doesn't get confused with System.Exception and related concepts
-        public int InvalidResultsCount { get; set; }
 
         public static ConventionResult For<TResult>(IEnumerable<TResult> items,
             string header,
             Action<TResult, StringBuilder> itemDescriptor)
         {
             var array = items.ToArray();
-            var result = new ConventionResult
-            {
-                InvalidResultsCount = array.Length,
-                IsConclusive = true
-            };
+            var result = new ConventionResult();
             if (array.None())
             {
                 return result;
@@ -35,15 +28,6 @@
             });
             result.Message = message.ToString();
             return result;
-        }
-
-        public static ConventionResult Inconclusive(string message)
-        {
-            return new ConventionResult
-            {
-                Message = message,
-                IsConclusive = false
-            };
         }
     }
 }

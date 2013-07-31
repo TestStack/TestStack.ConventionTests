@@ -1,45 +1,32 @@
 ﻿namespace TestStack.ConventionTests
 {
-    using System;
+    using System.Diagnostics;
     using ApprovalTests;
+    using ApprovalTests.Core.Exceptions;
 
     public static class Convention
     {
-        public static readonly ConventionSettings Settings = new ConventionSettings();
-
         public static void Is<TData>(IConvention<TData> convention, TData data) where TData : IConventionData
         {
-            if (data.HasValidSource == false)
-            {
-                // TODO: this would have to have a more reasonable and helpful message...
-                Settings.AssertInclunclusive("No valid source in " + data);
-                return;
-            }
+            data.ThrowIfHasInvalidSource();
             var result = convention.Execute(data);
-            if (result.IsConclusive == false)
-            {
-                Settings.AssertInclunclusive(result.Message);
-                return;
-            }
             if (data.HasApprovedExceptions)
             {
                 // should we encapsulate Approvals behind Settings?
-                Approvals.Verify(result.Message);
+                try
+                {
+                    Approvals.Verify(result.Message);
+
+                    Trace.WriteLine(string.Format("{0} has approved exceptions:\r\n\r\n{1}", convention.GetType().Name, result.Message));
+                }
+                catch (ApprovalException ex)
+                {
+                    throw new ConventionFailedException("Approved exceptions for convention differs, see inner exception for more information", ex);
+                }
                 return;
             }
-            Settings.AssertZero(result.InvalidResultsCount, result.Message);
-        }
 
-        public class ConventionSettings
-        {
-            public Action<String> AssertInclunclusive;
-
-            public Action<int, string> AssertZero;
-
-            public ConventionSettings()
-            {
-                // TODO: initialize the type;
-            }
+            throw new ConventionFailedException(result.Message);
         }
     }
 }

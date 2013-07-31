@@ -16,7 +16,6 @@
             return ConventionResult.For(invalid, "Some invalid references found.", (r, m) => m.AppendLine("\t" + r));
         }
 
-
         static bool IsBinOrObjReference(string reference)
         {
             return Regex.IsMatch(reference, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase);

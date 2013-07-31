@@ -9,42 +9,39 @@
     using TestStack.ConventionTests.Tests.Properties;
 
     [TestFixture]
-    [UseReporter(typeof (DiffReporter))]
+    [UseReporter(typeof(DiffReporter))]
     public class ProjectBasedConventions
     {
-        public ProjectBasedConventions()
+        Project project;
+        IProjectProvider projectProvider;
+
+        [SetUp]
+        public void Setup()
         {
-            Convention.Settings.AssertInclunclusive = Assert.Inconclusive;
-            Convention.Settings.AssertZero = (v, m) => Assert.AreEqual(0, v, m);
+            projectProvider = Substitute.For<IProjectProvider>();
+            var projectLocator = Substitute.For<IProjectLocator>();
+            project = new Project(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
         }
 
         [Test]
         public void ReferencingBinObj()
         {
-            var projectProvider = Substitute.For<IProjectProvider>();
-            var projectLocator = Substitute.For<IProjectLocator>();
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
 
-            Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(),
-                new Project(typeof (ProjectBasedConventions).Assembly, projectProvider, projectLocator));
+            Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
         }
-         
+
         [Test]
         public void ScriptsNotEmbeddedResources()
         {
-            var projectProvider = Substitute.For<IProjectProvider>();
-            var projectLocator = Substitute.For<IProjectLocator>();
+            project.Includes = i => i.EndsWith(".sql");
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
 
-            Convention.Is(new FilesAreEmbeddedResources(),
-                new Project(typeof (ProjectBasedConventions).Assembly, projectProvider, projectLocator)
-                {
-                    Includes = i => i.EndsWith(".sql")
-                });
+            Convention.Is(new FilesAreEmbeddedResources(), project);
         }
     }
 }
