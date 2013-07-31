@@ -2,7 +2,6 @@
 {
     public interface IConventionData
     {
-        bool HasValidSource { get; }
-        bool HasApprovedExceptions { get; }
+        void ThrowIfHasInvalidSource();
     }
 }

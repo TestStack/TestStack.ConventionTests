@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
     using System.Xml.Linq;
+    using ApprovalTests;
     using ApprovalTests.Reporters;
     using NSubstitute;
     using NUnit.Framework;
@@ -9,42 +10,64 @@
     using TestStack.ConventionTests.Tests.Properties;
 
     [TestFixture]
-    [UseReporter(typeof (DiffReporter))]
+    [UseReporter(typeof(DiffReporter))]
     public class ProjectBasedConventions
     {
-        public ProjectBasedConventions()
+        Project project;
+        IProjectProvider projectProvider;
+
+        [SetUp]
+        public void Setup()
         {
-            Convention.Settings.AssertInclunclusive = Assert.Inconclusive;
-            Convention.Settings.AssertZero = (v, m) => Assert.AreEqual(0, v, m);
+            projectProvider = Substitute.For<IProjectProvider>();
+            var projectLocator = Substitute.For<IProjectLocator>();
+            project = new Project(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
         }
 
         [Test]
-        public void ReferencingBinObj()
+        public void assemblies_referencing_bin_obj()
         {
-            var projectProvider = Substitute.For<IProjectProvider>();
-            var projectLocator = Substitute.For<IProjectLocator>();
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
 
-            Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(),
-                new Project(typeof (ProjectBasedConventions).Assembly, projectProvider, projectLocator));
+            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project));
+
+            Approvals.Verify(ex.Message);
         }
-         
+
         [Test]
-        public void ScriptsNotEmbeddedResources()
+        public void assemblies_referencing_bin_obj_with_approved_exceptions()
         {
-            var projectProvider = Substitute.For<IProjectProvider>();
-            var projectLocator = Substitute.For<IProjectLocator>();
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
+
+            Convention.IsWithApprovedExeptions(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
+        }
+
+        [Test]
+        public void scripts_not_embedded_resources()
+        {
+            project.Includes = i => i.EndsWith(".sql");
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
 
-            Convention.Is(new FilesAreEmbeddedResources(),
-                new Project(typeof (ProjectBasedConventions).Assembly, projectProvider, projectLocator)
-                {
-                    Includes = i => i.EndsWith(".sql")
-                });
+            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new FilesAreEmbeddedResources(), project));
+
+            Approvals.Verify(ex.Message);
+        }
+
+        [Test]
+        public void scripts_not_embedded_resources_with_approved_exceptions()
+        {
+            project.Includes = i => i.EndsWith(".sql");
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
+
+            Convention.IsWithApprovedExeptions(new FilesAreEmbeddedResources(), project);
         }
     }
 }
