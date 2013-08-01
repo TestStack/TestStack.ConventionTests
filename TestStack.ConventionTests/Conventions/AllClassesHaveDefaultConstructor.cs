@@ -15,7 +15,7 @@
         public ConventionResult Execute(Types data)
         {
             var invalid = data.ApplicableTypes.Where(t => t.HasDefaultConstructor() == false);
-            return ConventionResult.For(invalid, HeaderMessage, (t, m) => m.AppendLine("\t" + t));
+            return ConventionResult.For(invalid, HeaderMessage, t => "\t" + t);
         }
     }
 }
