@@ -7,10 +7,16 @@
 
     public class ConventionResult
     {
-        ConventionResult() { }
+        ConventionResult()
+        {
+        }
 
         public string Message { get; private set; }
-        public bool Failed { get { return !string.IsNullOrEmpty(Message); }}
+
+        public bool Failed
+        {
+            get { return !string.IsNullOrEmpty(Message); }
+        }
 
         public static ConventionResult For<TResult>(
             IEnumerable<TResult> items,
@@ -31,6 +37,14 @@
             Array.ForEach(array, r => itemDescriptor(r, message));
             result.Message = message.ToString();
             return result;
+        }
+
+        public static ConventionResult For<TResult>(
+            IEnumerable<TResult> items,
+            string header,
+            Func<TResult, string> itemDescriptor)
+        {
+            return For(items, header, (item, message) => message.AppendLine(itemDescriptor(item)));
         }
     }
 }
