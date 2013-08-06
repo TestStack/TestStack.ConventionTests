@@ -13,15 +13,12 @@
     [UseReporter(typeof(DiffReporter))]
     public class ProjectBasedConventions
     {
-        Project project;
         IProjectProvider projectProvider;
 
         [SetUp]
         public void Setup()
         {
             projectProvider = Substitute.For<IProjectProvider>();
-            var projectLocator = Substitute.For<IProjectLocator>();
-            project = new Project(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
         }
 
         [Test]
@@ -31,6 +28,8 @@
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
 
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var project = new ProjectReferences(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
             var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project));
 
             Approvals.Verify(ex.Message);
@@ -43,17 +42,24 @@
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
 
+
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var project = new ProjectReferences(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
             Convention.IsWithApprovedExeptions(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
         }
 
         [Test]
         public void scripts_not_embedded_resources()
         {
-            project.Includes = i => i.EndsWith(".sql");
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
 
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var project = new ProjectFiles(typeof (ProjectBasedConventions).Assembly, projectProvider, projectLocator)
+            {
+                Items = i => i.FilePath.EndsWith(".sql")
+            };
             var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new FilesAreEmbeddedResources(), project));
 
             Approvals.Verify(ex.Message);
@@ -62,7 +68,11 @@
         [Test]
         public void scripts_not_embedded_resources_with_approved_exceptions()
         {
-            project.Includes = i => i.EndsWith(".sql");
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var project = new ProjectFiles(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator)
+            {
+                Items = i => i.FilePath.EndsWith(".sql")
+            };
             projectProvider
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));

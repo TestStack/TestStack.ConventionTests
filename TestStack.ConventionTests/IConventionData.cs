@@ -2,6 +2,6 @@
 {
     public interface IConventionData
     {
-        void ThrowIfHasInvalidSource();
+        void EnsureHasNonEmptySource();
     }
 }
