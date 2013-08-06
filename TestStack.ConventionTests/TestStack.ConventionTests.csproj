@@ -61,6 +61,10 @@
   <ItemGroup>
     <Compile Include="ConventionFailedException.cs" />
     <Compile Include="Conventions\ConventionSourceInvalidException.cs" />
+    <Compile Include="Conventions\ProjectFile.cs" />
+    <Compile Include="Conventions\ProjectFiles.cs" />
+    <Compile Include="Conventions\ProjectReference.cs" />
+    <Compile Include="Conventions\ProjectReferences.cs" />
     <Compile Include="IConventionData.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
@@ -69,13 +73,14 @@
     <Compile Include="Internal\AssemblyProjectLocator.cs" />
     <Compile Include="Convention.cs" />
     <Compile Include="IConvention.cs" />
-    <Compile Include="Conventions\Project.cs" />
+    <Compile Include="Conventions\AbstractProjectData.cs" />
     <Compile Include="Conventions\Types.cs" />
     <Compile Include="ConventionData.cs" />
     <Compile Include="Internal\IProjectLocator.cs" />
     <Compile Include="Internal\IProjectProvider.cs" />
     <Compile Include="Internal\LinqExtensions.cs" />
     <Compile Include="Conventions\ProjectDoesNotReferenceDllsFromBinOrObjDirectories.cs" />
+    <Compile Include="Internal\PredicateHelpers.cs" />
     <Compile Include="Internal\ProjectProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\ReflectionExtensions.cs" />

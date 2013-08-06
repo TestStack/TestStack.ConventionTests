@@ -1,15 +1,12 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
-    using System;
     using System.Reflection;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class Project : IConventionData
+    public abstract class AbstractProjectData : IConventionData
     {
-        public Func<string, bool> Includes;
-
-        public Project(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
+        protected AbstractProjectData(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
         {
             Assembly = assembly;
             ProjectProvider = projectProvider;
@@ -28,9 +25,7 @@
                 throw new ConventionSourceInvalidException("Cannot resolve project file for assembly {0}");
         }
 
-        public bool HasApprovedExceptions { get; set; }
-
-        public XDocument GetProject()
+        protected XDocument GetProject()
         {
             var location = ProjectLocator.ResolveProjectFilePath(Assembly);
             var project = ProjectProvider.LoadProjectDocument(location);
