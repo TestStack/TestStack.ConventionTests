@@ -8,7 +8,7 @@
     {
         public static void Is<TData>(IConvention<TData> convention, TData data) where TData : IConventionData
         {
-            data.ThrowIfHasInvalidSource();
+            data.EnsureHasNonEmptySource();
             var result = convention.Execute(data);
 
             if (result.Failed)
@@ -17,7 +17,7 @@
 
         public static void IsWithApprovedExeptions<TData>(IConvention<TData> convention, TData data) where TData : IConventionData
         {
-            data.ThrowIfHasInvalidSource();
+            data.EnsureHasNonEmptySource();
             var result = convention.Execute(data);
 
             // should we encapsulate Approvals behind Settings?

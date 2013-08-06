@@ -19,7 +19,7 @@
 
         public IProjectProvider ProjectProvider { get; private set; }
 
-        public void ThrowIfHasInvalidSource()
+        public void EnsureHasNonEmptySource()
         {
             if (ProjectLocator.ResolveProjectFilePath(Assembly) == null)
                 throw new ConventionSourceInvalidException("Cannot resolve project file for assembly {0}");
