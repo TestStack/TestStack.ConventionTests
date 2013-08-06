@@ -21,7 +21,7 @@
 
         public class FakeData : IConventionData
         {
-            public void ThrowIfHasInvalidSource()
+            public void EnsureHasNonEmptySource()
             {
             }
         }

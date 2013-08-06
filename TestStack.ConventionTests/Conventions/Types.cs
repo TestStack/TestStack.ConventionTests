@@ -13,7 +13,7 @@
 
         public bool HasApprovedExceptions { get; set; }
 
-        public void ThrowIfHasInvalidSource()
+        public void EnsureHasNonEmptySource()
         {
             if (ApplicableTypes.None())
                 throw new ConventionSourceInvalidException("You must supply types to verify");
