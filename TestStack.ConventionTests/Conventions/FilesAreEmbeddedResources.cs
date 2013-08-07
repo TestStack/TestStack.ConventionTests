@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System.Linq;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
     public class FilesAreEmbeddedResources : IConvention<ProjectFiles>

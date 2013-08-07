@@ -4,6 +4,8 @@
     using ApprovalTests.Reporters;
     using NUnit.Framework;
     using TestAssembly;
+    using TestAssembly.Dtos;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
 
     [TestFixture]
@@ -17,7 +19,7 @@
             var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes();
             nhibernateEntities = new Types
             {
-                ApplicableTypes = itemsToVerify
+                TypesToVerify = itemsToVerify
             };
         }
 
@@ -47,6 +49,31 @@
         public void all_methods_are_virtual_wth_approved_exceptions()
         {
             Convention.IsWithApprovedExeptions(new AllMethodsAreVirtual(), nhibernateEntities);
+        }
+
+        [Test]
+        public void dtos_exists_in_dto_namespace()
+        {
+            var types = new Types
+            {
+                TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass)}
+            };
+            var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
+
+            var ex = Assert.Throws<ConventionFailedException>(() =>Convention.Is(convention, types));
+            Approvals.Verify(ex.Message);
+        }
+
+        [Test]
+        public void dtos_exists_in_dto_namespace_wth_approved_exceptions()
+        {
+            var types = new Types
+            {
+                TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass) }
+            };
+            var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
+
+            Convention.IsWithApprovedExeptions(convention, types);
         }
     }
 }

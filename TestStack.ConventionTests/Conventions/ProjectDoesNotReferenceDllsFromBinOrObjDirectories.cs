@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
     public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences>

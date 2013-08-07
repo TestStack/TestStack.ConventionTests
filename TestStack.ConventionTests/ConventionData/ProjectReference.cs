@@ -1,4 +1,4 @@
-﻿namespace TestStack.ConventionTests.Conventions
+﻿namespace TestStack.ConventionTests.ConventionData
 {
     public class ProjectReference
     {
