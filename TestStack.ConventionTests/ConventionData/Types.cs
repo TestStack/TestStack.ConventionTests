@@ -9,10 +9,7 @@
     /// </summary>
     public class Types : IConventionData
     {
-        //NOTE: that's a terrible name
         public Type[] TypesToVerify { get; set; }
-
-        public bool HasApprovedExceptions { get; set; }
 
         public void EnsureHasNonEmptySource()
         {
