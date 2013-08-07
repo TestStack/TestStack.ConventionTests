@@ -7,29 +7,26 @@
 
     public class ConventionResult
     {
-        ConventionResult()
+        ConventionResult(bool failed)
         {
+            Failed = failed;
         }
 
         public string Message { get; private set; }
 
-        public bool Failed
-        {
-            get { return !string.IsNullOrEmpty(Message); }
-        }
+        public bool Failed { get; private set; }
 
         public static ConventionResult For<TResult>(
             string header, IEnumerable<TResult> items, 
             Action<TResult, StringBuilder> itemDescriptor)
         {
             var array = items.ToArray();
-            var result = new ConventionResult();
             if (array.None())
             {
-                return result;
+                return new ConventionResult(failed: false);
             }
 
-            // NOTE: we might possibly want to abstract the StringBuilder to have more high level construct that would allow us to plug rich reports here...
+            var result = new ConventionResult(true);
             var message = new StringBuilder(header);
             message.AppendLine();
             message.AppendLine(string.Empty.PadRight(header.Length, '-'));
@@ -53,10 +50,9 @@
         {
             var firstArray = firstResults.ToArray();
             var secondArray = secondResults.ToArray();
-            var result = new ConventionResult();
             if (firstArray.None() && secondArray.None())
             {
-                return result;
+                return new ConventionResult(failed: true);
             }
 
             var message = new StringBuilder();
