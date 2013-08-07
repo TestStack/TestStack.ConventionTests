@@ -1,3 +1,4 @@
 ﻿The following methods are not virtual.
+--------------------------------------
 
 	TestAssembly.SampleDomainClass.TestNonVirtual

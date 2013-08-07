@@ -5,6 +5,7 @@
     using ApprovalTests.Reporters;
     using NSubstitute;
     using NUnit.Framework;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Tests.Properties;

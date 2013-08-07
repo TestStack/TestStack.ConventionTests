@@ -1,6 +1,7 @@
-﻿namespace TestStack.ConventionTests.Conventions
+﻿namespace TestStack.ConventionTests.ConventionData
 {
     using System;
+    using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Internal;
 
     /// <summary>
@@ -8,14 +9,11 @@
     /// </summary>
     public class Types : IConventionData
     {
-        //NOTE: that's a terrible name
-        public Type[] ApplicableTypes { get; set; }
-
-        public bool HasApprovedExceptions { get; set; }
+        public Type[] TypesToVerify { get; set; }
 
         public void EnsureHasNonEmptySource()
         {
-            if (ApplicableTypes.None())
+            if (TypesToVerify.None())
                 throw new ConventionSourceInvalidException("You must supply types to verify");
         }
     }
