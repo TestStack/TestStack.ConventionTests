@@ -1,4 +1,0 @@
-﻿The following types do not have default constructor
-
-	TestAssembly.ClassWithNoDefaultCtor
-	TestAssembly.ClassWithPrivateDefaultCtor
