@@ -19,8 +19,7 @@
         }
 
         public static ConventionResult For<TResult>(
-            IEnumerable<TResult> items,
-            string header,
+            string header, IEnumerable<TResult> items, 
             Action<TResult, StringBuilder> itemDescriptor)
         {
             var array = items.ToArray();
@@ -41,11 +40,10 @@
         }
 
         public static ConventionResult For<TResult>(
-            IEnumerable<TResult> items,
-            string header,
+            IEnumerable<TResult> items, string header,
             Func<TResult, string> itemDescriptor)
         {
-            return For(items, header, (item, message) => message.AppendLine(itemDescriptor(item)));
+            return For(header, items, (item, message) => message.AppendLine(itemDescriptor(item)));
         }
 
         public static ConventionResult ForSymmetric<TResult>(

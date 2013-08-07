@@ -25,7 +25,7 @@
                         let nonVirtuals = applicableType.NonVirtualMethods()
                         where nonVirtuals.Any()
                         select Tuple.Create(applicableType, nonVirtuals);
-            return ConventionResult.For(items, HeaderMessage, DescribeTypeAndMethods);
+            return ConventionResult.For(HeaderMessage, items, DescribeTypeAndMethods);
         }
 
         // I like how that's encapsulated in the reusable convention type, whereas previously it was part of the convention/test code

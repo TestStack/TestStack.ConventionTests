@@ -8,9 +8,8 @@
     {
         public ConventionResult Execute(ProjectFiles data)
         {
-            return ConventionResult.For(data.Files.Where(s => s.ReferenceType != "EmbeddedResource"),
-                "The following files which should be embedded resources:",
-                (t, m) => m.AppendLine("\t" + t.FilePath));
+            return ConventionResult.For("The following files which should be embedded resources:",
+                data.Files.Where(s => s.ReferenceType != "EmbeddedResource"), (t, m) => m.AppendLine("\t" + t.FilePath));
         }
     }
 }

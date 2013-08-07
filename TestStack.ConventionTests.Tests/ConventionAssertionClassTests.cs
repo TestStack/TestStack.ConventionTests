@@ -30,7 +30,7 @@
         {
             public ConventionResult Execute(FakeData data)
             {
-                return ConventionResult.For(new[] { "" }, "Header", (s, builder) => builder.AppendLine("Different"));
+                return ConventionResult.For("Header", new[] { "" }, (s, builder) => builder.AppendLine("Different"));
             }
         }
     }

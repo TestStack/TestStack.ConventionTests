@@ -14,7 +14,7 @@
         {
             var invalid = data.References.Where(IsBinOrObjReference);
             var header = string.Format("Some invalid assembly references found in {0}", data.Assembly.GetName().Name);
-            return ConventionResult.For(invalid, header, FormatLine);
+            return ConventionResult.For(header, invalid, FormatLine);
         }
 
         void FormatLine(ProjectReference assemblyReference, StringBuilder m)
