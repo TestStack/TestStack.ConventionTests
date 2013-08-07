@@ -1,0 +1,10 @@
+﻿Dtos must be under the 'TestAssembly.Dtos' namespace
+----------------------------------------------------
+
+	TestAssembly.SomeDto
+
+
+Non-Dtos must not be under the 'TestAssembly.Dtos' namespace
+------------------------------------------------------------
+
+	TestAssembly.Dtos.AnotherClass

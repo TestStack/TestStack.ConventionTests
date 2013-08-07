@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System.Linq;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
     public class AllClassesHaveDefaultConstructor : IConvention<Types>
@@ -14,7 +15,7 @@
 
         public ConventionResult Execute(Types data)
         {
-            var invalid = data.ApplicableTypes.Where(t => t.HasDefaultConstructor() == false);
+            var invalid = data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false);
             return ConventionResult.For(invalid, HeaderMessage, t => "\t" + t);
         }
     }

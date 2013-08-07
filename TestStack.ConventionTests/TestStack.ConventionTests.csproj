@@ -60,11 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConventionFailedException.cs" />
+    <Compile Include="Conventions\ClassTypeHasSpecificNamespace.cs" />
     <Compile Include="Conventions\ConventionSourceInvalidException.cs" />
-    <Compile Include="Conventions\ProjectFile.cs" />
-    <Compile Include="Conventions\ProjectFiles.cs" />
-    <Compile Include="Conventions\ProjectReference.cs" />
-    <Compile Include="Conventions\ProjectReferences.cs" />
+    <Compile Include="ConventionData\ProjectFile.cs" />
+    <Compile Include="ConventionData\ProjectFiles.cs" />
+    <Compile Include="ConventionData\ProjectReference.cs" />
+    <Compile Include="ConventionData\ProjectReferences.cs" />
     <Compile Include="IConventionData.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
@@ -73,8 +74,8 @@
     <Compile Include="Internal\AssemblyProjectLocator.cs" />
     <Compile Include="Convention.cs" />
     <Compile Include="IConvention.cs" />
-    <Compile Include="Conventions\AbstractProjectData.cs" />
-    <Compile Include="Conventions\Types.cs" />
+    <Compile Include="ConventionData\AbstractProjectData.cs" />
+    <Compile Include="ConventionData\Types.cs" />
     <Compile Include="ConventionData.cs" />
     <Compile Include="Internal\IProjectLocator.cs" />
     <Compile Include="Internal\IProjectProvider.cs" />

@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
     public class AllMethodsAreVirtual : IConvention<Types>
@@ -20,7 +21,7 @@
         {
             // do we want to encapsulate that in some way?
             // also notice how data gives us types, yet the convention acts upon methods.
-            var items = from applicableType in data.ApplicableTypes
+            var items = from applicableType in data.TypesToVerify
                         let nonVirtuals = applicableType.NonVirtualMethods()
                         where nonVirtuals.Any()
                         select Tuple.Create(applicableType, nonVirtuals);

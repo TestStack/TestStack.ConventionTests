@@ -1,7 +1,8 @@
-﻿namespace TestStack.ConventionTests.Conventions
+﻿namespace TestStack.ConventionTests.ConventionData
 {
     using System.Reflection;
     using System.Xml.Linq;
+    using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Internal;
 
     public abstract class AbstractProjectData : IConventionData
