@@ -1,30 +1,24 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
+    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
     using TestStack.ConventionTests.ConventionData;
-    using TestStack.ConventionTests.Internal;
 
-    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences>
+    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences, ProjectReference>
     {
         const string AssemblyReferencingObjRegex = @"^(?<assembly>.*?(obj|bin).*?)$";
-
-        public ConventionResult Execute(ProjectReferences data)
-        {
-            var invalid = data.References.Where(IsBinOrObjReference);
-            var header = string.Format("Some invalid assembly references found in {0}", data.Assembly.GetName().Name);
-            return ConventionResult.For(header, invalid, FormatLine);
-        }
-
-        void FormatLine(ProjectReference assemblyReference, StringBuilder m)
-        {
-            m.AppendLine("\t" + assemblyReference.ReferencedPath);
-        }
 
         static bool IsBinOrObjReference(ProjectReference reference)
         {
             return Regex.IsMatch(reference.ReferencedPath, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase);
+        }
+
+        public string ConventionTitle { get { return "Project must not reference dlls from bin or obj directories"; } }
+
+        public IEnumerable<ProjectReference> GetFailingData(ProjectReferences data)
+        {
+            return data.References.Where(IsBinOrObjReference);
         }
     }
 }

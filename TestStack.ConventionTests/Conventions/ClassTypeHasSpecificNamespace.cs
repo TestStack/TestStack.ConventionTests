@@ -1,9 +1,9 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
-    using TestStack.ConventionTests.Internal;
 
     /// <summary>
     /// This convention allows you to enforce a particular type of class is under a namespace, for instance.
@@ -14,7 +14,7 @@
     /// 
     /// This is a Symmetric convention, and will verify all of a Class Type lives in the namespace, but also that only that class type is in that namespace
     /// </summary>
-    public class ClassTypeHasSpecificNamespace : IConvention<Types>
+    public class ClassTypeHasSpecificNamespace : ISymmetricConvention<Types, Type>
     {
         readonly Func<Type, bool> classIsApplicable;
         readonly string namespaceToCheck;
@@ -33,24 +33,34 @@
             this.classType = classType;
         }
 
-        public ConventionResult Execute(Types data)
+        public string ConventionTitle
         {
-            var applicableTypes = data.TypesToVerify.Where(classIsApplicable);
-            var nonApplicableTypes = data.TypesToVerify.Where(t => !classIsApplicable(t));
+            get
+            {
+                return string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck);
+            }
+        }
 
-            var applicableTypesWhichDoNotConform = applicableTypes
-                .Where(t => t.Namespace == null || !t.Namespace.StartsWith(namespaceToCheck))
-                .ToArray();
-            var nonApplicableTypesInNamespace = nonApplicableTypes
-                .Where(t => t.Namespace != null && t.Namespace.StartsWith(namespaceToCheck))
-                .ToArray();
+        public string InverseTitle
+        {
+            get
+            {
+                return string.Format("Non-{0}s must not be under the '{1}' namespace", classType, namespaceToCheck);
+            }
+        }
 
-            return ConventionResult.ForSymmetric(
-                string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck),
-                applicableTypesWhichDoNotConform,
-                string.Format("Non-{0}s must not be under the '{1}' namespace", classType, namespaceToCheck),
-                nonApplicableTypesInNamespace,
-                t => "\t" + t.FullName);
+        public IEnumerable<Type> GetFailingData(Types data)
+        {
+            return data.TypesToVerify
+                .Where(classIsApplicable)
+                .Where(t => t.Namespace == null || !t.Namespace.StartsWith(namespaceToCheck));
+        }
+
+        public IEnumerable<Type> GetFailingInverseData(Types data)
+        {
+            return data.TypesToVerify
+                .Where(t => !classIsApplicable(t))
+                .Where(t => t.Namespace != null && t.Namespace.StartsWith(namespaceToCheck));
         }
     }
 }

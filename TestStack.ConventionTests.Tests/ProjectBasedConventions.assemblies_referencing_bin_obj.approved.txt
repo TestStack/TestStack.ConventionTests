@@ -1,4 +1,4 @@
-﻿Some invalid assembly references found in TestStack.ConventionTests.Tests
--------------------------------------------------------------------------
+﻿Failed: 'Project must not reference dlls from bin or obj directories' for 'TestStack.ConventionTests.Tests'
+-----------------------------------------------------------------------------------------------------------
 
 	bin\Debug\ApprovalTests.dll

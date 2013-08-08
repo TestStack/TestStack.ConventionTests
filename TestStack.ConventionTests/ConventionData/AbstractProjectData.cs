@@ -20,6 +20,8 @@
 
         public IProjectProvider ProjectProvider { get; private set; }
 
+        public string Description { get { return Assembly.GetName().Name; } }
+
         public void EnsureHasNonEmptySource()
         {
             if (ProjectLocator.ResolveProjectFilePath(Assembly) == null)

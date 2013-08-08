@@ -1,4 +1,5 @@
-﻿The following methods are not virtual.
---------------------------------------
+﻿Passed: 'Methods must be virtual' for 'nHibernate Entitites'
+------------------------------------------------------------
 
+With approved exceptions:
 	TestAssembly.SampleDomainClass.TestNonVirtual

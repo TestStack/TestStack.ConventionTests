@@ -1,8 +1,8 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
+    using System.Collections.Generic;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
-    using TestStack.ConventionTests.Internal;
 
     [TestFixture]
     [UseReporter(typeof(DiffReporter))] //NOTE: Can we take care of this in IsWithApprovedExceptions?
@@ -19,18 +19,26 @@
             StringAssert.Contains("does not match approved file", ex.Message);
         }
 
-        public class FakeData : IConventionData
+        public class FakeData : IConventionData, ICreateReportLineFor<string>
         {
+            public string Description { get { return "Fake data"; } }
+
             public void EnsureHasNonEmptySource()
             {
             }
+
+            public ConventionFailure CreateReportLine(string failingData)
+            {
+                return new ConventionFailure(failingData);
+            }
         }
 
-        public class FailingConvention : IConvention<FakeData>
+        public class FailingConvention : IConvention<FakeData, string>
         {
-            public ConventionResult Execute(FakeData data)
+            public string ConventionTitle { get { return "Header"; } }
+            public IEnumerable<string> GetFailingData(FakeData data)
             {
-                return ConventionResult.For("Header", new[] { "" }, (s, builder) => builder.AppendLine("Different"));
+                return new[] {"Different"};
             }
         }
     }

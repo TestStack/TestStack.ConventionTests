@@ -7,7 +7,7 @@
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class ProjectReferences : AbstractProjectData
+    public class ProjectReferences : AbstractProjectData, ICreateReportLineFor<ProjectReference>
     {
         public ProjectReferences(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
             : base(assembly, projectProvider, projectLocator)
@@ -43,5 +43,10 @@
         }
 
         public Func<ProjectReference, bool> Items { get; set; }
+
+        public ConventionFailure CreateReportLine(ProjectReference failingData)
+        {
+            return new ConventionFailure(failingData.ReferencedPath);
+        }
     }
 }
