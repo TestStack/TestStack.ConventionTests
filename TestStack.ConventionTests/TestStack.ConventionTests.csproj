@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,6 +63,7 @@
     <Compile Include="ConventionFailedException.cs" />
     <Compile Include="ConventionFailure.cs" />
     <Compile Include="ConventionReport.cs" />
+    <Compile Include="HtmlReportRenderer.cs" />
     <Compile Include="Internal\ConventionReportTextRenderer.cs" />
     <Compile Include="Internal\ConventionReportTraceRenderer.cs" />
     <Compile Include="Internal\ConventionResultExceptionReporter.cs" />
