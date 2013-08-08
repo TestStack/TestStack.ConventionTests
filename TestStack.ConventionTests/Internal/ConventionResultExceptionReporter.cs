@@ -1,6 +1,5 @@
-﻿namespace TestStack.ConventionTests
+﻿namespace TestStack.ConventionTests.Internal
 {
-    using System.Diagnostics;
     using System.Linq;
 
     public class ConventionResultExceptionReporter : IConventionReportRenderer

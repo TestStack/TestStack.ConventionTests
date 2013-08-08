@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
+    using TestStack.ConventionTests.Internal;
 
     [TestFixture]
     [UseReporter(typeof(DiffReporter))] //NOTE: Can we take care of this in IsWithApprovedExceptions?

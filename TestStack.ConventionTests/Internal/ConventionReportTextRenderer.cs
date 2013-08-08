@@ -1,4 +1,4 @@
-﻿namespace TestStack.ConventionTests
+﻿namespace TestStack.ConventionTests.Internal
 {
     using System.Text;
 
