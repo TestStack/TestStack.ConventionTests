@@ -9,22 +9,36 @@
     using ApprovalTests.Core.Exceptions;
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Internal;
+    using TestStack.ConventionTests.Reporting;
 
     public static class Convention
     {
         static readonly HtmlReportRenderer HtmlRenderer = new HtmlReportRenderer(AssemblyDirectory);
-        static readonly List<ConventionReport> Reports = new List<ConventionReport>();
+        static readonly List<ResultInfo> Reports = new List<ResultInfo>();
 
-        public static IEnumerable<ConventionReport> ConventionReports { get { return Reports; } }
+        static Convention()
+        {
+            Formatters = new List<IReportDataFormatter>
+            {
+                new TypeDataFormatter(),
+                new ProjectReferenceFormatter(),
+                new ProjectFileFormatter(),
+                new MethodInfoDataFormatter(),
+                new StringDataFormatter()
+            };
+        }
+
+        public static IEnumerable<ResultInfo> ConventionReports { get { return Reports; } }
+        public static IList<IReportDataFormatter> Formatters { get; private set; } 
 
         public static void Is<TDataSource, TDataType>(IConvention<TDataSource, TDataType> convention, TDataSource data)
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+            where TDataSource : IConventionData
         {
             Is(convention, data, new ConventionResultExceptionReporter());
         }
 
         public static void Is<TDataSource, TDataType>(IConvention<TDataSource, TDataType> convention, TDataSource data, IConventionReportRenderer reporter) 
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+            where TDataSource : IConventionData
         {
             try
             {
@@ -42,7 +56,7 @@
         }
 
         public static void IsWithApprovedExeptions<TDataSource, TDataType>(IConvention<TDataSource, TDataType> convention, TDataSource data)
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+            where TDataSource : IConventionData
         {
             var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
             Reports.Add(conventionResult);
@@ -69,13 +83,13 @@
         }
 
         public static void Is<TDataSource, TDataType>(ISymmetricConvention<TDataSource, TDataType> convention, TDataSource data)
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+            where TDataSource : IConventionData
         {
             Is(convention, data, new ConventionResultExceptionReporter());
         }
 
         public static void Is<TDataSource, TDataType>(ISymmetricConvention<TDataSource, TDataType> convention, TDataSource data, IConventionReportRenderer reporter)
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+            where TDataSource : IConventionData
         {
             try
             {
@@ -95,7 +109,7 @@
         }
 
         public static void IsWithApprovedExeptions<TDataSource, TDataType>(ISymmetricConvention<TDataSource, TDataType> convention, TDataSource data)
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+            where TDataSource : IConventionData
         {
             var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
             var inverseConventionResult = GetConventionReport(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
@@ -130,18 +144,28 @@
             }
         }
 
-        static ConventionReport GetConventionReport<TDataSource, TDataType>(string conventionTitle, TDataType[] failingData, TDataSource data)
-            where TDataSource : IConventionData, ICreateReportLineFor<TDataType>
+        static ResultInfo GetConventionReport<TDataSource, TDataType>(string conventionTitle, TDataType[] failingData, TDataSource data)
+            where TDataSource : IConventionData
         {
             data.EnsureHasNonEmptySource();
             var passed = failingData.None();
 
-            var conventionResult = new ConventionReport(
-                passed ? Result.Passed : Result.Failed,
+            var conventionResult = new ResultInfo(
+                passed ? TestResult.Passed : TestResult.Failed,
                 conventionTitle,
                 data.Description,
-                failingData.Select(data.CreateReportLine));
+                failingData.Select(FormatData).ToArray());
             return conventionResult;
+        }
+
+        static ConventionReportFailure FormatData<T>(T failingData)
+        {
+            var formatter = Formatters.FirstOrDefault(f => f.CanFormat(failingData));
+
+            if (formatter == null)
+                throw new NoDataFormatterFoundException(typeof(T).Name + " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+
+            return formatter.Format(failingData);
         }
 
         // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917

@@ -1,8 +1,9 @@
-﻿namespace TestStack.ConventionTests
+﻿namespace TestStack.ConventionTests.Reporting
 {
     using System.IO;
     using System.Text;
     using System.Web.UI;
+    using TestStack.ConventionTests.Internal;
 
     public class HtmlReportRenderer : IConventionReportRenderer
     {
@@ -13,7 +14,7 @@
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Render(params ConventionReport[] conventionResult)
+        public void Render(params ResultInfo[] conventionResult)
         {
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));

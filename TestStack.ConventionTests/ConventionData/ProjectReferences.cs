@@ -7,12 +7,11 @@
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class ProjectReferences : AbstractProjectData, ICreateReportLineFor<ProjectReference>
+    public class ProjectReferences : AbstractProjectData
     {
         public ProjectReferences(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
             : base(assembly, projectProvider, projectLocator)
         {
-            Items = PredicateHelpers.All<ProjectReference>();
         }
 
         public ProjectReference[] References
@@ -25,7 +24,6 @@
                     {
                         ReferencedPath = r
                     })
-                    .Where(Items)
                     .ToArray();
             }
         }
@@ -40,13 +38,6 @@
                 .Elements(msbuild + "HintPath")
                 .Select(refElem => refElem.Value);
             return references;
-        }
-
-        public Func<ProjectReference, bool> Items { get; set; }
-
-        public ConventionFailure CreateReportLine(ProjectReference failingData)
-        {
-            return new ConventionFailure(failingData.ReferencedPath);
         }
     }
 }

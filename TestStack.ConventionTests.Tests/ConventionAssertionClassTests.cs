@@ -20,7 +20,7 @@
             StringAssert.Contains("does not match approved file", ex.Message);
         }
 
-        public class FakeData : IConventionData, ICreateReportLineFor<string>
+        public class FakeData : IConventionData
         {
             public string Description { get { return "Fake data"; } }
 
@@ -28,9 +28,9 @@
             {
             }
 
-            public ConventionFailure CreateReportLine(string failingData)
+            public ConventionReportFailure Format(string failingData)
             {
-                return new ConventionFailure(failingData);
+                return new ConventionReportFailure(failingData);
             }
         }
 

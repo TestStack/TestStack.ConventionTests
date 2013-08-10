@@ -5,7 +5,7 @@
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class ProjectFiles : AbstractProjectData, ICreateReportLineFor<ProjectFile>
+    public class ProjectFiles : AbstractProjectData
     {
         public ProjectFiles(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
             : base(assembly, projectProvider, projectLocator)
@@ -30,11 +30,6 @@
                         })
                     .ToArray();
             }
-        }
-
-        public ConventionFailure CreateReportLine(ProjectFile failingData)
-        {
-            return new ConventionFailure(failingData.FilePath);
         }
     }
 }

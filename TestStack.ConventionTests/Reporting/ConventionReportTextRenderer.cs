@@ -1,10 +1,11 @@
-﻿namespace TestStack.ConventionTests.Internal
+﻿namespace TestStack.ConventionTests.Reporting
 {
     using System.Text;
+    using TestStack.ConventionTests.Internal;
 
     public class ConventionReportTextRenderer : IConventionReportRenderer
     {
-        public void Render(params ConventionReport[] conventionResult)
+        public void Render(params ResultInfo[] conventionResult)
         {
             var stringBuilder = new StringBuilder();
 
@@ -33,16 +34,16 @@
 
         public string Output { get; private set; }
 
-        public void RenderItems(ConventionReport conventionResult)
+        public void RenderItems(ResultInfo conventionResult)
         {
             var stringBuilder = new StringBuilder();
             RenderItems(conventionResult, stringBuilder);
             Output = stringBuilder.ToString();
         }
 
-        static void RenderItems(ConventionReport conventionReport, StringBuilder stringBuilder)
+        static void RenderItems(ResultInfo resultInfo, StringBuilder stringBuilder)
         {
-            foreach (var conventionFailure in conventionReport.ConventionFailures)
+            foreach (var conventionFailure in resultInfo.ConventionFailures)
             {
                 stringBuilder.Append("\t");
                 stringBuilder.AppendLine(conventionFailure.ToString());
