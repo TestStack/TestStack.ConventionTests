@@ -1,13 +1,16 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
     using System.Linq;
+    using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Reporting;
 
     public static class Executor
     {
         public static ResultInfo GetConventionReport(string conventionTitle, object[] failingData, IConventionData data)
         {
-            data.EnsureHasNonEmptySource();
+            if (!data.HasData)
+                throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
+
             var passed = failingData.None();
 
             var conventionResult = new ResultInfo(

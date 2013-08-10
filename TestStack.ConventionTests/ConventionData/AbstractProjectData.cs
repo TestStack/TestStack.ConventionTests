@@ -22,11 +22,7 @@
 
         public string Description { get { return Assembly.GetName().Name; } }
 
-        public void EnsureHasNonEmptySource()
-        {
-            if (ProjectLocator.ResolveProjectFilePath(Assembly) == null)
-                throw new ConventionSourceInvalidException("Cannot resolve project file for assembly {0}");
-        }
+        public bool HasData { get { return ProjectLocator.ResolveProjectFilePath(Assembly) != null; } }
 
         protected XDocument GetProject()
         {

@@ -24,9 +24,7 @@
         {
             public string Description { get { return "Fake data"; } }
 
-            public void EnsureHasNonEmptySource()
-            {
-            }
+            public bool HasData { get { return true; } }
 
             public ConventionReportFailure Format(string failingData)
             {
@@ -39,7 +37,7 @@
             public string ConventionTitle { get { return "Header"; } }
             public IEnumerable<object> GetFailingData(FakeData data)
             {
-                return new[] {"Different"};
+                return new[] { "Different" };
             }
         }
     }
