@@ -4,7 +4,7 @@
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
-    public class FilesAreEmbeddedResources : IConvention<ProjectFiles, ProjectFile>
+    public class FilesAreEmbeddedResources : IConvention<ProjectFiles>
     {
         public FilesAreEmbeddedResources(string fileExtension)
         {
@@ -21,7 +21,7 @@
 
         public string FileExtension { get; set; }
 
-        public IEnumerable<ProjectFile> GetFailingData(ProjectFiles data)
+        public IEnumerable<object> GetFailingData(ProjectFiles data)
         {
             return data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource");
         }

@@ -6,11 +6,11 @@
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
-    public class AllMethodsAreVirtual : IConvention<Types, MethodInfo>
+    public class AllMethodsAreVirtual : IConvention<Types>
     {
         public string ConventionTitle { get { return "Methods must be virtual"; } }
 
-        public IEnumerable<MethodInfo> GetFailingData(Types data)
+        public IEnumerable<object> GetFailingData(Types data)
         {
             return data.TypesToVerify.SelectMany(t => t.NonVirtualMethods());
         }

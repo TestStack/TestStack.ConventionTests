@@ -14,7 +14,7 @@
     /// 
     /// This is a Symmetric convention, and will verify all of a Class Type lives in the namespace, but also that only that class type is in that namespace
     /// </summary>
-    public class ClassTypeHasSpecificNamespace : ISymmetricConvention<Types, Type>
+    public class ClassTypeHasSpecificNamespace : ISymmetricConvention<Types>
     {
         readonly Func<Type, bool> classIsApplicable;
         readonly string namespaceToCheck;
@@ -49,14 +49,14 @@
             }
         }
 
-        public IEnumerable<Type> GetFailingData(Types data)
+        public IEnumerable<object> GetFailingData(Types data)
         {
             return data.TypesToVerify
                 .Where(classIsApplicable)
                 .Where(t => t.Namespace == null || !t.Namespace.StartsWith(namespaceToCheck));
         }
 
-        public IEnumerable<Type> GetFailingInverseData(Types data)
+        public IEnumerable<object> GetFailingInverseData(Types data)
         {
             return data.TypesToVerify
                 .Where(t => !classIsApplicable(t))

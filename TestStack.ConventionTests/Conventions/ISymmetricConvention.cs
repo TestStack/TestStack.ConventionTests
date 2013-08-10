@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
 
-    public interface ISymmetricConvention<in T, out TDataType> where T : IConventionData
+    public interface ISymmetricConvention<in T> where T : IConventionData
     {
         string ConventionTitle { get; }
         string InverseTitle { get; }
-        IEnumerable<TDataType> GetFailingData(T data);
-        IEnumerable<TDataType> GetFailingInverseData(T data);
+        IEnumerable<object> GetFailingData(T data);
+        IEnumerable<object> GetFailingInverseData(T data);
     }
 }

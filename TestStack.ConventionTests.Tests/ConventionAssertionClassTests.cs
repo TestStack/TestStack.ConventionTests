@@ -34,10 +34,10 @@
             }
         }
 
-        public class FailingConvention : IConvention<FakeData, string>
+        public class FailingConvention : IConvention<FakeData>
         {
             public string ConventionTitle { get { return "Header"; } }
-            public IEnumerable<string> GetFailingData(FakeData data)
+            public IEnumerable<object> GetFailingData(FakeData data)
             {
                 return new[] {"Different"};
             }

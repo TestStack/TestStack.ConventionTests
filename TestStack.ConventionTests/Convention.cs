@@ -31,13 +31,13 @@
         public static IEnumerable<ResultInfo> ConventionReports { get { return Reports; } }
         public static IList<IReportDataFormatter> Formatters { get; private set; } 
 
-        public static void Is<TDataSource, TDataType>(IConvention<TDataSource, TDataType> convention, TDataSource data)
+        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             Is(convention, data, new ConventionResultExceptionReporter());
         }
 
-        public static void Is<TDataSource, TDataType>(IConvention<TDataSource, TDataType> convention, TDataSource data, IConventionReportRenderer reporter) 
+        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data, IConventionReportRenderer reporter) 
             where TDataSource : IConventionData
         {
             try
@@ -55,7 +55,7 @@
             }
         }
 
-        public static void IsWithApprovedExeptions<TDataSource, TDataType>(IConvention<TDataSource, TDataType> convention, TDataSource data)
+        public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
@@ -82,13 +82,13 @@
             }
         }
 
-        public static void Is<TDataSource, TDataType>(ISymmetricConvention<TDataSource, TDataType> convention, TDataSource data)
+        public static void Is<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             Is(convention, data, new ConventionResultExceptionReporter());
         }
 
-        public static void Is<TDataSource, TDataType>(ISymmetricConvention<TDataSource, TDataType> convention, TDataSource data, IConventionReportRenderer reporter)
+        public static void Is<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data, IConventionReportRenderer reporter)
             where TDataSource : IConventionData
         {
             try
@@ -108,7 +108,7 @@
             }
         }
 
-        public static void IsWithApprovedExeptions<TDataSource, TDataType>(ISymmetricConvention<TDataSource, TDataType> convention, TDataSource data)
+        public static void IsWithApprovedExeptions<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);

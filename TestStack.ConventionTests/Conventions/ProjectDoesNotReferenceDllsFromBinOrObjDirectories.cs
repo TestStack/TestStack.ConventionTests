@@ -5,7 +5,7 @@
     using System.Text.RegularExpressions;
     using TestStack.ConventionTests.ConventionData;
 
-    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences, ProjectReference>
+    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences>
     {
         const string AssemblyReferencingObjRegex = @"^(?<assembly>.*?(obj|bin).*?)$";
 
@@ -16,7 +16,7 @@
 
         public string ConventionTitle { get { return "Project must not reference dlls from bin or obj directories"; } }
 
-        public IEnumerable<ProjectReference> GetFailingData(ProjectReferences data)
+        public IEnumerable<object> GetFailingData(ProjectReferences data)
         {
             return data.References.Where(IsBinOrObjReference);
         }

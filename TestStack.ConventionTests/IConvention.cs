@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public interface IConvention<in T, out TDataType> where T : IConventionData
+    public interface IConvention<in T> where T : IConventionData
     {
         string ConventionTitle { get; }
-        IEnumerable<TDataType> GetFailingData(T data);
+        IEnumerable<object> GetFailingData(T data);
     }
 }
