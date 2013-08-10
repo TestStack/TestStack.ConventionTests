@@ -2,6 +2,7 @@
 {
     public interface IConventionData
     {
-        void EnsureHasNonEmptySource();
+        string Description { get; }
+        bool HasData { get; }
     }
 }

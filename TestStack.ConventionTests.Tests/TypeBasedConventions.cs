@@ -17,7 +17,7 @@
         public TypeBasedConventions()
         {
             var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes();
-            nhibernateEntities = new Types
+            nhibernateEntities = new Types("nHibernate Entitites")
             {
                 TypesToVerify = itemsToVerify
             };
@@ -54,7 +54,7 @@
         [Test]
         public void dtos_exists_in_dto_namespace()
         {
-            var types = new Types
+            var types = new Types("TestAssembly types")
             {
                 TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass)}
             };
@@ -67,7 +67,7 @@
         [Test]
         public void dtos_exists_in_dto_namespace_wth_approved_exceptions()
         {
-            var types = new Types
+            var types = new Types("TestAssembly types")
             {
                 TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass) }
             };

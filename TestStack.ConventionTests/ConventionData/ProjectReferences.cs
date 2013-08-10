@@ -12,7 +12,6 @@
         public ProjectReferences(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
             : base(assembly, projectProvider, projectLocator)
         {
-            Items = PredicateHelpers.All<ProjectReference>();
         }
 
         public ProjectReference[] References
@@ -25,7 +24,6 @@
                     {
                         ReferencedPath = r
                     })
-                    .Where(Items)
                     .ToArray();
             }
         }
@@ -41,7 +39,5 @@
                 .Select(refElem => refElem.Value);
             return references;
         }
-
-        public Func<ProjectReference, bool> Items { get; set; }
     }
 }

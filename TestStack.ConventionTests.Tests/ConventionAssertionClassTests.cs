@@ -1,5 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
+    using System.Collections.Generic;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
     using TestStack.ConventionTests.Internal;
@@ -21,16 +22,22 @@
 
         public class FakeData : IConventionData
         {
-            public void EnsureHasNonEmptySource()
+            public string Description { get { return "Fake data"; } }
+
+            public bool HasData { get { return true; } }
+
+            public ConventionReportFailure Format(string failingData)
             {
+                return new ConventionReportFailure(failingData);
             }
         }
 
         public class FailingConvention : IConvention<FakeData>
         {
-            public ConventionResult Execute(FakeData data)
+            public string ConventionTitle { get { return "Header"; } }
+            public IEnumerable<object> GetFailingData(FakeData data)
             {
-                return ConventionResult.For(new[] { "" }, "Header", (s, builder) => builder.AppendLine("Different"));
+                return new[] { "Different" };
             }
         }
     }
