@@ -29,7 +29,7 @@
         }
 
         public static IEnumerable<ResultInfo> ConventionReports { get { return Reports; } }
-        public static IList<IReportDataFormatter> Formatters { get; private set; } 
+        public static IList<IReportDataFormatter> Formatters { get; set; } 
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
@@ -42,8 +42,7 @@
         {
             try
             {
-                var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
-
+                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
                 Reports.Add(conventionResult);
 
                 new ConventionReportTraceRenderer().Render(conventionResult);
@@ -58,15 +57,12 @@
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
+            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
             Reports.Add(conventionResult);
 
             try
             {
                 var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.RenderItems(conventionResult);
-                conventionResult.WithApprovedException(conventionReportTextRenderer.Output);
-
                 conventionReportTextRenderer.Render(conventionResult);
                 Approvals.Verify(conventionReportTextRenderer.Output);
 
@@ -93,8 +89,8 @@
         {
             try
             {
-                var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
-                var inverseConventionResult = GetConventionReport(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
+                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
+                var inverseConventionResult = Executor.GetConventionReport(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
 
                 Reports.Add(conventionResult);
                 Reports.Add(inverseConventionResult);
@@ -111,26 +107,18 @@
         public static void IsWithApprovedExeptions<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            var conventionResult = GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
-            var inverseConventionResult = GetConventionReport(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
+            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
+            var inverseConventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
             Reports.Add(conventionResult);
             Reports.Add(inverseConventionResult);
 
             try
             {
-                var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                // Add approved exceptions to report
-                conventionReportTextRenderer.RenderItems(conventionResult);
-                conventionResult.WithApprovedException(conventionReportTextRenderer.Output);
-
-                // Add approved exceptions to inverse report
-                conventionReportTextRenderer.RenderItems(inverseConventionResult);
-                inverseConventionResult.WithApprovedException(conventionReportTextRenderer.Output);
-
                 //Render both, with approved exceptions included
+                var conventionReportTextRenderer = new ConventionReportTextRenderer();
                 conventionReportTextRenderer.Render(conventionResult, inverseConventionResult);
                 Approvals.Verify(conventionReportTextRenderer.Output);
-                
+
                 // Trace on success
                 new ConventionReportTraceRenderer().Render(conventionResult, inverseConventionResult);
             }
@@ -142,30 +130,6 @@
             {
                 HtmlRenderer.Render(Reports.ToArray());
             }
-        }
-
-        static ResultInfo GetConventionReport<TDataSource, TDataType>(string conventionTitle, TDataType[] failingData, TDataSource data)
-            where TDataSource : IConventionData
-        {
-            data.EnsureHasNonEmptySource();
-            var passed = failingData.None();
-
-            var conventionResult = new ResultInfo(
-                passed ? TestResult.Passed : TestResult.Failed,
-                conventionTitle,
-                data.Description,
-                failingData.Select(FormatData).ToArray());
-            return conventionResult;
-        }
-
-        static ConventionReportFailure FormatData<T>(T failingData)
-        {
-            var formatter = Formatters.FirstOrDefault(f => f.CanFormat(failingData));
-
-            if (formatter == null)
-                throw new NoDataFormatterFoundException(typeof(T).Name + " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
-
-            return formatter.Format(failingData);
         }
 
         // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
