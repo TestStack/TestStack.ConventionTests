@@ -1,6 +1,5 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
-    using System;
     using System.Linq;
     using System.Reflection;
     using System.Xml.Linq;
@@ -11,9 +10,7 @@
         public ProjectFiles(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
             : base(assembly, projectProvider, projectLocator)
         {
-            Items = PredicateHelpers.All<ProjectFile>();
         }
-
 
         public ProjectFile[] Files
         {
@@ -31,11 +28,8 @@
                             ReferenceType = refElem.Name.LocalName,
                             FilePath = refElem.Attribute("Include").Value
                         })
-                    .Where(Items)
                     .ToArray();
             }
         }
-
-        public Func<ProjectFile, bool> Items { get; set; }
     }
 }

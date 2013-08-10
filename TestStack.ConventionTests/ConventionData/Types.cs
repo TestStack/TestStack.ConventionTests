@@ -1,20 +1,22 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
     using System;
-    using TestStack.ConventionTests.Conventions;
-    using TestStack.ConventionTests.Internal;
+    using System.Linq;
 
     /// <summary>
     ///     This is where we set what our convention is all about.
     /// </summary>
     public class Types : IConventionData
     {
+        public Types(string descriptionOfTypes)
+        {
+            Description = descriptionOfTypes;
+        }
+
         public Type[] TypesToVerify { get; set; }
 
-        public void EnsureHasNonEmptySource()
-        {
-            if (TypesToVerify.None())
-                throw new ConventionSourceInvalidException("You must supply types to verify");
-        }
+        public string Description { get; private set; }
+
+        public bool HasData {get { return TypesToVerify.Any(); }}
     }
 }

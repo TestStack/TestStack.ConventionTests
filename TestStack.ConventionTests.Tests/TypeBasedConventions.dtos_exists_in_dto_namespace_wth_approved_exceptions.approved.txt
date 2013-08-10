@@ -1,10 +1,14 @@
-﻿Dtos must be under the 'TestAssembly.Dtos' namespace
-----------------------------------------------------
+﻿Passed: 'Dtos must be under the 'TestAssembly.Dtos' namespace' for 'TestAssembly types'
+---------------------------------------------------------------------------------------
 
+With approved exceptions:
 	TestAssembly.SomeDto
 
 
-Non-Dtos must not be under the 'TestAssembly.Dtos' namespace
-------------------------------------------------------------
 
+
+Passed: 'Non-Dtos must not be under the 'TestAssembly.Dtos' namespace' for 'TestAssembly types'
+-----------------------------------------------------------------------------------------------
+
+With approved exceptions:
 	TestAssembly.Dtos.AnotherClass

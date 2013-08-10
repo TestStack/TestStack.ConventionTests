@@ -1,4 +1,5 @@
-﻿The following files which should be embedded resources:
--------------------------------------------------------
+﻿Passed: '.sql Files must be embedded resources' for 'TestStack.ConventionTests.Tests'
+-------------------------------------------------------------------------------------
 
+With approved exceptions:
 	Scripts\Script2.sql

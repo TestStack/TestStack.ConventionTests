@@ -1,5 +1,6 @@
-﻿The following types do not have default constructor
----------------------------------------------------
+﻿Passed: 'Types must have a default constructor' for 'nHibernate Entitites'
+--------------------------------------------------------------------------
 
+With approved exceptions:
 	TestAssembly.ClassWithNoDefaultCtor
 	TestAssembly.ClassWithPrivateDefaultCtor
