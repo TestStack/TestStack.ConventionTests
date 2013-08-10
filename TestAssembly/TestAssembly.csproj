@@ -44,6 +44,12 @@
     <Compile Include="ClassWithPrivateDefaultCtor.cs" />
     <Compile Include="ClassWithProtectedDefaultCtor.cs" />
     <Compile Include="ClassWithPublicDefaultCtor.cs" />
+    <Compile Include="Collections\Branch.cs" />
+    <Compile Include="Collections\Forest.cs" />
+    <Compile Include="Collections\ICanAdd.cs" />
+    <Compile Include="Collections\ICanRemove.cs" />
+    <Compile Include="Collections\Leaf.cs" />
+    <Compile Include="Collections\Tree.cs" />
     <Compile Include="Dtos\AnotherClass.cs" />
     <Compile Include="Dtos\BlahDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
