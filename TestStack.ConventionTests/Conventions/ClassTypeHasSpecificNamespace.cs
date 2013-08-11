@@ -42,9 +42,9 @@
             }
         }
 
-        public ConventionResult Execute(Types data)
+        public void Execute(Types data, IConventionResult result)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("NOT DONE YET");
         }
 
         public string InverseTitle

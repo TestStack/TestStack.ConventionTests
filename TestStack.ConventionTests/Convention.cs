@@ -46,7 +46,11 @@
                 if (!data.HasData)
                     throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, convention.Execute(data), data);
+                var result = new ConventionResult();
+
+                convention.Execute(data, result);
+
+                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, result, data);
                 Reports.Add(conventionResult);
 
                 new ConventionReportTraceRenderer().Render(conventionResult);
@@ -61,7 +65,16 @@
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, convention.Execute(data), data);
+
+            // we want to run that first so that we don't even bother running the convention if theere's no data
+            // conveniton author can assume that data is available. That will simplify the conventions
+            if (!data.HasData)
+                throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
+
+            var result = new ConventionResult();
+            convention.Execute(data,result);
+
+            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, result, data);
             Reports.Add(conventionResult);
 
             try

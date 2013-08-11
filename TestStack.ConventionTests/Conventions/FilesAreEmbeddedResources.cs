@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
-    using TestStack.ConventionTests.Internal;
 
     public class FilesAreEmbeddedResources : IConvention<ProjectFiles>
     {
@@ -18,11 +17,9 @@
             get { return string.Format("{0} Files must be embedded resources", FileExtension); }
         }
 
-        public ConventionResult Execute(ProjectFiles data)
+        public void Execute(ProjectFiles data, IConventionResult result)
         {
-            return
-                ConventionResult.For(
-                    data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource"));
+            result.Is(data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource"));
         }
     }
 }

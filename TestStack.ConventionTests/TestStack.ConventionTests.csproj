@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConventionFailedException.cs" />
+    <Compile Include="IConventionResult.cs" />
     <Compile Include="Internal\ConventionReportFailure.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
     <Compile Include="Internal\Executor.cs" />

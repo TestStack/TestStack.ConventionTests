@@ -3,7 +3,6 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using TestStack.ConventionTests.ConventionData;
-    using TestStack.ConventionTests.Internal;
 
     public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences>
     {
@@ -14,9 +13,9 @@
             get { return "Project must not reference dlls from bin or obj directories"; }
         }
 
-        public ConventionResult Execute(ProjectReferences data)
+        public void Execute(ProjectReferences data, IConventionResult result)
         {
-            return ConventionResult.For(data.References.Where(IsBinOrObjReference));
+            result.Is(data.References.Where(IsBinOrObjReference));
         }
 
         static bool IsBinOrObjReference(ProjectReference reference)

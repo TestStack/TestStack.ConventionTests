@@ -11,9 +11,9 @@
             get { return "Types must have a default constructor"; }
         }
 
-        public ConventionResult Execute(Types data)
+        public void Execute(Types data, IConventionResult result)
         {
-            return ConventionResult.For(data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false));
+            result.Is(data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false));
         }
     }
 }

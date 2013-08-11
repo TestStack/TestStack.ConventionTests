@@ -7,11 +7,8 @@
     using System.Reflection;
     using System.Text;
 
-    public class ConventionResult
+    public class ConventionResult : IConventionResult
     {
-        ConventionResult()
-        {
-        }
 
         public string Message { get; private set; }
 
@@ -20,57 +17,49 @@
             get { return !string.IsNullOrEmpty(Message); }
         }
 
-        public static ConventionResult For<TResult>(IEnumerable<TResult> items)
-        {
-            return new ConventionResult
-            {
-                Items = items.Select(item => (object) item).ToList(),
-            };
-        }
 
         public IEnumerable<object> Items { get; set; }
 
-        public static ConventionResult For<TResult>(
+        void IConventionResult.Is<TResult>(IEnumerable<TResult> items)
+        {
+            Items = items.Select(item => (object) item).ToList();
+        }
+
+        public void Is<TResult>(
             IEnumerable<TResult> items,
-            string header,
             Action<TResult, StringBuilder> itemDescriptor)
         {
             var array = items.ToArray();
-            var result = new ConventionResult();
             if (array.None())
             {
-                return result;
+                return;
             }
 
             // NOTE: we might possibly want to abstract the StringBuilder to have more high level construct that would allow us to plug rich reports here...
-            var message = new StringBuilder(header);
+            var message = new StringBuilder();
             message.AppendLine();
-            message.AppendLine(string.Empty.PadRight(header.Length, '-'));
             message.AppendLine();
             Array.ForEach(array, r => itemDescriptor(r, message));
-            result.Message = message.ToString();
-            return result;
+            Message = message.ToString();
         }
 
-        public static ConventionResult For<TResult>(
+        public void Is<TResult>(
             IEnumerable<TResult> items,
-            string header,
             Func<TResult, string> itemDescriptor)
         {
-            return For(items, header, (item, message) => message.AppendLine(itemDescriptor(item)));
+            Is(items, (item, message) => message.AppendLine(itemDescriptor(item)));
         }
 
-        public static ConventionResult ForSymmetric<TResult>(
+        public void IsSymmetric<TResult>(
             string firstHeader, TResult[] firstResults,
             string secondHeader, TResult[] secondResults,
             Action<TResult, StringBuilder> itemDescriptor)
         {
             var firstArray = firstResults.ToArray();
             var secondArray = secondResults.ToArray();
-            var result = new ConventionResult();
             if (firstArray.None() && secondArray.None())
             {
-                return result;
+                return;
             }
 
             var message = new StringBuilder();
@@ -93,16 +82,15 @@
                 message.AppendLine();
                 Array.ForEach(secondArray, r => itemDescriptor(r, message));
             }
-            result.Message = message.ToString();
-            return result;
+            Message = message.ToString();
         }
 
-        public static ConventionResult ForSymmetric<TResult>(
+        public void IsSymmetric<TResult>(
             string firstHeader, TResult[] firstResults,
             string secondHeader, TResult[] secondResults,
             Func<TResult, string> itemDescriptor)
         {
-            return ForSymmetric(
+            IsSymmetric(
                 firstHeader, firstResults, secondHeader,
                 secondResults,
                 (item, message) => message.AppendLine(itemDescriptor(item)));
@@ -125,8 +113,8 @@
 
     public class DefaultFormatter
     {
-        readonly Type type;
         readonly PropertyInfo[] properties;
+        readonly Type type;
 
         public DefaultFormatter(Type type)
         {
