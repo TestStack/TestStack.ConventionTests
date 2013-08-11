@@ -1,27 +1,24 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
+    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.Reporting;
 
     public static class Executor
     {
-        public static ResultInfo GetConventionReport(string conventionTitle, ConventionResult failingData,
-            IConventionData data)
+        public static ResultInfo GetConventionReport(string conventionTitle, IConventionData data, IEnumerable<object> items)
         {
-            var result = failingData.Failed;
-
             var conventionResult = new ResultInfo(
-                result ? TestResult.Passed : TestResult.Failed,
+                items.None() ? TestResult.Passed : TestResult.Failed,
                 conventionTitle,
                 data.Description,
-                failingData.Items.Select(FormatData).ToArray());
+                items.Select(FormatData).ToArray());
             return conventionResult;
         }
 
-        public static ResultInfo GetConventionReportWithApprovedExeptions(string conventionTitle,
-            ConventionResult failingData, IConventionData data)
+        public static ResultInfo GetConventionReportWithApprovedExeptions(string conventionTitle, IConventionData data, IEnumerable<object> items)
         {
-            var conventionResult = GetConventionReport(conventionTitle, failingData, data);
+            var conventionResult = GetConventionReport(conventionTitle, data, items);
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
             // Add approved exceptions to report
             conventionReportTextRenderer.RenderItems(conventionResult);

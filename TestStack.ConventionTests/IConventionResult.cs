@@ -17,13 +17,10 @@
             Func<TResult, string> itemDescriptor);
 
         void IsSymmetric<TResult>(
-            string firstHeader, TResult[] firstResults,
-            string secondHeader, TResult[] secondResults,
-            Action<TResult, StringBuilder> itemDescriptor);
-
-        void IsSymmetric<TResult>(
-            string firstHeader, TResult[] firstResults,
-            string secondHeader, TResult[] secondResults,
-            Func<TResult, string> itemDescriptor);
+            IEnumerable<TResult> items,
+            Func<TResult, bool> firstPredicate,
+            Func<TResult, bool> secondPredicate,
+            string firstDescription = null,
+            string secondDescription = null);
     }
 }

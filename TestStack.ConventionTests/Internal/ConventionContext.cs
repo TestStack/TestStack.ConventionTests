@@ -7,18 +7,20 @@
     using System.Reflection;
     using System.Text;
 
-    public class ConventionResult : IConventionResult
+    public class ConventionContext : IConventionResult
     {
-
         public string Message { get; private set; }
 
-        public bool Failed
-        {
-            get { return !string.IsNullOrEmpty(Message); }
-        }
-
-
         public IEnumerable<object> Items { get; set; }
+
+        public object[] SecondOnly { get; set; }
+
+        public object[] FirstOnly { get; set; }
+
+        public string SecondDescription { get; set; }
+
+        public string FirstDescription { get; set; }
+        public bool IsSymmetricResult { get; set; }
 
         void IConventionResult.Is<TResult>(IEnumerable<TResult> items)
         {
@@ -48,6 +50,27 @@
             Func<TResult, string> itemDescriptor)
         {
             Is(items, (item, message) => message.AppendLine(itemDescriptor(item)));
+        }
+
+        public void IsSymmetric<TResult>(
+            IEnumerable<TResult> items,
+            Func<TResult, bool> firstPredicate,
+            Func<TResult, bool> secondPredicate,
+            string firstDescription = null,
+            string secondDescription = null)
+        {
+            IsSymmetricResult = true;
+            FirstDescription = firstDescription;
+            SecondDescription = secondDescription;
+            var array = items.ToArray();
+            if (array.None())
+            {
+                return;
+            }
+            FirstOnly = array.Where(firstPredicate).Where(i => secondPredicate(i) == false)
+                .Select(i => (object) i).ToArray();
+            SecondOnly = array.Where(secondPredicate).Where(i => firstPredicate(i) == false)
+                .Select(i => (object) i).ToArray();
         }
 
         public void IsSymmetric<TResult>(
