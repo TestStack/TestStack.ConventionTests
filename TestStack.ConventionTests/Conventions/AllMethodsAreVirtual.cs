@@ -1,8 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
@@ -10,9 +8,9 @@
     {
         public string ConventionTitle { get { return "Methods must be virtual"; } }
 
-        public IEnumerable<object> GetFailingData(Types data)
+        public ConventionResult Execute(Types data)
         {
-            return data.TypesToVerify.SelectMany(t => t.NonVirtualMethods());
+            return ConventionResult.For(data.TypesToVerify.SelectMany(t => t.NonVirtualMethods()));
         }
     }
 }

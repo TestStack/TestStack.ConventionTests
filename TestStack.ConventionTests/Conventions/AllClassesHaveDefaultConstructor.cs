@@ -1,17 +1,19 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
     public class AllClassesHaveDefaultConstructor : IConvention<Types>
     {
-        public string ConventionTitle { get { return "Types must have a default constructor"; } }
-
-        public IEnumerable<object> GetFailingData(Types data)
+        public string ConventionTitle
         {
-            return data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false);
+            get { return "Types must have a default constructor"; }
+        }
+
+        public ConventionResult Execute(Types data)
+        {
+            return ConventionResult.For(data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false));
         }
     }
 }

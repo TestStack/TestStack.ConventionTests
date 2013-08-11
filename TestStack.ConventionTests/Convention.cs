@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using ApprovalTests;
     using ApprovalTests.Core.Exceptions;
@@ -42,7 +41,12 @@
         {
             try
             {
-                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
+                // we want to run that first so that we don't even bother running the convention if theere's no data
+                // conveniton author can assume that data is available. That will simplify the conventions
+                if (!data.HasData)
+                    throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
+
+                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, convention.Execute(data), data);
                 Reports.Add(conventionResult);
 
                 new ConventionReportTraceRenderer().Render(conventionResult);
@@ -57,7 +61,7 @@
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
+            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, convention.Execute(data), data);
             Reports.Add(conventionResult);
 
             try
@@ -71,60 +75,6 @@
             catch (ApprovalException ex)
             {
                 throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n"+ex.Message, ex);
-            }
-            finally
-            {
-                HtmlRenderer.Render(Reports.ToArray());
-            }
-        }
-
-        public static void Is<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data)
-            where TDataSource : IConventionData
-        {
-            Is(convention, data, new ConventionResultExceptionReporter());
-        }
-
-        public static void Is<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data, IConventionReportRenderer reporter)
-            where TDataSource : IConventionData
-        {
-            try
-            {
-                var conventionResult = Executor.GetConventionReport(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
-                var inverseConventionResult = Executor.GetConventionReport(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
-
-                Reports.Add(conventionResult);
-                Reports.Add(inverseConventionResult);
-
-                new ConventionReportTraceRenderer().Render(conventionResult, inverseConventionResult);
-                reporter.Render(conventionResult, inverseConventionResult);
-            }
-            finally
-            {
-                HtmlRenderer.Render(Reports.ToArray());
-            }
-        }
-
-        public static void IsWithApprovedExeptions<TDataSource>(ISymmetricConvention<TDataSource> convention, TDataSource data)
-            where TDataSource : IConventionData
-        {
-            var conventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.ConventionTitle, convention.GetFailingData(data).ToArray(), data);
-            var inverseConventionResult = Executor.GetConventionReportWithApprovedExeptions(convention.InverseTitle, convention.GetFailingInverseData(data).ToArray(), data);
-            Reports.Add(conventionResult);
-            Reports.Add(inverseConventionResult);
-
-            try
-            {
-                //Render both, with approved exceptions included
-                var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.Render(conventionResult, inverseConventionResult);
-                Approvals.Verify(conventionReportTextRenderer.Output);
-
-                // Trace on success
-                new ConventionReportTraceRenderer().Render(conventionResult, inverseConventionResult);
-            }
-            catch (ApprovalException ex)
-            {
-                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n" + ex.Message, ex);
             }
             finally
             {

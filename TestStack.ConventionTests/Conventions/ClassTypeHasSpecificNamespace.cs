@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
+    using TestStack.ConventionTests.Internal;
 
     /// <summary>
     /// This convention allows you to enforce a particular type of class is under a namespace, for instance.
@@ -14,7 +15,7 @@
     /// 
     /// This is a Symmetric convention, and will verify all of a Class Type lives in the namespace, but also that only that class type is in that namespace
     /// </summary>
-    public class ClassTypeHasSpecificNamespace : ISymmetricConvention<Types>
+    public class ClassTypeHasSpecificNamespace:IConvention<Types>
     {
         readonly Func<Type, bool> classIsApplicable;
         readonly string namespaceToCheck;
@@ -39,6 +40,11 @@
             {
                 return string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck);
             }
+        }
+
+        public ConventionResult Execute(Types data)
+        {
+            throw new NotImplementedException();
         }
 
         public string InverseTitle

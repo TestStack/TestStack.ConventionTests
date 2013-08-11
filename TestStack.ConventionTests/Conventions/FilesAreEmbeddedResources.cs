@@ -1,8 +1,8 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
+    using TestStack.ConventionTests.Internal;
 
     public class FilesAreEmbeddedResources : IConvention<ProjectFiles>
     {
@@ -11,19 +11,18 @@
             FileExtension = fileExtension;
         }
 
-        public string ConventionTitle
-        {
-            get
-            {
-                return string.Format("{0} Files must be embedded resources", FileExtension);
-            }
-        }
-
         public string FileExtension { get; set; }
 
-        public IEnumerable<object> GetFailingData(ProjectFiles data)
+        public string ConventionTitle
         {
-            return data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource");
+            get { return string.Format("{0} Files must be embedded resources", FileExtension); }
+        }
+
+        public ConventionResult Execute(ProjectFiles data)
+        {
+            return
+                ConventionResult.For(
+                    data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource"));
         }
     }
 }

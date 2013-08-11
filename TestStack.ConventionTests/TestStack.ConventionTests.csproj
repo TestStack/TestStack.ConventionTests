@@ -76,7 +76,6 @@
     <Compile Include="ConventionData\ProjectFiles.cs" />
     <Compile Include="ConventionData\ProjectReference.cs" />
     <Compile Include="ConventionData\ProjectReferences.cs" />
-    <Compile Include="Conventions\ISymmetricConvention.cs" />
     <Compile Include="IConventionData.cs" />
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
     <Compile Include="Conventions\AllClassesHaveDefaultConstructor.cs" />

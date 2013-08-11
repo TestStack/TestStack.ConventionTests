@@ -20,24 +20,15 @@
             get { return !string.IsNullOrEmpty(Message); }
         }
 
-        public static ConventionResult For<TResult>(
-            IEnumerable<TResult> items,
-            string header)
+        public static ConventionResult For<TResult>(IEnumerable<TResult> items)
         {
-            var array = items.ToArray();
-            var result = new ConventionResult();
-            if (array.None())
-            {
-                return result;
-            }
-            // ROUGHSKETCH: We split the job between formatter and reporter. Formatter provides the data, reporter provides the structure
-            var formatter = new DefaultFormatter(typeof (TResult));
-            var reporter = new CsvReporter();
             return new ConventionResult
             {
-                Message = reporter.Build(array, header, formatter)
+                Items = items.Select(item => (object) item).ToList(),
             };
         }
+
+        public IEnumerable<object> Items { get; set; }
 
         public static ConventionResult For<TResult>(
             IEnumerable<TResult> items,

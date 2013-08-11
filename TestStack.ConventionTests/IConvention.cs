@@ -1,10 +1,10 @@
 ﻿namespace TestStack.ConventionTests
 {
-    using System.Collections.Generic;
+    using TestStack.ConventionTests.Internal;
 
     public interface IConvention<in T> where T : IConventionData
     {
         string ConventionTitle { get; }
-        IEnumerable<object> GetFailingData(T data);
+        ConventionResult Execute(T data);
     }
 }
