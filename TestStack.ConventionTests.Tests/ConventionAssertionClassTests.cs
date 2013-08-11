@@ -1,6 +1,5 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
-    using System.Collections.Generic;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
     using TestStack.ConventionTests.Internal;
@@ -34,10 +33,9 @@
 
         public class FailingConvention : IConvention<FakeData>
         {
-            public string ConventionTitle { get { return "Header"; } }
-            public IEnumerable<object> GetFailingData(FakeData data)
+            public void Execute(FakeData data, IConventionResult result)
             {
-                return new[] { "Different" };
+                result.Is("Header", new[] {"Different"});
             }
         }
     }
