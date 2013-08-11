@@ -35,9 +35,9 @@
         public class FailingConvention : IConvention<FakeData>
         {
             public string ConventionTitle { get { return "Header"; } }
-            public IEnumerable<object> GetFailingData(FakeData data)
+            public void Execute(FakeData data, IConventionResult result)
             {
-                return new[] { "Different" };
+                result.Is(new[] {"Different"});
             }
         }
     }

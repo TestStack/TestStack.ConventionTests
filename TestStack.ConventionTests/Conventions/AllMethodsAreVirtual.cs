@@ -2,15 +2,17 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
-    public class AllMethodsAreVirtual : IConvention<Types>
+    public class AllMethodsAreVirtual : Convention<Types>
     {
-        public string ConventionTitle { get { return "Methods must be virtual"; } }
+        public override string ConventionTitle
+        {
+            get { return "Methods must be virtual"; }
+        }
 
-        public IEnumerable<object> GetFailingData(Types data)
+        protected override IEnumerable<object> Execute(Types data)
         {
             return data.TypesToVerify.SelectMany(t => t.NonVirtualMethods());
         }

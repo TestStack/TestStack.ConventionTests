@@ -61,8 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConventionFailedException.cs" />
+    <Compile Include="Convention.Generic.cs" />
+    <Compile Include="IConventionResult.cs" />
     <Compile Include="Internal\ConventionReportFailure.cs" />
+    <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\Executor.cs" />
+    <Compile Include="Internal\IConventionContext.cs" />
     <Compile Include="Internal\ResultInfo.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
     <Compile Include="Reporting\HtmlReportRenderer.cs" />
@@ -75,7 +79,6 @@
     <Compile Include="ConventionData\ProjectFiles.cs" />
     <Compile Include="ConventionData\ProjectReference.cs" />
     <Compile Include="ConventionData\ProjectReferences.cs" />
-    <Compile Include="Conventions\ISymmetricConvention.cs" />
     <Compile Include="IConventionData.cs" />
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
     <Compile Include="Conventions\AllClassesHaveDefaultConstructor.cs" />

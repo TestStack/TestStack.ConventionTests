@@ -26,7 +26,9 @@
         [Test]
         public void all_classes_have_default_constructor()
         {
-            var ex = Assert.Throws<ConventionFailedException>(()=>Convention.Is(new AllClassesHaveDefaultConstructor(), nhibernateEntities));
+            var ex =
+                Assert.Throws<ConventionFailedException>(
+                    () => Convention.Is(new AllClassesHaveDefaultConstructor(), nhibernateEntities));
 
             Approvals.Verify(ex.Message);
         }
@@ -40,7 +42,9 @@
         [Test]
         public void all_methods_are_virtual()
         {
-            var ex = Assert.Throws<ConventionFailedException>(()=>Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities));
+            var ex =
+                Assert.Throws<ConventionFailedException>(
+                    () => Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities));
 
             Approvals.Verify(ex.Message);
         }
@@ -56,11 +60,11 @@
         {
             var types = new Types("TestAssembly types")
             {
-                TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass)}
+                TypesToVerify = new[] {typeof (SomeDto), typeof (BlahDto), typeof (AnotherClass)}
             };
             var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
 
-            var ex = Assert.Throws<ConventionFailedException>(() =>Convention.Is(convention, types));
+            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(convention, types));
             Approvals.Verify(ex.Message);
         }
 
@@ -69,7 +73,7 @@
         {
             var types = new Types("TestAssembly types")
             {
-                TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass) }
+                TypesToVerify = new[] {typeof (SomeDto), typeof (BlahDto), typeof (AnotherClass)}
             };
             var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
 
