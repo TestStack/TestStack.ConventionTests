@@ -6,19 +6,21 @@
 
     public static class Executor
     {
-        public static ResultInfo GetConventionReport(string conventionTitle, IConventionData data, IEnumerable<object> items)
+        public static ResultInfo GetConventionReport(string conventionTitle, IConventionContext context,
+            IEnumerable<object> items)
         {
             var conventionResult = new ResultInfo(
                 items.None() ? TestResult.Passed : TestResult.Failed,
                 conventionTitle,
-                data.Description,
-                items.Select(FormatData).ToArray());
+                context.Data.Description,
+                items.Select(o => FormatData(o, context)).ToArray());
             return conventionResult;
         }
 
-        public static ResultInfo GetConventionReportWithApprovedExeptions(string conventionTitle, IConventionData data, IEnumerable<object> items)
+        public static ResultInfo GetConventionReportWithApprovedExeptions(string conventionTitle,
+            IConventionContext context, IEnumerable<object> items)
         {
-            var conventionResult = GetConventionReport(conventionTitle, data, items);
+            var conventionResult = GetConventionReport(conventionTitle, context, items);
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
             // Add approved exceptions to report
             conventionReportTextRenderer.RenderItems(conventionResult);
@@ -27,9 +29,9 @@
             return conventionResult;
         }
 
-        static ConventionReportFailure FormatData<T>(T failingData)
+        static ConventionReportFailure FormatData<T>(T failingData, IConventionContext context)
         {
-            var formatter = Convention.Formatters.FirstOrDefault(f => f.CanFormat(failingData));
+            var formatter = context.Formatters.FirstOrDefault(f => f.CanFormat(failingData));
 
             if (formatter == null)
                 throw new NoDataFormatterFoundException(typeof (T).Name +

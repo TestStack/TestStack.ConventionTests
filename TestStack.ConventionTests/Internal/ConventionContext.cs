@@ -6,9 +6,21 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using TestStack.ConventionTests.Reporting;
 
-    public class ConventionContext : IConventionResult
+    public class ConventionContext : IConventionResult, IConventionContext
     {
+        readonly ICollection<IReportDataFormatter> formatters;
+        readonly ICollection<IConventionReportRenderer> renderers;
+
+        public ConventionContext(IConventionData data, ICollection<IReportDataFormatter> formatters,
+            params IConventionReportRenderer[] renderers)
+        {
+            Data = data;
+            this.formatters = formatters;
+            this.renderers = renderers;
+        }
+
         public string Message { get; private set; }
 
         public IEnumerable<object> Items { get; set; }
@@ -21,6 +33,18 @@
 
         public string FirstDescription { get; set; }
         public bool IsSymmetricResult { get; set; }
+
+        public IEnumerable<IConventionReportRenderer> Renderers
+        {
+            get { return renderers; }
+        }
+
+        public IConventionData Data { get; private set; }
+
+        public IEnumerable<IReportDataFormatter> Formatters
+        {
+            get { return formatters; }
+        }
 
         void IConventionResult.Is<TResult>(IEnumerable<TResult> items)
         {

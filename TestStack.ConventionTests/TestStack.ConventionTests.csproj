@@ -66,6 +66,7 @@
     <Compile Include="Internal\ConventionReportFailure.cs" />
     <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\Executor.cs" />
+    <Compile Include="Internal\IConventionContext.cs" />
     <Compile Include="Internal\ResultInfo.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
     <Compile Include="Reporting\HtmlReportRenderer.cs" />

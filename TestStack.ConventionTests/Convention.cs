@@ -64,11 +64,10 @@
                 if (!data.HasData)
                     throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-                var result = new ConventionContext();
+                var result = new ConventionContext(data, Formatters, reporter, new ConventionReportTraceRenderer());
 
                 convention.Execute(data, result);
-                Render(convention, data, result, Executor.GetConventionReport, reporter,
-                    new ConventionReportTraceRenderer());
+                Render(convention, data, result, Executor.GetConventionReport);
             }
             finally
             {
@@ -77,29 +76,32 @@
         }
 
         //ResultInfo GetConventionReport(string conventionTitle, IConventionData data, IEnumerable<object> items, bool failed)
-        static void Render<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            ConventionContext result,
-            Func<string, IConventionData, IEnumerable<object>, ResultInfo> getConventionReport,
-            params IConventionReportRenderer[] renderers) where TDataSource : IConventionData
+        static void Render<TDataSource>(IConvention<TDataSource> convention, TDataSource data, ConventionContext result,
+            Func<string, IConventionContext, IEnumerable<object>, ResultInfo> getConventionReport) where TDataSource : IConventionData
         {
             if (result.IsSymmetricResult)
             {
                 var result1 = getConventionReport(result.FirstDescription,
-                    data, result.FirstOnly);
+                    result, result.FirstOnly);
                 var result2 = getConventionReport(result.SecondDescription,
-                    data, result.SecondOnly);
+                    result, result.SecondOnly);
                 Reports.Add(result1);
                 Reports.Add(result2);
 
-
-                Array.ForEach(renderers, r => r.Render(result1, result2));
+                foreach (var renderer in result.Renderers)
+                {
+                    renderer.Render(result1, result2);
+                }
             }
             else
             {
-                var conventionResult = getConventionReport(convention.ConventionTitle, data, result.Items);
+                var conventionResult = getConventionReport(convention.ConventionTitle, result, result.Items);
                 Reports.Add(conventionResult);
 
-                Array.ForEach(renderers, r => r.Render(conventionResult));
+                foreach (var renderer in result.Renderers)
+                {
+                    renderer.Render(conventionResult);
+                }
             }
         }
 
@@ -111,20 +113,18 @@
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-            var result = new ConventionContext();
+            var conventionReportTextRenderer = new ConventionReportTextRenderer();
+            var result = new ConventionContext(data, Formatters, conventionReportTextRenderer, new ConventionReportTraceRenderer());
             convention.Execute(data, result);
 
-            var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            Render(convention, data, result, Executor.GetConventionReportWithApprovedExeptions,
-                conventionReportTextRenderer, new ConventionReportTraceRenderer());
+            Render(convention, data, result, Executor.GetConventionReportWithApprovedExeptions);
             try
             {
                 Approvals.Verify(conventionReportTextRenderer.Output);
             }
             catch (ApprovalException ex)
             {
-                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n" + ex.Message,
-                    ex);
+                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n" + ex.Message, ex);
             }
             finally
             {
