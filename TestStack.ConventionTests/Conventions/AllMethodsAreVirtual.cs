@@ -1,19 +1,20 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
+    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
-    public class AllMethodsAreVirtual : IConvention<Types>
+    public class AllMethodsAreVirtual : Convention<Types>
     {
-        public string ConventionTitle
+        public override string ConventionTitle
         {
             get { return "Methods must be virtual"; }
         }
 
-        public void Execute(Types data, IConventionResult result)
+        protected override IEnumerable<object> Execute(Types data)
         {
-            result.Is(data.TypesToVerify.SelectMany(t => t.NonVirtualMethods()));
+            return data.TypesToVerify.SelectMany(t => t.NonVirtualMethods());
         }
     }
 }

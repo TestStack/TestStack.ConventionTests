@@ -1,9 +1,10 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
+    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
-    public class FilesAreEmbeddedResources : IConvention<ProjectFiles>
+    public class FilesAreEmbeddedResources : Convention<ProjectFiles>
     {
         public FilesAreEmbeddedResources(string fileExtension)
         {
@@ -12,14 +13,14 @@
 
         public string FileExtension { get; set; }
 
-        public string ConventionTitle
+        public override string ConventionTitle
         {
             get { return string.Format("{0} Files must be embedded resources", FileExtension); }
         }
 
-        public void Execute(ProjectFiles data, IConventionResult result)
+        protected override IEnumerable<object> Execute(ProjectFiles data)
         {
-            result.Is(data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource"));
+            return data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource");
         }
     }
 }

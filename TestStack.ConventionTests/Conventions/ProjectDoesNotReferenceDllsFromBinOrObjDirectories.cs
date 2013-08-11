@@ -1,21 +1,22 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using TestStack.ConventionTests.ConventionData;
 
-    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : IConvention<ProjectReferences>
+    public class ProjectDoesNotReferenceDllsFromBinOrObjDirectories : Convention<ProjectReferences>
     {
         const string AssemblyReferencingObjRegex = @"^(?<assembly>.*?(obj|bin).*?)$";
 
-        public string ConventionTitle
+        public override string ConventionTitle
         {
             get { return "Project must not reference dlls from bin or obj directories"; }
         }
 
-        public void Execute(ProjectReferences data, IConventionResult result)
+        protected override IEnumerable<object> Execute(ProjectReferences data)
         {
-            result.Is(data.References.Where(IsBinOrObjReference));
+            return data.References.Where(IsBinOrObjReference);
         }
 
         static bool IsBinOrObjReference(ProjectReference reference)
