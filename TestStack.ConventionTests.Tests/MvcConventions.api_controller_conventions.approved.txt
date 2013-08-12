@@ -1,0 +1,11 @@
+﻿Failed: 'WebApi controllers must be suffixed with Controller' for 'TestAssembly'
+--------------------------------------------------------------------------------
+
+	TestAssembly.Controllers.BarApiControler
+
+
+Failed: 'Types named *Controller must inherit from ApiController or Controller' for 'TestAssembly'
+--------------------------------------------------------------------------------------------------
+
+	TestAssembly.Controllers.TestApiController
+	TestAssembly.Controllers.TestController

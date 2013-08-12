@@ -73,6 +73,11 @@
     <Compile Include="Collections\ICanRemove.cs" />
     <Compile Include="Collections\Leaf.cs" />
     <Compile Include="Collections\Tree.cs" />
+    <Compile Include="Controllers\BarApiControler.cs" />
+    <Compile Include="Controllers\FooControler.cs" />
+    <Compile Include="Controllers\MyApiController.cs" />
+    <Compile Include="Controllers\TestApiController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Dtos\AnotherClass.cs" />
     <Compile Include="Dtos\BlahDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
