@@ -1,7 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
-    using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
     /// <summary>
@@ -34,18 +33,17 @@
 
         public void Execute(Types data, IConventionResult result)
         {
-            var failingData = data.TypesToVerify
-                .Where(classIsApplicable)
-                .Where(t => t.Namespace == null || !t.Namespace.StartsWith(namespaceToCheck));
-            var inverseFailingData = data.TypesToVerify
-                .Where(t => !classIsApplicable(t))
-                .Where(t => t.Namespace != null && t.Namespace.StartsWith(namespaceToCheck));
-
             result.IsSymmetric(
                 string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck),
-                failingData, 
                 string.Format("Non-{0}s must not be under the '{1}' namespace", classType, namespaceToCheck),
-                inverseFailingData);
+                classIsApplicable,
+                TypeLivesInSpecifiedNamespace,
+                data.TypesToVerify);
+        }
+
+        bool TypeLivesInSpecifiedNamespace(Type t)
+        {
+            return t.Namespace == null || t.Namespace.StartsWith(namespaceToCheck);
         }
     }
 }

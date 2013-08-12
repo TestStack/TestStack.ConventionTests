@@ -1,13 +1,14 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.Reporting;
 
     public class ConventionResult : IConventionResult
     {
-        readonly string dataDescription;
         readonly List<ResultInfo> conventionResults;
+        readonly string dataDescription;
 
         public ConventionResult(string dataDescription)
         {
@@ -30,20 +31,32 @@
                 failingData.Select(FormatData).ToArray()));
         }
 
-        public void IsSymmetric<T>(
-            string firstResultTitle, IEnumerable<T> firstFailingData,
-            string secondResultTitle, IEnumerable<T> secondFailingData)
+        public void IsSymmetric<TResult>(
+            string conventionResultTitle, IEnumerable<TResult> conventionFailingData,
+            string inverseResultTitle, IEnumerable<TResult> inverseFailingData)
         {
             conventionResults.Add(new ResultInfo(
-                firstFailingData.None() ? TestResult.Passed : TestResult.Failed,
-                firstResultTitle,
+                conventionFailingData.None() ? TestResult.Passed : TestResult.Failed,
+                conventionResultTitle,
                 dataDescription,
-                firstFailingData.Select(FormatData).ToArray()));
+                conventionFailingData.Select(FormatData).ToArray()));
             conventionResults.Add(new ResultInfo(
-                secondFailingData.None() ? TestResult.Passed : TestResult.Failed,
-                secondResultTitle,
+                inverseFailingData.None() ? TestResult.Passed : TestResult.Failed,
+                inverseResultTitle,
                 dataDescription,
-                secondFailingData.Select(FormatData).ToArray()));
+                inverseFailingData.Select(FormatData).ToArray()));
+        }
+
+        public void IsSymmetric<TResult>(string conventionResultTitle, string inverseResultTitle,
+            Func<TResult, bool> isInclusiveData, Func<TResult, bool> dataConformsToConvention,
+            IEnumerable<TResult> allData)
+        {
+            var conventionFailingData = allData.Where(isInclusiveData).Where(d => !dataConformsToConvention(d));
+            var inverseFailingData = allData.Where(d => !isInclusiveData(d)).Where(dataConformsToConvention);
+
+            IsSymmetric(
+                conventionResultTitle, conventionFailingData,
+                inverseResultTitle, inverseFailingData);
         }
 
         static ConventionReportFailure FormatData<T>(T failingData)
@@ -51,7 +64,11 @@
             var formatter = Convention.Formatters.FirstOrDefault(f => f.CanFormat(failingData));
 
             if (formatter == null)
-                throw new NoDataFormatterFoundException(typeof(T).Name + " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+            {
+                throw new NoDataFormatterFoundException(
+                    typeof (T).Name +
+                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+            }
 
             return formatter.Format(failingData);
         }
