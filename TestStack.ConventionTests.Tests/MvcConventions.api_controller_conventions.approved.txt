@@ -1,5 +1,5 @@
-﻿Failed: 'WebApi controllers must be suffixed with Controller' for 'TestAssembly'
---------------------------------------------------------------------------------
+﻿Failed: 'Api Controllers must be suffixed with Controller' for 'TestAssembly'
+-----------------------------------------------------------------------------
 
 	TestAssembly.Controllers.BarApiControler
 

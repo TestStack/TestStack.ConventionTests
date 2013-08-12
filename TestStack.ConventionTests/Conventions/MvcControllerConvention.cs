@@ -1,14 +1,15 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
     public class MvcControllerConvention : IConvention<Types>
     {
-        public void Execute(Types data, IConventionResult result)
+        public void Execute(Types data, IConventionResultContext result)
         {
-            var controllers = data.TypesToVerify.Where(IsMvcController);
+            var controllers = GetControllers(data);
             var typesWhichDoNotEndInController = controllers.Where(c => !c.Name.EndsWith("Controller"));
 
             var typesWhichEndInController = data.TypesToVerify.Where(t => t.Name.EndsWith("Controller"));
@@ -16,9 +17,19 @@
                 typesWhichEndInController.Where(t => !IsMvcController(t) && !IsWebApiController(t));
 
             result.IsSymmetric(
-                "Mvc controllers must be suffixed with Controller", typesWhichDoNotEndInController,
+                GetControllerTypeName() + "s must be suffixed with Controller", typesWhichDoNotEndInController,
                 "Types named *Controller must inherit from ApiController or Controller",
                 controllersWhichDoNotInheritFromController);
+        }
+
+        protected virtual string GetControllerTypeName()
+        {
+            return "Mvc Controller";
+        }
+
+        protected virtual IEnumerable<Type> GetControllers(Types data)
+        {
+            return data.TypesToVerify.Where(IsMvcController);
         }
 
         static bool IsMvcController(Type arg)
@@ -29,7 +40,7 @@
             return isController || IsMvcController(arg.BaseType);
         }
 
-        static bool IsWebApiController(Type arg)
+        protected static bool IsWebApiController(Type arg)
         {
             var isController = arg.FullName == "System.Web.Http.ApiController";
             if (arg.BaseType == null)

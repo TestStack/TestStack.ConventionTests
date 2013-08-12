@@ -63,7 +63,6 @@
     <Compile Include="IConventionResultContext.cs" />
     <Compile Include="Conventions\ApiControllerConvention.cs" />
     <Compile Include="Conventions\MvcControllerConvention.cs" />
-    <Compile Include="IConventionResult.cs" />
     <Compile Include="Internal\ConventionReportFailure.cs" />
     <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\ConventionResult.cs" />

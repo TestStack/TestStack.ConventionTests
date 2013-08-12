@@ -1,4 +1,4 @@
-﻿Failed: 'Mvc controllers must be suffixed with Controller' for 'TestAssembly'
+﻿Failed: 'Mvc Controllers must be suffixed with Controller' for 'TestAssembly'
 -----------------------------------------------------------------------------
 
 	TestAssembly.Controllers.FooControler
