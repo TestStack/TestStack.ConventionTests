@@ -18,5 +18,14 @@
         public string Description { get; private set; }
 
         public bool HasData {get { return TypesToVerify.Any(); }}
+
+        public static Types InAssemblyOf<T>()
+        {
+            var assembly = typeof (T).Assembly;
+            return new Types(assembly.GetName().Name)
+            {
+                TypesToVerify = assembly.GetTypes()
+            };
+        }
     }
 }
