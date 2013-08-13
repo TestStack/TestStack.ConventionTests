@@ -1,45 +1,41 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
-    using System.Linq;
+    using System;
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Reporting;
 
     public static class Executor
     {
-        public static ResultInfo GetConventionReport(string conventionTitle, object[] failingData, IConventionData data)
+        public static ResultInfo[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
+            where TDataSource : IConventionData
         {
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-            var passed = failingData.None();
+            var resultGatherer = new ConventionResult(data.Description);
+            convention.Execute(data, resultGatherer);
 
-            var conventionResult = new ResultInfo(
-                passed ? TestResult.Passed : TestResult.Failed,
-                conventionTitle,
-                data.Description,
-                failingData.Select(FormatData).ToArray());
-            return conventionResult;
+            return resultGatherer.ConventionResults;
         }
 
-        public static ResultInfo GetConventionReportWithApprovedExeptions(string conventionTitle, object[] failingData, IConventionData data)
+        public static ResultInfo[] GetConventionResultsWithApprovedExeptions<TDataSource>(
+            IConvention<TDataSource> convention, TDataSource data)
+            where TDataSource : IConventionData
         {
-            var conventionResult = Executor.GetConventionReport(conventionTitle, failingData, data);
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
             // Add approved exceptions to report
-            conventionReportTextRenderer.RenderItems(conventionResult);
-            conventionResult.WithApprovedException(conventionReportTextRenderer.Output);
+            if (!data.HasData)
+                throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-            return conventionResult;
-        }
+            var resultGatherer = new ConventionResult(data.Description);
+            convention.Execute(data, resultGatherer);
+            foreach (var conventionResult in resultGatherer.ConventionResults)
+            {
+                conventionReportTextRenderer.RenderItems(conventionResult);
+                conventionResult.WithApprovedException(conventionReportTextRenderer.Output);
+            }
 
-        static ConventionReportFailure FormatData<T>(T failingData)
-        {
-            var formatter = Convention.Formatters.FirstOrDefault(f => f.CanFormat(failingData));
-
-            if (formatter == null)
-                throw new NoDataFormatterFoundException(typeof(T).Name + " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
-
-            return formatter.Format(failingData);
+            return resultGatherer.ConventionResults;
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
     /// <summary>
@@ -14,7 +12,7 @@
     /// 
     /// This is a Symmetric convention, and will verify all of a Class Type lives in the namespace, but also that only that class type is in that namespace
     /// </summary>
-    public class ClassTypeHasSpecificNamespace : ISymmetricConvention<Types>
+    public class ClassTypeHasSpecificNamespace : IConvention<Types>
     {
         readonly Func<Type, bool> classIsApplicable;
         readonly string namespaceToCheck;
@@ -33,34 +31,19 @@
             this.classType = classType;
         }
 
-        public string ConventionTitle
+        public void Execute(Types data, IConventionResult result)
         {
-            get
-            {
-                return string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck);
-            }
+            result.IsSymmetric(
+                string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck),
+                string.Format("Non-{0}s must not be under the '{1}' namespace", classType, namespaceToCheck),
+                classIsApplicable,
+                TypeLivesInSpecifiedNamespace,
+                data.TypesToVerify);
         }
 
-        public string InverseTitle
+        bool TypeLivesInSpecifiedNamespace(Type t)
         {
-            get
-            {
-                return string.Format("Non-{0}s must not be under the '{1}' namespace", classType, namespaceToCheck);
-            }
-        }
-
-        public IEnumerable<object> GetFailingData(Types data)
-        {
-            return data.TypesToVerify
-                .Where(classIsApplicable)
-                .Where(t => t.Namespace == null || !t.Namespace.StartsWith(namespaceToCheck));
-        }
-
-        public IEnumerable<object> GetFailingInverseData(Types data)
-        {
-            return data.TypesToVerify
-                .Where(t => !classIsApplicable(t))
-                .Where(t => t.Namespace != null && t.Namespace.StartsWith(namespaceToCheck));
+            return t.Namespace == null || t.Namespace.StartsWith(namespaceToCheck);
         }
     }
 }
