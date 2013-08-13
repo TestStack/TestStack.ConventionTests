@@ -47,16 +47,19 @@
                 inverseFailingData.Select(FormatData).ToArray()));
         }
 
-        public void IsSymmetric<TResult>(string conventionResultTitle, string inverseResultTitle,
-            Func<TResult, bool> isInclusiveData, Func<TResult, bool> dataConformsToConvention,
+        public void IsSymmetric<TResult>(
+            string firstSetFailureTitle,
+            string secondSetFailureTitle,
+            Func<TResult, bool> isPartOfFirstSet,
+            Func<TResult, bool> isPartOfSecondSet,
             IEnumerable<TResult> allData)
         {
-            var conventionFailingData = allData.Where(isInclusiveData).Where(d => !dataConformsToConvention(d));
-            var inverseFailingData = allData.Where(d => !isInclusiveData(d)).Where(dataConformsToConvention);
+            var firstSetFailingData = allData.Where(isPartOfFirstSet).Where(d => !isPartOfSecondSet(d));
+            var secondSetFailingData = allData.Where(d => !isPartOfFirstSet(d)).Where(isPartOfSecondSet);
 
             IsSymmetric(
-                conventionResultTitle, conventionFailingData,
-                inverseResultTitle, inverseFailingData);
+                firstSetFailureTitle, firstSetFailingData,
+                secondSetFailureTitle, secondSetFailingData);
         }
 
         static ConventionReportFailure FormatData<T>(T failingData)
