@@ -14,13 +14,13 @@
         ///     and if a non-dto is in Project.Dto the test will also fail
         /// </summary>
         /// <typeparam name="TResult">The data type the convention is applied to</typeparam>
-        /// <param name="conventionResultTitle">Title of the convention, i.e Dto's must live in Project.Dto namespace</param>
-        /// <param name="conventionFailingData">Data failing to conform to the convention</param>
-        /// <param name="inverseResultTitle">The inverse scenario title, i.e Non-dtos must not live inside Project.Dto namespace</param>
-        /// <param name="inverseFailingData">Data failing to conform to the inverse of the convention</param>
+        /// <param name="firstSetFailureTitle">Title of the convention, i.e Dto's must live in Project.Dto namespace</param>
+        /// <param name="firstSetFailureData">Data failing to conform to the convention</param>
+        /// <param name="secondSetFailureTitle">The inverse scenario title, i.e Non-dtos must not live inside Project.Dto namespace</param>
+        /// <param name="secondSetFailureData">Data failing to conform to the inverse of the convention</param>
         void IsSymmetric<TResult>(
-            string conventionResultTitle, IEnumerable<TResult> conventionFailingData,
-            string inverseResultTitle, IEnumerable<TResult> inverseFailingData);
+            string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
+            string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData);
 
         /// <summary>
         ///     A symmetric convention is a convention which also can be applied in reverse. For example

@@ -32,19 +32,19 @@
         }
 
         public void IsSymmetric<TResult>(
-            string conventionResultTitle, IEnumerable<TResult> conventionFailingData,
-            string inverseResultTitle, IEnumerable<TResult> inverseFailingData)
+            string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
+            string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
             conventionResults.Add(new ResultInfo(
-                conventionFailingData.None() ? TestResult.Passed : TestResult.Failed,
-                conventionResultTitle,
+                firstSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
+                firstSetFailureTitle,
                 dataDescription,
-                conventionFailingData.Select(FormatData).ToArray()));
+                firstSetFailureData.Select(FormatData).ToArray()));
             conventionResults.Add(new ResultInfo(
-                inverseFailingData.None() ? TestResult.Passed : TestResult.Failed,
-                inverseResultTitle,
+                secondSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
+                secondSetFailureTitle,
                 dataDescription,
-                inverseFailingData.Select(FormatData).ToArray()));
+                secondSetFailureData.Select(FormatData).ToArray()));
         }
 
         public void IsSymmetric<TResult>(
