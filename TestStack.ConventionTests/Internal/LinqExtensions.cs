@@ -1,6 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
-
-namespace TestStack.ConventionTests.Internal
+﻿namespace TestStack.ConventionTests.Internal
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +14,12 @@ namespace TestStack.ConventionTests.Internal
         public static bool None<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return !enumerable.Any(predicate);
+        }
+
+
+        public static IEnumerable<T> Unless<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Where(i => predicate(i) == false);
         }
     }
 }

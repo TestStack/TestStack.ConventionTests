@@ -6,7 +6,7 @@
 
     public class AllMethodsAreVirtual : IConvention<Types>
     {
-        public void Execute(Types data, IConventionResult result)
+        public void Execute(Types data, IConventionResultContext result)
         {
             result.Is("Methods must be virtual", data.TypesToVerify.SelectMany(t => t.NonVirtualMethods()));
         }
