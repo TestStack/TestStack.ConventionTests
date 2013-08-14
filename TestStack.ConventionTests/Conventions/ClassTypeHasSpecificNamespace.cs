@@ -31,7 +31,7 @@
             this.classType = classType;
         }
 
-        public void Execute(Types data, IConventionResult result)
+        public void Execute(Types data, IConventionResultContext result)
         {
             result.IsSymmetric(
                 string.Format("{0}s must be under the '{1}' namespace", classType, namespaceToCheck),

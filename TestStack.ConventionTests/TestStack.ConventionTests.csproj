@@ -61,9 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConventionFailedException.cs" />
-    <Compile Include="IConventionResult.cs" />
+    <Compile Include="IConventionResultContext.cs" />
     <Compile Include="Internal\ConventionReportFailure.cs" />
-    <Compile Include="Internal\ConventionResult.cs" />
+    <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\Executor.cs" />
     <Compile Include="Internal\ResultInfo.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />

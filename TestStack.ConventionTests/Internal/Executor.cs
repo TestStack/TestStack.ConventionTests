@@ -11,7 +11,7 @@
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-            var resultGatherer = new ConventionResult(data.Description, Convention.Formatters);
+            var resultGatherer = new ConventionContext(data.Description, Convention.Formatters);
             convention.Execute(data, resultGatherer);
 
             return resultGatherer.ConventionResults;
@@ -26,7 +26,7 @@
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(string.Format("{0} has no data", data.Description));
 
-            var resultGatherer = new ConventionResult(data.Description, Convention.Formatters);
+            var resultGatherer = new ConventionContext(data.Description, Convention.Formatters);
             convention.Execute(data, resultGatherer);
             foreach (var conventionResult in resultGatherer.ConventionResults)
             {

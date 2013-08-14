@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IConventionResult
+    public interface IConventionResultContext
     {
         void Is<T>(string resultTitle, IEnumerable<T> failingData);
 

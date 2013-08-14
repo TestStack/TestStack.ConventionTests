@@ -5,13 +5,13 @@
     using System.Linq;
     using TestStack.ConventionTests.Reporting;
 
-    public class ConventionResult : IConventionResult
+    public class ConventionContext : IConventionResultContext
     {
         readonly List<ResultInfo> conventionResults;
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
 
-        public ConventionResult(string dataDescription, IList<IReportDataFormatter> formatters)
+        public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters)
         {
             this.formatters = formatters;
             this.dataDescription = dataDescription;

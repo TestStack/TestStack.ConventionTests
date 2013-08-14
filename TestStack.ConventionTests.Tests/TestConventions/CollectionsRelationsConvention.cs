@@ -10,7 +10,7 @@
     {
         public string ConventionTitle { get; private set; }
 
-        public void Execute(Types data, IConventionResult result)
+        public void Execute(Types data, IConventionResultContext result)
         {
             ConventionTitle = "well, does the header apply here all across the board? How would that work for CSV?";
             var types = data.TypesToVerify;
