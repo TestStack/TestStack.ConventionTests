@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Reporting;
 
     public class ConventionContext : IConventionResultContext
@@ -74,6 +75,36 @@
             }
 
             return formatter.Format(failingData);
+        }
+
+        public ConventionResult[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
+            where TDataSource : IConventionData
+        {
+            if (!data.HasData)
+                throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
+
+            convention.Execute(data, this);
+
+            return ConventionResults;
+        }
+
+        public ConventionResult[] GetConventionResultsWithApprovedExeptions<TDataSource>(
+            IConvention<TDataSource> convention, TDataSource data)
+            where TDataSource : IConventionData
+        {
+            var conventionReportTextRenderer = new ConventionReportTextRenderer();
+            // Add approved exceptions to report
+            if (!data.HasData)
+                throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
+
+            convention.Execute(data, this);
+            foreach (var conventionResult in ConventionResults)
+            {
+                conventionReportTextRenderer.RenderItems(conventionResult);
+                conventionResult.WithApprovedException(conventionReportTextRenderer.Output);
+            }
+
+            return ConventionResults;
         }
     }
 }

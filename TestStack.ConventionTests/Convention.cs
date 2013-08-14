@@ -40,7 +40,8 @@
         {
             try
             {
-                var conventionResult = Executor.GetConventionResults(convention, data);
+                var context = new ConventionContext(data.Description, Formatters);
+                var conventionResult = context.GetConventionResults(convention, data);
                 Reports.AddRange(conventionResult);
 
                 new ConventionReportTraceRenderer().Render(conventionResult);
@@ -55,7 +56,8 @@
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            var conventionResult = Executor.GetConventionResultsWithApprovedExeptions(convention, data);
+            var context = new ConventionContext(data.Description, Formatters);
+            var conventionResult = context.GetConventionResultsWithApprovedExeptions(convention, data);
             Reports.AddRange(conventionResult);
 
             try
