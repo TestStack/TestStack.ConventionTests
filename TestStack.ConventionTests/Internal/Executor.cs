@@ -1,6 +1,5 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
-    using System;
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Reporting;
 

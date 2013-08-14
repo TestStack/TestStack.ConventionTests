@@ -1,5 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
+    using System.Linq;
     using ApprovalTests;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
@@ -16,7 +17,9 @@
 
         public TypeBasedConventions()
         {
-            var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes();
+            var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes()
+                .Where(t => t.IsClass && t.Namespace == typeof (SampleDomainClass).Namespace)
+                .ToArray();
             nhibernateEntities = new Types("nHibernate Entitites")
             {
                 TypesToVerify = itemsToVerify
