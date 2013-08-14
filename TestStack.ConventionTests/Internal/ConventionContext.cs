@@ -23,7 +23,7 @@
             get { return results.ToArray(); }
         }
 
-        public void Is<T>(string resultTitle, IEnumerable<T> failingData)
+        void IConventionResultContext.Is<T>(string resultTitle, IEnumerable<T> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
             results.Add(new ConventionResult(
@@ -33,7 +33,7 @@
                 failingData.Select(FormatData).ToArray()));
         }
 
-        public void IsSymmetric<TResult>(
+        void IConventionResultContext.IsSymmetric<TResult>(
             string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
@@ -49,7 +49,7 @@
                 secondSetFailureData.Select(FormatData).ToArray()));
         }
 
-        public void IsSymmetric<TResult>(
+        void IConventionResultContext.IsSymmetric<TResult>(
             string firstSetFailureTitle,
             string secondSetFailureTitle,
             Func<TResult, bool> isPartOfFirstSet,
@@ -59,7 +59,7 @@
             var firstSetFailingData = allData.Where(isPartOfFirstSet).Unless(isPartOfSecondSet);
             var secondSetFailingData = allData.Where(isPartOfSecondSet).Unless(isPartOfFirstSet);
 
-            IsSymmetric(
+            (this as IConventionResultContext).IsSymmetric(
                 firstSetFailureTitle, firstSetFailingData,
                 secondSetFailureTitle, secondSetFailingData);
         }
@@ -77,7 +77,8 @@
             return formatter.Format(failingData);
         }
 
-        public ConventionResult[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
+        public ConventionResult[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention,
+            TDataSource data)
             where TDataSource : IConventionData
         {
             if (!data.HasData)
