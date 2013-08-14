@@ -4,6 +4,6 @@
 
     public interface IConventionReportRenderer
     {
-        void Render(params ResultInfo[] conventionResult);
+        void Render(params ConventionResult[] conventionResult);
     }
 }

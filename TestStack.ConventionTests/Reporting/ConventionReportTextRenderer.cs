@@ -5,7 +5,7 @@
 
     public class ConventionReportTextRenderer : IConventionReportRenderer
     {
-        public void Render(params ResultInfo[] conventionResult)
+        public void Render(params ConventionResult[] conventionResult)
         {
             var stringBuilder = new StringBuilder();
 
@@ -34,14 +34,14 @@
 
         public string Output { get; private set; }
 
-        public void RenderItems(ResultInfo conventionResult)
+        public void RenderItems(ConventionResult conventionResult)
         {
             var stringBuilder = new StringBuilder();
             RenderItems(conventionResult, stringBuilder);
             Output = stringBuilder.ToString();
         }
 
-        static void RenderItems(ResultInfo resultInfo, StringBuilder stringBuilder)
+        static void RenderItems(ConventionResult resultInfo, StringBuilder stringBuilder)
         {
             foreach (var conventionFailure in resultInfo.ConventionFailures)
             {

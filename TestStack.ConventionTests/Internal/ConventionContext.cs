@@ -7,26 +7,25 @@
 
     public class ConventionContext : IConventionResultContext
     {
-        readonly List<ResultInfo> conventionResults;
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
+        readonly IList<ConventionResult> results = new List<ConventionResult>();
 
         public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters)
         {
             this.formatters = formatters;
             this.dataDescription = dataDescription;
-            conventionResults = new List<ResultInfo>();
         }
 
-        public ResultInfo[] ConventionResults
+        public ConventionResult[] ConventionResults
         {
-            get { return conventionResults.ToArray(); }
+            get { return results.ToArray(); }
         }
 
         public void Is<T>(string resultTitle, IEnumerable<T> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            conventionResults.Add(new ResultInfo(
+            results.Add(new ConventionResult(
                 failingData.None() ? TestResult.Passed : TestResult.Failed,
                 resultTitle,
                 dataDescription,
@@ -37,12 +36,12 @@
             string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
-            conventionResults.Add(new ResultInfo(
+            results.Add(new ConventionResult(
                 firstSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
                 firstSetFailureTitle,
                 dataDescription,
                 firstSetFailureData.Select(FormatData).ToArray()));
-            conventionResults.Add(new ResultInfo(
+            results.Add(new ConventionResult(
                 secondSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
                 secondSetFailureTitle,
                 dataDescription,

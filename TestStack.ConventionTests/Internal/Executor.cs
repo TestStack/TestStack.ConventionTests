@@ -5,7 +5,7 @@
 
     public static class Executor
     {
-        public static ResultInfo[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
+        public static ConventionResult[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             if (!data.HasData)
@@ -17,7 +17,7 @@
             return resultGatherer.ConventionResults;
         }
 
-        public static ResultInfo[] GetConventionResultsWithApprovedExeptions<TDataSource>(
+        public static ConventionResult[] GetConventionResultsWithApprovedExeptions<TDataSource>(
             IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {

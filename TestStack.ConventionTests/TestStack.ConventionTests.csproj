@@ -65,7 +65,7 @@
     <Compile Include="Internal\ConventionReportFailure.cs" />
     <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\Executor.cs" />
-    <Compile Include="Internal\ResultInfo.cs" />
+    <Compile Include="Internal\ConventionResult.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
     <Compile Include="Reporting\CsvReporter.cs" />
     <Compile Include="Reporting\DefaultFormatter.cs" />

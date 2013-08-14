@@ -12,7 +12,7 @@
     public static class Convention
     {
         static readonly HtmlReportRenderer HtmlRenderer = new HtmlReportRenderer(AssemblyDirectory);
-        static readonly List<ResultInfo> Reports = new List<ResultInfo>();
+        static readonly List<ConventionResult> Reports = new List<ConventionResult>();
 
         static Convention()
         {
@@ -26,7 +26,7 @@
             };
         }
 
-        public static IEnumerable<ResultInfo> ConventionReports { get { return Reports; } }
+        public static IEnumerable<ConventionResult> ConventionReports { get { return Reports; } }
         public static IList<IReportDataFormatter> Formatters { get; set; } 
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
