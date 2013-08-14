@@ -8,7 +8,7 @@
     {
         const string AssemblyReferencingObjRegex = @"^(?<assembly>.*?(obj|bin).*?)$";
 
-        public void Execute(ProjectReferences data, IConventionResult result)
+        public void Execute(ProjectReferences data, IConventionResultContext result)
         {
             result.Is("Project must not reference dlls from bin or obj directories",
                 data.References.Where(IsBinOrObjReference));

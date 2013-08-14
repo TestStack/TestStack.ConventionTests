@@ -12,7 +12,7 @@
 
         public string FileExtension { get; private set; }
 
-        public void Execute(ProjectFiles data, IConventionResult result)
+        public void Execute(ProjectFiles data, IConventionResultContext result)
         {
             result.Is(
                 string.Format("{0} Files must be embedded resources", FileExtension),

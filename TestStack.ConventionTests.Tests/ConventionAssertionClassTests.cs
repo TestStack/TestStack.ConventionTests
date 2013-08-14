@@ -33,7 +33,7 @@
 
         public class FailingConvention : IConvention<FakeData>
         {
-            public void Execute(FakeData data, IConventionResult result)
+            public void Execute(FakeData data, IConventionResultContext result)
             {
                 result.Is("Header", new[] {"Different"});
             }

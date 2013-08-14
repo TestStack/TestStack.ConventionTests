@@ -14,7 +14,7 @@
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Render(params ResultInfo[] conventionResult)
+        public void Render(params ConventionResult[] conventionResult)
         {
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));

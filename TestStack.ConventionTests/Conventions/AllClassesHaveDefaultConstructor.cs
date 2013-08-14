@@ -6,7 +6,7 @@
 
     public class AllClassesHaveDefaultConstructor : IConvention<Types>
     {
-        public void Execute(Types data, IConventionResult result)
+        public void Execute(Types data, IConventionResultContext result)
         {
             result.Is("Types must have a default constructor",
                 data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false));
