@@ -9,9 +9,11 @@
     {
         readonly List<ResultInfo> conventionResults;
         readonly string dataDescription;
+        readonly IList<IReportDataFormatter> formatters;
 
-        public ConventionResult(string dataDescription)
+        public ConventionResult(string dataDescription, IList<IReportDataFormatter> formatters)
         {
+            this.formatters = formatters;
             this.dataDescription = dataDescription;
             conventionResults = new List<ResultInfo>();
         }
@@ -62,10 +64,9 @@
                 secondSetFailureTitle, secondSetFailingData);
         }
 
-        static ConventionReportFailure FormatData<T>(T failingData)
+        ConventionReportFailure FormatData<T>(T failingData)
         {
-            var formatter = Convention.Formatters.FirstOrDefault(f => f.CanFormat(failingData));
-
+            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
             if (formatter == null)
             {
                 throw new NoDataFormatterFoundException(
