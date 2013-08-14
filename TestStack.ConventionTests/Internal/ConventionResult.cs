@@ -54,8 +54,8 @@
             Func<TResult, bool> isPartOfSecondSet,
             IEnumerable<TResult> allData)
         {
-            var firstSetFailingData = allData.Where(isPartOfFirstSet).Where(d => !isPartOfSecondSet(d));
-            var secondSetFailingData = allData.Where(d => !isPartOfFirstSet(d)).Where(isPartOfSecondSet);
+            var firstSetFailingData = allData.Where(isPartOfFirstSet).Unless(isPartOfSecondSet);
+            var secondSetFailingData = allData.Where(isPartOfSecondSet).Unless(isPartOfFirstSet);
 
             IsSymmetric(
                 firstSetFailureTitle, firstSetFailingData,
