@@ -11,6 +11,7 @@
     public class CsvReportTests
     {
         [Test]
+        [Explicit("This is work in progress so ignoring for now")]
         public void Can_run_convention_with_simple_reporter()
         {
             Convention.IsWithApprovedExeptions(new CollectionsRelationsConvention(), new Types("Entities")
