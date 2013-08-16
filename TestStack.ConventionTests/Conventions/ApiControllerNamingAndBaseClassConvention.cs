@@ -5,7 +5,7 @@
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
-    public class ApiControllerConvention : MvcControllerConvention
+    public class ApiControllerNamingAndBaseClassConvention : MvcControllerNameAndBaseClassConvention
     {
         protected override IEnumerable<Type> GetControllers(Types data)
         {
