@@ -2,15 +2,23 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <version>$version$</version>
-    <authors>Krzysztof Kozmic</authors>
-    <owners>Krzysztof Kozmic</owners>
+    <authors>Krzysztof Kozmic, Jake Ginnivan</authors>
+    <owners>Krzysztof Kozmic, Jake Ginnivan</owners>
     <id>ConventionTests</id>
     <title>ConventionTests</title>
+    <tags>xunit nunit convention testing documentation</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simple convention-tester</description>
     <summary>Simple library offering a simple way to test conventions.</summary>
+    <projectUrl>https://github.com/TestStack/ConventionTests</projectUrl>
+    <licenseUrl>https://github.com/TestStack/ConventionTests/blob/master/license.txt</licenseUrl>
+    <releaseNotes>v2 Release Highlights
+ - Can be used with any unit testing framework
+ - Outputs html convention report with your project conventions (living doco)
+ - Pre-packaged conventions</releaseNotes>
     <dependencies>
       <dependency id="Mono.Cecil" />
+      <dependency id="ApprovalTests" />
     </dependencies>
   </metadata>
   <files>
