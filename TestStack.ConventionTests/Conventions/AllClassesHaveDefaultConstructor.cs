@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
-    using TestStack.ConventionTests.Internal;
 
     public class AllClassesHaveDefaultConstructor : IConvention<Types>
     {

@@ -1,4 +1,4 @@
-﻿'Dtos must be under the 'TestAssembly.Dtos' namespace' for 'TestAssembly types'
--------------------------------------------------------------------------------
+﻿'Dtos must be under the 'TestAssembly.Dtos' namespace' for 'TestAssembly'
+-------------------------------------------------------------------------
 
 	TestAssembly.SomeDto

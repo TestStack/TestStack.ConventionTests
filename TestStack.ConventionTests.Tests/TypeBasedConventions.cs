@@ -5,7 +5,6 @@
     using ApprovalTests.Reporters;
     using NUnit.Framework;
     using TestAssembly;
-    using TestAssembly.Dtos;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
 
@@ -17,13 +16,8 @@
 
         public TypeBasedConventions()
         {
-            var itemsToVerify = typeof (SampleDomainClass).Assembly.GetTypes()
-                .Where(t => t.IsClass && t.Namespace == typeof (SampleDomainClass).Namespace)
-                .ToArray();
-            nhibernateEntities = new Types("nHibernate Entitites")
-            {
-                TypesToVerify = itemsToVerify
-            };
+            nhibernateEntities = Types.InAssemblyOf<SampleDomainClass>("nHibernate Entitites",
+                types => types.Where(t => t.IsConcreteClass() && t.Namespace == typeof (SampleDomainClass).Namespace));
         }
 
         [Test]
@@ -57,10 +51,7 @@
         [Test]
         public void dtos_exists_in_dto_namespace()
         {
-            var types = new Types("TestAssembly types")
-            {
-                TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass)}
-            };
+            var types = Types.InAssemblyOf<SomeDto>();
             var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
 
             var ex = Assert.Throws<ConventionFailedException>(() =>Convention.Is(convention, types));
@@ -70,10 +61,7 @@
         [Test]
         public void dtos_exists_in_dto_namespace_wth_approved_exceptions()
         {
-            var types = new Types("TestAssembly types")
-            {
-                TypesToVerify = new[] { typeof(SomeDto), typeof(BlahDto), typeof(AnotherClass) }
-            };
+            var types = Types.InAssemblyOf<SomeDto>();
             var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
 
             Convention.IsWithApprovedExeptions(convention, types);
