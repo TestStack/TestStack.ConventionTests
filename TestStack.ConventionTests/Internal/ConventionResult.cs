@@ -1,7 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
     using System.Linq;
-    using TestStack.ConventionTests.Reporting;
 
     public class ConventionResult
     {
@@ -12,20 +11,13 @@
             Data = data;
         }
 
-        public TestResult Result
-        {
-            get
-            {
-                if (Data.Any())
-                {
-                    return TestResult.Failed;
-                }
-                return TestResult.Passed;
-            }
-        }
-
         public string ConventionTitle { get; private set; }
         public string DataDescription { get; private set; }
         public object[] Data { get; private set; }
+
+        public bool HasData
+        {
+            get { return Data.Any(); }
+        }
     }
 }

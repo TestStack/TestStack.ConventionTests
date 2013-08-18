@@ -11,7 +11,7 @@
 
             foreach (var conventionReport in results)
             {
-                var title = string.Format("{0}: '{1}' for '{2}'", conventionReport.Result, conventionReport.ConventionTitle,
+                var title = string.Format("'{0}' for '{1}'", conventionReport.ConventionTitle,
                     conventionReport.DataDescription);
                 stringBuilder.AppendLine(title);
                 stringBuilder.AppendLine(string.Empty.PadRight(title.Length, '-'));

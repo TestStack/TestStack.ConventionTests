@@ -1,4 +1,4 @@
-﻿Failed: 'Project must not reference dlls from bin or obj directories' for 'TestStack.ConventionTests.Tests'
------------------------------------------------------------------------------------------------------------
+﻿'Project must not reference dlls from bin or obj directories' for 'TestStack.ConventionTests.Tests'
+---------------------------------------------------------------------------------------------------
 
 	bin\Debug\ApprovalTests.dll

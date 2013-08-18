@@ -1,5 +1,4 @@
-﻿Passed: 'Project must not reference dlls from bin or obj directories' for 'TestStack.ConventionTests.Tests'
------------------------------------------------------------------------------------------------------------
+﻿'Project must not reference dlls from bin or obj directories' for 'TestStack.ConventionTests.Tests'
+---------------------------------------------------------------------------------------------------
 
-With approved exceptions:
 	bin\Debug\ApprovalTests.dll

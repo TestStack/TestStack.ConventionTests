@@ -9,7 +9,7 @@
         {
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
             conventionReportTextRenderer.Process(context, results);
-            if (results.Any(r => r.Result == TestResult.Failed))
+            if (results.Any(r => r.HasData))
             {
                 throw new ConventionFailedException(conventionReportTextRenderer.Output);
             }

@@ -39,7 +39,6 @@
                 html.RenderBeginTag(HtmlTextWriterTag.P);
                 html.RenderBeginTag(HtmlTextWriterTag.Div);
                 html.RenderBeginTag(HtmlTextWriterTag.Strong);
-                html.Write(conventionReport.Result+": ");
                 html.RenderEndTag();
                 var title = String.Format("{0} for {1}", conventionReport.ConventionTitle, conventionReport.DataDescription);
                 html.Write(title);
