@@ -1,5 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
+    using System;
     using ApprovalTests;
     using ApprovalTests.Core.Exceptions;
     using TestStack.ConventionTests.Internal;
@@ -16,7 +17,10 @@
             }
             catch (ApprovalException ex)
             {
-                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n" + ex.Message,
+                throw new ConventionFailedException("Approved exceptions for convention differs" +
+                                                    Environment.NewLine +
+                                                    Environment.NewLine +
+                                                    ex.Message,
                     ex);
             }
         }

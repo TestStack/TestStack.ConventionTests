@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using ApprovalTests;
-    using ApprovalTests.Core.Exceptions;
     using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Reporting;
 
@@ -35,7 +33,8 @@
             Is(convention, data, new ThrowOnFailureResultsProcessor());
         }
 
-        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data, IResultsProcessor reporter) 
+        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            IResultsProcessor processor)
             where TDataSource : IConventionData
         {
             try
@@ -45,7 +44,7 @@
                 Reports.AddRange(conventionResult);
 
                 new ConventionReportTraceRenderer().Process(conventionResult);
-                reporter.Process(conventionResult);
+                processor.Process(conventionResult);
             }
             finally
             {
@@ -56,26 +55,7 @@
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            var context = new ConventionContext(data.Description, Formatters);
-            var conventionResult = context.Execute(convention, data);
-            Reports.AddRange(conventionResult);
-
-            try
-            {
-                var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.Process(conventionResult);
-                Approvals.Verify(conventionReportTextRenderer.Output);
-
-                new ConventionReportTraceRenderer().Process(conventionResult);
-            }
-            catch (ApprovalException ex)
-            {
-                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n"+ex.Message, ex);
-            }
-            finally
-            {
-                HtmlRenderer.Process(Reports.ToArray());
-            }
+            Is(convention, data, new ApproveResultsProcessor());
         }
 
         // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
