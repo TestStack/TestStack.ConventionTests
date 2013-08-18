@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConventionData\TypeExtensions.cs" />
     <Compile Include="ConventionFailedException.cs" />
     <Compile Include="IConventionResultContext.cs" />
     <Compile Include="Internal\ConventionReportFailure.cs" />
@@ -121,6 +122,6 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-    <Copy SourceFiles="..\Readme.md" DestinationFiles="$(OutputPath)\Readme.txt" />
+    <Copy SourceFiles="..\Readme.md" DestinationFiles="$(OutputPath)\Readme.txt" Condition="'$(NCrunch)' != '1'" />
   </Target>
 </Project>
