@@ -61,6 +61,8 @@
     <Compile Include="ConventionData\TypeExtensions.cs" />
     <Compile Include="ConventionFailedException.cs" />
     <Compile Include="IConventionResultContext.cs" />
+    <Compile Include="Conventions\ApiControllerNamingAndBaseClassConvention.cs" />
+    <Compile Include="Conventions\MvcControllerNameAndBaseClassConvention.cs" />
     <Compile Include="Internal\ConventionReportFailure.cs" />
     <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
