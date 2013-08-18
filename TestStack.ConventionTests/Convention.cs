@@ -10,7 +10,6 @@
     public static class Convention
     {
         static readonly HtmlReportRenderer HtmlRenderer = new HtmlReportRenderer(AssemblyDirectory);
-        static readonly List<ConventionResult> Reports = new List<ConventionResult>();
 
         static Convention()
         {
@@ -24,38 +23,41 @@
             };
         }
 
-        public static IEnumerable<ConventionResult> ConventionReports { get { return Reports; } }
-        public static IList<IReportDataFormatter> Formatters { get; set; } 
+        public static IList<IReportDataFormatter> Formatters { get; set; }
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            Is(convention, data, new ThrowOnFailureResultsProcessor());
+            Is(convention, data, new IResultsProcessor[]
+            {
+                HtmlRenderer,
+                new ConventionReportTraceRenderer(),
+                new ThrowOnFailureResultsProcessor()
+            });
         }
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            IResultsProcessor processor)
+            IResultsProcessor[] processors)
             where TDataSource : IConventionData
         {
-            try
-            {
-                var context = new ConventionContext(data.Description, Formatters);
-                var conventionResult = context.Execute(convention, data);
-                Reports.AddRange(conventionResult);
+            var context = new ConventionContext(data.Description, Formatters);
+            var conventionResult = context.Execute(convention, data);
 
-                new ConventionReportTraceRenderer().Process(conventionResult);
-                processor.Process(conventionResult);
-            }
-            finally
+            foreach (var processor in processors)
             {
-                HtmlRenderer.Process(Reports.ToArray());
+                processor.Process(conventionResult);
             }
         }
 
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            Is(convention, data, new ApproveResultsProcessor());
+            Is(convention, data, new IResultsProcessor[]
+            {
+                HtmlRenderer,
+                new ConventionReportTraceRenderer(),
+                new ApproveResultsProcessor()
+            });
         }
 
         // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
