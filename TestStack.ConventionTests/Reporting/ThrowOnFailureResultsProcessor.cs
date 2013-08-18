@@ -1,5 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
+    using System;
     using System.Linq;
     using TestStack.ConventionTests.Internal;
 
@@ -7,12 +8,12 @@
     {
         public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
-            var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Process(context, results);
-            if (results.Any(r => r.HasData))
+            var invalidResults = results.Where(r => r.HasData).Select(r => r.FormattedResult).ToArray();
+            if (invalidResults.None())
             {
-                throw new ConventionFailedException(conventionReportTextRenderer.Output);
+                return;
             }
+            throw new ConventionFailedException(string.Join(Environment.NewLine, invalidResults));
         }
     }
 }

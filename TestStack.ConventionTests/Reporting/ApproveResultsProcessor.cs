@@ -1,6 +1,8 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using ApprovalTests;
     using ApprovalTests.Core.Exceptions;
     using TestStack.ConventionTests.Internal;
@@ -9,20 +11,37 @@
     {
         public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
-            try
+            var failedApprovals = new List<ApprovalException>();
+            for (var count = 0; count < results.Length; count++)
             {
-                var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.Process(context, results);
-                Approvals.Verify(conventionReportTextRenderer.Output);
+                var result = results[count];
+                try
+                {
+                    Approvals.Verify(new ConventionTestsApprovalTextWriter(result.FormattedResult, count,result.RecommendedFileExtension));
+                }
+                catch (ApprovalException ex)
+                {
+                    failedApprovals.Add(ex);
+                }
             }
-            catch (ApprovalException ex)
+            if (failedApprovals.Count == 0)
             {
+                return;
+            }
+            if (failedApprovals.Count == 1)
+            {
+                var ex = failedApprovals[0];
                 throw new ConventionFailedException("Approved exceptions for convention differs" +
                                                     Environment.NewLine +
                                                     Environment.NewLine +
-                                                    ex.Message,
-                    ex);
+                                                    ex.Message, ex);
             }
+            throw new ConventionFailedException("Approved exceptions for convention differs" +
+                                                Environment.NewLine +
+                                                Environment.NewLine +
+                                                string.Join(Environment.NewLine,
+                                                    failedApprovals.Select(x => x.Message)),
+                new AggregateException(failedApprovals.ToArray()));
         }
     }
 }

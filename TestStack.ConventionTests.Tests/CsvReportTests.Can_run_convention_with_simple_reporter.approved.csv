@@ -1,0 +1,5 @@
+﻿collection,item,can add,can remove
+TestAssembly.Collections.Branch,TestAssembly.Collections.Leaf,False,False
+TestAssembly.Collections.Forest,TestAssembly.Collections.Tree,True,True
+TestAssembly.Collections.Tree,TestAssembly.Collections.Branch,True,False
+TestAssembly.Collections.Tree,TestAssembly.Collections.Leaf,False,False

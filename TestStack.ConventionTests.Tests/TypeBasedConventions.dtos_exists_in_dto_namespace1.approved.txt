@@ -1,0 +1,4 @@
+﻿'Non-Dtos must not be under the 'TestAssembly.Dtos' namespace' for 'TestAssembly types'
+---------------------------------------------------------------------------------------
+
+	TestAssembly.Dtos.AnotherClass

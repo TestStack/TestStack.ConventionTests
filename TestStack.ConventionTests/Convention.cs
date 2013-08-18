@@ -19,24 +19,41 @@
                 new ProjectReferenceFormatter(),
                 new ProjectFileFormatter(),
                 new MethodInfoDataFormatter(),
-                new StringDataFormatter()
+                new StringDataFormatter(),
+                new ConvertibleFormatter(),
+                new FallbackFormatter()
             };
         }
 
         public static IList<IReportDataFormatter> Formatters { get; set; }
 
-        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
-            where TDataSource : IConventionData
+        static string AssemblyDirectory
         {
-            Is(convention, data, new IResultsProcessor[]
+            get
             {
-                HtmlRenderer,
-                new ConventionReportTraceRenderer(),
-                new ThrowOnFailureResultsProcessor()
-            });
+                // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
+                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                var uri = new UriBuilder(codeBase);
+                var path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
         }
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            params IResultsProcessor[] extraResultProcessors)
+            where TDataSource : IConventionData
+        {
+            var processors = new List<IResultsProcessor>(extraResultProcessors)
+            {
+                new ConventionReportTextRenderer(),
+                HtmlRenderer,
+                new ConventionReportTraceRenderer(),
+                new ThrowOnFailureResultsProcessor()
+            };
+            Execute(convention, data, processors.ToArray());
+        }
+
+        static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
             IResultsProcessor[] processors)
             where TDataSource : IConventionData
         {
@@ -44,27 +61,18 @@
             context.Execute(convention, data);
         }
 
-        public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
+        public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            params IResultsProcessor[] extraResultProcessors)
             where TDataSource : IConventionData
         {
-            Is(convention, data, new IResultsProcessor[]
+            var processors = new List<IResultsProcessor>(extraResultProcessors)
             {
+                new ConventionReportTextRenderer(),
                 HtmlRenderer,
                 new ConventionReportTraceRenderer(),
                 new ApproveResultsProcessor()
-            });
-        }
-
-        // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
-        static string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                var uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
+            };
+            Execute(convention, data, processors.ToArray());
         }
     }
 }

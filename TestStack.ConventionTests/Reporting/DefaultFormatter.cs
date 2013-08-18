@@ -3,15 +3,14 @@
     using System;
     using System.Linq;
     using System.Reflection;
+    using TestStack.ConventionTests.Internal;
 
     public class DefaultFormatter
     {
         readonly PropertyInfo[] properties;
-        readonly Type type;
 
         public DefaultFormatter(Type type)
         {
-            this.type = type;
             properties = type.GetProperties();
         }
 
@@ -26,9 +25,9 @@
             return property.Name.Replace('_', ' ');
         }
 
-        public string[] DesribeItem(object result)
+        public string[] DesribeItem(object result, IConventionFormatContext context)
         {
-            return properties.Select(p => p.GetValue(result, null).ToString()).ToArray();
+            return properties.Select(p => context.FormatData(p.GetValue(result, null)).ToString()).ToArray();
         }
     }
 }

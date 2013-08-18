@@ -7,25 +7,23 @@
     {
         public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
-            var stringBuilder = new StringBuilder();
-
-            foreach (var conventionReport in results)
+            foreach (var result in results)
             {
-                var title = string.Format("'{0}' for '{1}'", conventionReport.ConventionTitle,
-                    conventionReport.DataDescription);
-                stringBuilder.AppendLine(title);
-                stringBuilder.AppendLine(string.Empty.PadRight(title.Length, '-'));
-                stringBuilder.AppendLine();
+                if (result.FormattedResult != null)
+                {
+                    continue;
+                }
+                var description = new StringBuilder();
+                var title = string.Format("'{0}' for '{1}'", result.ConventionTitle,
+                    result.DataDescription);
+                description.AppendLine(title);
+                description.AppendLine(string.Empty.PadRight(title.Length, '-'));
+                description.AppendLine();
 
-                RenderItems(conventionReport, stringBuilder, context);
-                stringBuilder.AppendLine();
-                stringBuilder.AppendLine();
+                RenderItems(result, description, context);
+                result.WithFormattedResult(description.ToString());
             }
-
-            Output = stringBuilder.ToString().TrimEnd();
         }
-
-        public string Output { get; private set; }
 
         static void RenderItems(ConventionResult resultInfo, StringBuilder stringBuilder, IConventionFormatContext context)
         {

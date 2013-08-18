@@ -7,9 +7,10 @@
     {
         public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
-            var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Process(context, results);
-            Trace.WriteLine(conventionReportTextRenderer.Output);
+            foreach (var conventionResult in results)
+            {
+                Trace.WriteLine(conventionResult.FormattedResult);
+            }
         }
     }
 }

@@ -39,10 +39,12 @@
             return formatter.Format(failingData);
         }
 
-        void IConventionResultContext.Is<T>(string resultTitle, IEnumerable<T> failingData)
+        void IConventionResultContext.Is<TResult>(string resultTitle, IEnumerable<TResult> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            results.Add(new ConventionResult(resultTitle,
+            results.Add(new ConventionResult(
+                typeof(TResult),
+                resultTitle,
                 dataDescription,
                 failingData.ToObjectArray()));
         }
@@ -51,10 +53,12 @@
             string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
-            results.Add(new ConventionResult(firstSetFailureTitle,
+            results.Add(new ConventionResult(
+                typeof(TResult), firstSetFailureTitle,
                 dataDescription,
                 firstSetFailureData.ToObjectArray()));
-            results.Add(new ConventionResult(secondSetFailureTitle,
+            results.Add(new ConventionResult(
+                typeof(TResult), secondSetFailureTitle,
                 dataDescription,
                 secondSetFailureData.ToObjectArray()));
         }
