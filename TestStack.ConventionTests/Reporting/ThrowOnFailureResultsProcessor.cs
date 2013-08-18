@@ -3,13 +3,13 @@
     using System.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class ConventionResultExceptionReporter : IResultsProcessor
+    public class ThrowOnFailureResultsProcessor : IResultsProcessor
     {
-        public void Process(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] results)
         {
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Process(conventionResult);
-            if (conventionResult.Any(r => r.Result == TestResult.Failed))
+            conventionReportTextRenderer.Process(results);
+            if (results.Any(r => r.Result == TestResult.Failed))
             {
                 throw new ConventionFailedException(conventionReportTextRenderer.Output);
             }

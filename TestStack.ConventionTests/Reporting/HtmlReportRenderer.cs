@@ -14,7 +14,7 @@
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Process(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] results)
         {
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));
@@ -29,7 +29,7 @@
             html.Write("Project Conventions");
             html.RenderEndTag();
 
-            foreach (var conventionReport in conventionResult)
+            foreach (var conventionReport in results)
             {
                 html.RenderBeginTag(HtmlTextWriterTag.P);
                 html.RenderBeginTag(HtmlTextWriterTag.Div);

@@ -5,11 +5,11 @@
 
     public class ConventionReportTextRenderer : IResultsProcessor
     {
-        public void Process(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] results)
         {
             var stringBuilder = new StringBuilder();
 
-            foreach (var conventionReport in conventionResult)
+            foreach (var conventionReport in results)
             {
                 var title = string.Format("{0}: '{1}' for '{2}'", conventionReport.Result, conventionReport.ConventionTitle,
                     conventionReport.DataDescription);

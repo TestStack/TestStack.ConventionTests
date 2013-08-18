@@ -32,7 +32,7 @@
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
-            Is(convention, data, new ConventionResultExceptionReporter());
+            Is(convention, data, new ThrowOnFailureResultsProcessor());
         }
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data, IResultsProcessor reporter) 
