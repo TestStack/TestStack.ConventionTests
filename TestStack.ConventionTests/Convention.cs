@@ -4,15 +4,12 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using ApprovalTests;
-    using ApprovalTests.Core.Exceptions;
     using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Reporting;
 
     public static class Convention
     {
         static readonly HtmlReportRenderer HtmlRenderer = new HtmlReportRenderer(AssemblyDirectory);
-        static readonly List<ConventionResult> Reports = new List<ConventionResult>();
 
         static Convention()
         {
@@ -22,72 +19,60 @@
                 new ProjectReferenceFormatter(),
                 new ProjectFileFormatter(),
                 new MethodInfoDataFormatter(),
-                new StringDataFormatter()
+                new StringDataFormatter(),
+                new ConvertibleFormatter(),
+                new FallbackFormatter()
             };
         }
 
-        public static IEnumerable<ConventionResult> ConventionReports { get { return Reports; } }
-        public static IList<IReportDataFormatter> Formatters { get; set; } 
+        public static IList<IReportDataFormatter> Formatters { get; set; }
 
-        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
-            where TDataSource : IConventionData
-        {
-            Is(convention, data, new ConventionResultExceptionReporter());
-        }
-
-        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data, IConventionReportRenderer reporter) 
-            where TDataSource : IConventionData
-        {
-            try
-            {
-                var context = new ConventionContext(data.Description, Formatters);
-                var conventionResult = context.GetConventionResults(convention, data);
-                Reports.AddRange(conventionResult);
-
-                new ConventionReportTraceRenderer().Render(conventionResult);
-                reporter.Render(conventionResult);
-            }
-            finally
-            {
-                HtmlRenderer.Render(Reports.ToArray());
-            }
-        }
-
-        public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
-            where TDataSource : IConventionData
-        {
-            var context = new ConventionContext(data.Description, Formatters);
-            var conventionResult = context.GetConventionResultsWithApprovedExeptions(convention, data);
-            Reports.AddRange(conventionResult);
-
-            try
-            {
-                var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.Render(conventionResult);
-                Approvals.Verify(conventionReportTextRenderer.Output);
-
-                new ConventionReportTraceRenderer().Render(conventionResult);
-            }
-            catch (ApprovalException ex)
-            {
-                throw new ConventionFailedException("Approved exceptions for convention differs\r\n\r\n"+ex.Message, ex);
-            }
-            finally
-            {
-                HtmlRenderer.Render(Reports.ToArray());
-            }
-        }
-
-        // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
         static string AssemblyDirectory
         {
             get
             {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
+                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
                 var uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
+                var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
             }
+        }
+
+        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            params IResultsProcessor[] extraResultProcessors)
+            where TDataSource : IConventionData
+        {
+            var processors = new List<IResultsProcessor>(extraResultProcessors)
+            {
+                new ConventionReportTextRenderer(),
+                HtmlRenderer,
+                new ConventionReportTraceRenderer(),
+                new ThrowOnFailureResultsProcessor()
+            };
+            Execute(convention, data, processors.ToArray());
+        }
+
+        static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            IResultsProcessor[] processors)
+            where TDataSource : IConventionData
+        {
+            var context = new ConventionContext(data.Description, Formatters, processors);
+            context.Execute(convention, data);
+        }
+
+        public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            params IResultsProcessor[] extraResultProcessors)
+            where TDataSource : IConventionData
+        {
+            var processors = new List<IResultsProcessor>(extraResultProcessors)
+            {
+                new ConventionReportTextRenderer(),
+                HtmlRenderer,
+                new ConventionReportTraceRenderer(),
+                new ApproveResultsProcessor()
+            };
+            Execute(convention, data, processors.ToArray());
         }
     }
 }

@@ -6,15 +6,18 @@
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Reporting;
 
-    public class ConventionContext : IConventionResultContext
+    public class ConventionContext : IConventionResultContext, IConventionFormatContext
     {
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
+        readonly IList<IResultsProcessor> processors;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
 
-        public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters)
+        public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
+            IList<IResultsProcessor> processors)
         {
             this.formatters = formatters;
+            this.processors = processors;
             this.dataDescription = dataDescription;
         }
 
@@ -23,14 +26,27 @@
             get { return results.ToArray(); }
         }
 
-        void IConventionResultContext.Is<T>(string resultTitle, IEnumerable<T> failingData)
+        ConventionReportFailure IConventionFormatContext.FormatData(object failingData)
+        {
+            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
+            if (formatter == null)
+            {
+                throw new NoDataFormatterFoundException(
+                    failingData.GetType().Name +
+                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+            }
+
+            return formatter.Format(failingData);
+        }
+
+        void IConventionResultContext.Is<TResult>(string resultTitle, IEnumerable<TResult> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
             results.Add(new ConventionResult(
-                failingData.None() ? TestResult.Passed : TestResult.Failed,
+                typeof(TResult),
                 resultTitle,
                 dataDescription,
-                failingData.Select(FormatData).ToArray()));
+                failingData.ToObjectArray()));
         }
 
         void IConventionResultContext.IsSymmetric<TResult>(
@@ -38,15 +54,13 @@
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
             results.Add(new ConventionResult(
-                firstSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
-                firstSetFailureTitle,
+                typeof(TResult), firstSetFailureTitle,
                 dataDescription,
-                firstSetFailureData.Select(FormatData).ToArray()));
+                firstSetFailureData.ToObjectArray()));
             results.Add(new ConventionResult(
-                secondSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
-                secondSetFailureTitle,
+                typeof(TResult), secondSetFailureTitle,
                 dataDescription,
-                secondSetFailureData.Select(FormatData).ToArray()));
+                secondSetFailureData.ToObjectArray()));
         }
 
         void IConventionResultContext.IsSymmetric<TResult>(
@@ -64,48 +78,17 @@
                 secondSetFailureTitle, secondSetFailingData);
         }
 
-        ConventionReportFailure FormatData<T>(T failingData)
-        {
-            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
-            if (formatter == null)
-            {
-                throw new NoDataFormatterFoundException(
-                    typeof (T).Name +
-                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
-            }
-
-            return formatter.Format(failingData);
-        }
-
-        public ConventionResult[] GetConventionResults<TDataSource>(IConvention<TDataSource> convention,
-            TDataSource data)
+        public void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
-
             convention.Execute(data, this);
 
-            return ConventionResults;
-        }
-
-        public ConventionResult[] GetConventionResultsWithApprovedExeptions<TDataSource>(
-            IConvention<TDataSource> convention, TDataSource data)
-            where TDataSource : IConventionData
-        {
-            var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            // Add approved exceptions to report
-            if (!data.HasData)
-                throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
-
-            convention.Execute(data, this);
-            foreach (var conventionResult in ConventionResults)
+            foreach (var resultsProcessor in processors)
             {
-                conventionReportTextRenderer.RenderItems(conventionResult);
-                conventionResult.WithApprovedException(conventionReportTextRenderer.Output);
+                resultsProcessor.Process(this, ConventionResults);
             }
-
-            return ConventionResults;
         }
     }
 }
