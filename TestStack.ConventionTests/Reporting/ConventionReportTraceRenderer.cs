@@ -3,12 +3,12 @@
     using System.Diagnostics;
     using TestStack.ConventionTests.Internal;
 
-    public class ConventionReportTraceRenderer : IConventionReportRenderer
+    public class ConventionReportTraceRenderer : IResultsProcessor
     {
-        public void Render(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] conventionResult)
         {
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Render(conventionResult);
+            conventionReportTextRenderer.Process(conventionResult);
             Trace.WriteLine(conventionReportTextRenderer.Output);
         }
     }

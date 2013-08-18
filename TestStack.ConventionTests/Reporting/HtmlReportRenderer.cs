@@ -5,7 +5,7 @@
     using System.Web.UI;
     using TestStack.ConventionTests.Internal;
 
-    public class HtmlReportRenderer : IConventionReportRenderer
+    public class HtmlReportRenderer : IResultsProcessor
     {
         readonly string file;
 
@@ -14,7 +14,7 @@
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Render(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] conventionResult)
         {
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));

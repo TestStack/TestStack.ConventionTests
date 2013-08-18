@@ -35,7 +35,7 @@
             Is(convention, data, new ConventionResultExceptionReporter());
         }
 
-        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data, IConventionReportRenderer reporter) 
+        public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data, IResultsProcessor reporter) 
             where TDataSource : IConventionData
         {
             try
@@ -44,12 +44,12 @@
                 var conventionResult = context.GetConventionResults(convention, data);
                 Reports.AddRange(conventionResult);
 
-                new ConventionReportTraceRenderer().Render(conventionResult);
-                reporter.Render(conventionResult);
+                new ConventionReportTraceRenderer().Process(conventionResult);
+                reporter.Process(conventionResult);
             }
             finally
             {
-                HtmlRenderer.Render(Reports.ToArray());
+                HtmlRenderer.Process(Reports.ToArray());
             }
         }
 
@@ -63,10 +63,10 @@
             try
             {
                 var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.Render(conventionResult);
+                conventionReportTextRenderer.Process(conventionResult);
                 Approvals.Verify(conventionReportTextRenderer.Output);
 
-                new ConventionReportTraceRenderer().Render(conventionResult);
+                new ConventionReportTraceRenderer().Process(conventionResult);
             }
             catch (ApprovalException ex)
             {
@@ -74,7 +74,7 @@
             }
             finally
             {
-                HtmlRenderer.Render(Reports.ToArray());
+                HtmlRenderer.Process(Reports.ToArray());
             }
         }
 

@@ -2,8 +2,8 @@
 {
     using TestStack.ConventionTests.Internal;
 
-    public interface IConventionReportRenderer
+    public interface IResultsProcessor
     {
-        void Render(params ConventionResult[] conventionResult);
+        void Process(params ConventionResult[] conventionResult);
     }
 }

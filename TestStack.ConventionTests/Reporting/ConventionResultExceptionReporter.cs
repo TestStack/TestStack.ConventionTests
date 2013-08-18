@@ -3,12 +3,12 @@
     using System.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class ConventionResultExceptionReporter : IConventionReportRenderer
+    public class ConventionResultExceptionReporter : IResultsProcessor
     {
-        public void Render(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] conventionResult)
         {
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Render(conventionResult);
+            conventionReportTextRenderer.Process(conventionResult);
             if (conventionResult.Any(r => r.Result == TestResult.Failed))
             {
                 throw new ConventionFailedException(conventionReportTextRenderer.Output);

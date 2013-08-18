@@ -63,7 +63,6 @@
     <Compile Include="Internal\ConventionReportFailure.cs" />
     <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
-    <Compile Include="Internal\IResultsProcessor.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
     <Compile Include="Reporting\CsvReporter.cs" />
     <Compile Include="Reporting\DefaultFormatter.cs" />
@@ -81,7 +80,7 @@
     <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
     <Compile Include="Conventions\AllClassesHaveDefaultConstructor.cs" />
     <Compile Include="Conventions\FilesAreEmbeddedResources.cs" />
-    <Compile Include="Reporting\IConventionReportRenderer.cs" />
+    <Compile Include="Reporting\IResultsProcessor.cs" />
     <Compile Include="Reporting\IReportDataFormatter.cs" />
     <Compile Include="Internal\AssemblyProjectLocator.cs" />
     <Compile Include="Convention.cs" />

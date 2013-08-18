@@ -3,9 +3,9 @@
     using System.Text;
     using TestStack.ConventionTests.Internal;
 
-    public class ConventionReportTextRenderer : IConventionReportRenderer
+    public class ConventionReportTextRenderer : IResultsProcessor
     {
-        public void Render(params ConventionResult[] conventionResult)
+        public void Process(params ConventionResult[] conventionResult)
         {
             var stringBuilder = new StringBuilder();
 
