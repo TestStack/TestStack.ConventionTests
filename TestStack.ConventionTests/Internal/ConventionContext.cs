@@ -26,9 +26,7 @@
         void IConventionResultContext.Is<T>(string resultTitle, IEnumerable<T> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
-            results.Add(new ConventionResult(
-                failingData.None() ? TestResult.Passed : TestResult.Failed,
-                resultTitle,
+            results.Add(new ConventionResult(resultTitle,
                 dataDescription,
                 failingData.Select(FormatData).ToArray()));
         }
@@ -37,14 +35,10 @@
             string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
-            results.Add(new ConventionResult(
-                firstSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
-                firstSetFailureTitle,
+            results.Add(new ConventionResult(firstSetFailureTitle,
                 dataDescription,
                 firstSetFailureData.Select(FormatData).ToArray()));
-            results.Add(new ConventionResult(
-                secondSetFailureData.None() ? TestResult.Passed : TestResult.Failed,
-                secondSetFailureTitle,
+            results.Add(new ConventionResult(secondSetFailureTitle,
                 dataDescription,
                 secondSetFailureData.Select(FormatData).ToArray()));
         }

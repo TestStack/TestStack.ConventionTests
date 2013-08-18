@@ -1,28 +1,32 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
+    using System.Linq;
     using TestStack.ConventionTests.Reporting;
 
     public class ConventionResult
     {
-        public TestResult Result { get; private set; }
-        public string ConventionTitle { get; private set; }
-        public string DataDescription { get; private set; }
-        public ConventionReportFailure[] ConventionFailures { get; private set; }
-        public string ApprovedException { get; private set; }
-
-        public ConventionResult(TestResult result, string conventionTitle, string dataDescription, ConventionReportFailure[] conventionFailures)
+        public ConventionResult(string conventionTitle, string dataDescription, ConventionReportFailure[] conventionFailures)
         {
-            Result = result;
             ConventionTitle = conventionTitle;
             DataDescription = dataDescription;
             ConventionFailures = conventionFailures;
         }
 
-        public void WithApprovedException(string output)
+        public TestResult Result
         {
-            ApprovedException = output;
-            Result = TestResult.Passed;
-            ConventionFailures = new ConventionReportFailure[0];
+            get
+            {
+                if (ConventionFailures.Any())
+                {
+                    return TestResult.Failed;
+                }
+                return TestResult.Passed;
+            }
         }
+
+        public string ConventionTitle { get; private set; }
+        public string DataDescription { get; private set; }
+        public ConventionReportFailure[] ConventionFailures { get; private set; }
+        public string ApprovedException { get; private set; }
     }
 }
