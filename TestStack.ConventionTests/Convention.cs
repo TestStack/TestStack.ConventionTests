@@ -40,13 +40,8 @@
             IResultsProcessor[] processors)
             where TDataSource : IConventionData
         {
-            var context = new ConventionContext(data.Description, Formatters);
-            var conventionResult = context.Execute(convention, data);
-
-            foreach (var processor in processors)
-            {
-                processor.Process(conventionResult);
-            }
+            var context = new ConventionContext(data.Description, Formatters, processors);
+            context.Execute(convention, data);
         }
 
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data)

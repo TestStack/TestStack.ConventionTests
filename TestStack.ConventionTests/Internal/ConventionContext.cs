@@ -10,11 +10,14 @@
     {
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
+        readonly IList<IResultsProcessor> processors;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
 
-        public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters)
+        public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
+            IList<IResultsProcessor> processors)
         {
             this.formatters = formatters;
+            this.processors = processors;
             this.dataDescription = dataDescription;
         }
 
@@ -71,15 +74,17 @@
             return formatter.Format(failingData);
         }
 
-        public ConventionResult[] Execute<TDataSource>(IConvention<TDataSource> convention,
-            TDataSource data)
+        public void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
             convention.Execute(data, this);
 
-            return ConventionResults;
+            foreach (var resultsProcessor in processors)
+            {
+                resultsProcessor.Process(ConventionResults);
+            }
         }
     }
 }
