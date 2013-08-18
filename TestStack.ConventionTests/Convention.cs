@@ -41,7 +41,7 @@
             try
             {
                 var context = new ConventionContext(data.Description, Formatters);
-                var conventionResult = context.GetConventionResults(convention, data);
+                var conventionResult = context.Execute(convention, data);
                 Reports.AddRange(conventionResult);
 
                 new ConventionReportTraceRenderer().Process(conventionResult);
@@ -57,7 +57,7 @@
             where TDataSource : IConventionData
         {
             var context = new ConventionContext(data.Description, Formatters);
-            var conventionResult = context.GetConventionResultsWithApprovedExeptions(convention, data);
+            var conventionResult = context.Execute(convention, data);
             Reports.AddRange(conventionResult);
 
             try
