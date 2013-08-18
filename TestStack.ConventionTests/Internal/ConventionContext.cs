@@ -83,7 +83,6 @@
         {
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
-
             convention.Execute(data, this);
 
             return ConventionResults;
