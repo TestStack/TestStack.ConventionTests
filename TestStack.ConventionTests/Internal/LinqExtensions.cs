@@ -16,10 +16,14 @@
             return !enumerable.Any(predicate);
         }
 
-
         public static IEnumerable<T> Unless<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Where(i => predicate(i) == false);
+        }
+
+        public static object[] ToObjectArray<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.Select(x => (object) x).ToArray();
         }
     }
 }

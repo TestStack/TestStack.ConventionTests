@@ -1,4 +1,4 @@
-﻿Failed: 'Methods must be virtual' for 'nHibernate Entitites'
-------------------------------------------------------------
+﻿'Methods must be virtual' for 'nHibernate Entitites'
+----------------------------------------------------
 
 	TestAssembly.SampleDomainClass.TestNonVirtual

@@ -1,21 +1,26 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
     using System.Web.UI;
     using TestStack.ConventionTests.Internal;
 
-    public class HtmlReportRenderer : IConventionReportRenderer
+    public class HtmlReportRenderer : IResultsProcessor
     {
         readonly string file;
+        static readonly List<ConventionResult> Reports = new List<ConventionResult>();
+        public static IEnumerable<ConventionResult> ConventionReports { get { return Reports; } }
 
         public HtmlReportRenderer(string assemblyDirectory)
         {
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Render(params ConventionResult[] conventionResult)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
+            Reports.AddRange(results);
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));
             html.WriteLine("<!DOCTYPE html>");
@@ -29,37 +34,22 @@
             html.Write("Project Conventions");
             html.RenderEndTag();
 
-            foreach (var conventionReport in conventionResult)
+            foreach (var conventionReport in Reports)
             {
                 html.RenderBeginTag(HtmlTextWriterTag.P);
                 html.RenderBeginTag(HtmlTextWriterTag.Div);
                 html.RenderBeginTag(HtmlTextWriterTag.Strong);
-                html.Write(conventionReport.Result+": ");
                 html.RenderEndTag();
-                var title = string.Format("{0} for {1}", conventionReport.ConventionTitle, conventionReport.DataDescription);
+                var title = String.Format("{0} for {1}", conventionReport.ConventionTitle, conventionReport.DataDescription);
                 html.Write(title);
-                if (!string.IsNullOrEmpty(conventionReport.ApprovedException))
-                {
-                    html.RenderBeginTag(HtmlTextWriterTag.Div);
-                    html.RenderBeginTag(HtmlTextWriterTag.Strong);
-                    html.WriteLine("With approved exceptions:");
-                    html.RenderEndTag();
-                    html.RenderEndTag();
-                }
                 
                 html.RenderBeginTag(HtmlTextWriterTag.Ul);
 
-                if (!string.IsNullOrEmpty(conventionReport.ApprovedException))
-                {
-                    html.RenderBeginTag(HtmlTextWriterTag.Li);
-                    html.WriteLine(conventionReport.ApprovedException);
-                    html.RenderEndTag();
-                }
 
-                foreach (var conventionFailure in conventionReport.ConventionFailures)
+                foreach (var conventionFailure in conventionReport.Data)
                 {
                     html.RenderBeginTag(HtmlTextWriterTag.Li);
-                    html.Write(conventionFailure.ToString());
+                    html.Write(context.FormatData(conventionFailure).ToString());
                     html.RenderEndTag();
                 }
 

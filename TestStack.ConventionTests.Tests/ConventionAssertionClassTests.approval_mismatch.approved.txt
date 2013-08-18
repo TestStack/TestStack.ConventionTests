@@ -1,5 +1,4 @@
-﻿Passed: 'Header' for 'Fake data'
---------------------------------
+﻿'Header' for 'Fake data'
+------------------------
 
-With approved exceptions:
 	Approved Exception

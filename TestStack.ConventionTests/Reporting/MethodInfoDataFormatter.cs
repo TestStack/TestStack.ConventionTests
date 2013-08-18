@@ -1,6 +1,8 @@
 namespace TestStack.ConventionTests.Reporting
 {
+    using System.ComponentModel;
     using System.Reflection;
+    using ApprovalTests.Namers;
     using TestStack.ConventionTests.Internal;
 
     public class MethodInfoDataFormatter : IReportDataFormatter

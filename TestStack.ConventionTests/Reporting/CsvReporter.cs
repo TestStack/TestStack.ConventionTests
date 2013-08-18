@@ -1,17 +1,26 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
-    using System.Collections;
     using System.Text;
+    using TestStack.ConventionTests.Internal;
 
-    public class CsvReporter
+    public class CsvReporter : IResultsProcessor
     {
-        public string Build(IEnumerable results, string header, DefaultFormatter formatter)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
-            var message = new StringBuilder();
-            message.AppendLine(string.Join(",", formatter.DesribeType()));
             foreach (var result in results)
             {
-                message.AppendLine(string.Join(",", formatter.DesribeItem(result)));
+                result.WithFormattedResult(Process(context, result), "csv");
+            }
+        }
+
+        string Process(IConventionFormatContext context, ConventionResult result)
+        {
+            var formatter = new DefaultFormatter(result.DataType);
+            var message = new StringBuilder();
+            message.AppendLine(string.Join(",", formatter.DesribeType()));
+            foreach (var item in result.Data)
+            {
+                message.AppendLine(string.Join(",", formatter.DesribeItem(item, context)));
             }
             return message.ToString();
         }

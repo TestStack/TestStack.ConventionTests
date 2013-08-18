@@ -1,28 +1,35 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
-    using TestStack.ConventionTests.Reporting;
+    using System;
+    using System.Linq;
 
     public class ConventionResult
     {
-        public TestResult Result { get; private set; }
-        public string ConventionTitle { get; private set; }
-        public string DataDescription { get; private set; }
-        public ConventionReportFailure[] ConventionFailures { get; private set; }
-        public string ApprovedException { get; private set; }
-
-        public ConventionResult(TestResult result, string conventionTitle, string dataDescription, ConventionReportFailure[] conventionFailures)
+        public ConventionResult(Type dataType, string conventionTitle, string dataDescription, object[] data)
         {
-            Result = result;
+            DataType = dataType;
             ConventionTitle = conventionTitle;
             DataDescription = dataDescription;
-            ConventionFailures = conventionFailures;
+            Data = data;
         }
 
-        public void WithApprovedException(string output)
+        public string RecommendedFileExtension { get; private set; }
+        public Type DataType { get; private set; }
+        public string ConventionTitle { get; private set; }
+        public string DataDescription { get; private set; }
+        public object[] Data { get; private set; }
+
+        public bool HasData
         {
-            ApprovedException = output;
-            Result = TestResult.Passed;
-            ConventionFailures = new ConventionReportFailure[0];
+            get { return Data.Any(); }
+        }
+
+        public string FormattedResult { get; private set; }
+
+        public void WithFormattedResult(string formattedResult, string recommendedFileExtension = "txt")
+        {
+            FormattedResult = formattedResult;
+            RecommendedFileExtension = recommendedFileExtension;
         }
     }
 }
