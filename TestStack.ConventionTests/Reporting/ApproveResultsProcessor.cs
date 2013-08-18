@@ -7,12 +7,12 @@
 
     public class ApproveResultsProcessor : IResultsProcessor
     {
-        public void Process(params ConventionResult[] results)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
             try
             {
                 var conventionReportTextRenderer = new ConventionReportTextRenderer();
-                conventionReportTextRenderer.Process(results);
+                conventionReportTextRenderer.Process(context, results);
                 Approvals.Verify(conventionReportTextRenderer.Output);
             }
             catch (ApprovalException ex)

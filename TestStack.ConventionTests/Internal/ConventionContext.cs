@@ -6,7 +6,7 @@
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Reporting;
 
-    public class ConventionContext : IConventionResultContext
+    public class ConventionContext : IConventionResultContext, IConventionFormatContext
     {
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
@@ -26,12 +26,25 @@
             get { return results.ToArray(); }
         }
 
+        ConventionReportFailure IConventionFormatContext.FormatData(object failingData)
+        {
+            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
+            if (formatter == null)
+            {
+                throw new NoDataFormatterFoundException(
+                    failingData.GetType().Name +
+                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+            }
+
+            return formatter.Format(failingData);
+        }
+
         void IConventionResultContext.Is<T>(string resultTitle, IEnumerable<T> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
             results.Add(new ConventionResult(resultTitle,
                 dataDescription,
-                failingData.Select(FormatData).ToArray()));
+                failingData.ToObjectArray()));
         }
 
         void IConventionResultContext.IsSymmetric<TResult>(
@@ -40,10 +53,10 @@
         {
             results.Add(new ConventionResult(firstSetFailureTitle,
                 dataDescription,
-                firstSetFailureData.Select(FormatData).ToArray()));
+                firstSetFailureData.ToObjectArray()));
             results.Add(new ConventionResult(secondSetFailureTitle,
                 dataDescription,
-                secondSetFailureData.Select(FormatData).ToArray()));
+                secondSetFailureData.ToObjectArray()));
         }
 
         void IConventionResultContext.IsSymmetric<TResult>(
@@ -61,19 +74,6 @@
                 secondSetFailureTitle, secondSetFailingData);
         }
 
-        ConventionReportFailure FormatData<T>(T failingData)
-        {
-            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
-            if (formatter == null)
-            {
-                throw new NoDataFormatterFoundException(
-                    typeof (T).Name +
-                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
-            }
-
-            return formatter.Format(failingData);
-        }
-
         public void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
@@ -83,7 +83,7 @@
 
             foreach (var resultsProcessor in processors)
             {
-                resultsProcessor.Process(ConventionResults);
+                resultsProcessor.Process(this, ConventionResults);
             }
         }
     }

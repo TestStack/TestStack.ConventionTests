@@ -5,10 +5,10 @@
 
     public class ConventionReportTraceRenderer : IResultsProcessor
     {
-        public void Process(params ConventionResult[] results)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Process(results);
+            conventionReportTextRenderer.Process(context, results);
             Trace.WriteLine(conventionReportTextRenderer.Output);
         }
     }

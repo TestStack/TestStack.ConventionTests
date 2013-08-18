@@ -5,10 +5,10 @@
 
     public class ThrowOnFailureResultsProcessor : IResultsProcessor
     {
-        public void Process(params ConventionResult[] results)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
             var conventionReportTextRenderer = new ConventionReportTextRenderer();
-            conventionReportTextRenderer.Process(results);
+            conventionReportTextRenderer.Process(context, results);
             if (results.Any(r => r.Result == TestResult.Failed))
             {
                 throw new ConventionFailedException(conventionReportTextRenderer.Output);

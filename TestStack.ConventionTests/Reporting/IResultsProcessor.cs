@@ -4,6 +4,6 @@
 
     public interface IResultsProcessor
     {
-        void Process(params ConventionResult[] results);
+        void Process(IConventionFormatContext context, params ConventionResult[] results);
     }
 }

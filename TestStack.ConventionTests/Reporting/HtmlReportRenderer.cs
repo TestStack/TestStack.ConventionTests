@@ -18,7 +18,7 @@
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Process(params ConventionResult[] results)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
             Reports.AddRange(results);
             var sb = new StringBuilder();
@@ -43,28 +43,14 @@
                 html.RenderEndTag();
                 var title = String.Format("{0} for {1}", conventionReport.ConventionTitle, conventionReport.DataDescription);
                 html.Write(title);
-                if (!String.IsNullOrEmpty(conventionReport.ApprovedException))
-                {
-                    html.RenderBeginTag(HtmlTextWriterTag.Div);
-                    html.RenderBeginTag(HtmlTextWriterTag.Strong);
-                    html.WriteLine("With approved exceptions:");
-                    html.RenderEndTag();
-                    html.RenderEndTag();
-                }
                 
                 html.RenderBeginTag(HtmlTextWriterTag.Ul);
 
-                if (!String.IsNullOrEmpty(conventionReport.ApprovedException))
-                {
-                    html.RenderBeginTag(HtmlTextWriterTag.Li);
-                    html.WriteLine(conventionReport.ApprovedException);
-                    html.RenderEndTag();
-                }
 
-                foreach (var conventionFailure in conventionReport.ConventionFailures)
+                foreach (var conventionFailure in conventionReport.Data)
                 {
                     html.RenderBeginTag(HtmlTextWriterTag.Li);
-                    html.Write(conventionFailure.ToString());
+                    html.Write(context.FormatData(conventionFailure).ToString());
                     html.RenderEndTag();
                 }
 

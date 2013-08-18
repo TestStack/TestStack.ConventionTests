@@ -5,18 +5,18 @@
 
     public class ConventionResult
     {
-        public ConventionResult(string conventionTitle, string dataDescription, ConventionReportFailure[] conventionFailures)
+        public ConventionResult(string conventionTitle, string dataDescription, object[] data)
         {
             ConventionTitle = conventionTitle;
             DataDescription = dataDescription;
-            ConventionFailures = conventionFailures;
+            Data = data;
         }
 
         public TestResult Result
         {
             get
             {
-                if (ConventionFailures.Any())
+                if (Data.Any())
                 {
                     return TestResult.Failed;
                 }
@@ -26,7 +26,6 @@
 
         public string ConventionTitle { get; private set; }
         public string DataDescription { get; private set; }
-        public ConventionReportFailure[] ConventionFailures { get; private set; }
-        public string ApprovedException { get; private set; }
+        public object[] Data { get; private set; }
     }
 }

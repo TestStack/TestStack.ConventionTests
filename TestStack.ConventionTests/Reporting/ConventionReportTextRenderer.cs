@@ -5,7 +5,7 @@
 
     public class ConventionReportTextRenderer : IResultsProcessor
     {
-        public void Process(params ConventionResult[] results)
+        public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
             var stringBuilder = new StringBuilder();
 
@@ -17,14 +17,7 @@
                 stringBuilder.AppendLine(string.Empty.PadRight(title.Length, '-'));
                 stringBuilder.AppendLine();
 
-                if (!string.IsNullOrEmpty(conventionReport.ApprovedException))
-                {
-                    stringBuilder.AppendLine("With approved exceptions:");
-                    stringBuilder.AppendLine(conventionReport.ApprovedException);
-                    stringBuilder.AppendLine();
-                }
-
-                RenderItems(conventionReport, stringBuilder);
+                RenderItems(conventionReport, stringBuilder, context);
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine();
             }
@@ -34,19 +27,12 @@
 
         public string Output { get; private set; }
 
-        public void RenderItems(ConventionResult conventionResult)
+        static void RenderItems(ConventionResult resultInfo, StringBuilder stringBuilder, IConventionFormatContext context)
         {
-            var stringBuilder = new StringBuilder();
-            RenderItems(conventionResult, stringBuilder);
-            Output = stringBuilder.ToString();
-        }
-
-        static void RenderItems(ConventionResult resultInfo, StringBuilder stringBuilder)
-        {
-            foreach (var conventionFailure in resultInfo.ConventionFailures)
+            foreach (var conventionFailure in resultInfo.Data)
             {
                 stringBuilder.Append("\t");
-                stringBuilder.AppendLine(conventionFailure.ToString());
+                stringBuilder.AppendLine(context.FormatData(conventionFailure).ToString());
             }
         }
     }
