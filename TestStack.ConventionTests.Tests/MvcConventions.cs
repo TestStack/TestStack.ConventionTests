@@ -15,7 +15,7 @@
         public void controller_conventions()
         {
             var types = Types.InAssemblyOf<TestController>();
-            var convention = new MvcControllerConvention();
+            var convention = new MvcControllerNameAndBaseClassConvention();
 
             var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(convention, types));
             Approvals.Verify(ex.Message);
