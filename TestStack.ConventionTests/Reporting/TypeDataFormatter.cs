@@ -1,7 +1,6 @@
 namespace TestStack.ConventionTests.Reporting
 {
     using System;
-    using TestStack.ConventionTests.Internal;
 
     public class TypeDataFormatter : IReportDataFormatter
     {
@@ -10,9 +9,9 @@ namespace TestStack.ConventionTests.Reporting
             return failingData is Type;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object failingData)
         {
-            return new ConventionReportFailure(((Type)failingData).FullName);
+            return ((Type)failingData).FullName;
         }
     }
 }

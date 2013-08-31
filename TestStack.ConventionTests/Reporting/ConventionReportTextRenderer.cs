@@ -25,7 +25,7 @@
             foreach (var conventionFailure in resultInfo.Data)
             {
                 stringBuilder.Append("\t");
-                stringBuilder.AppendLine(context.FormatData(conventionFailure).ToString());
+                stringBuilder.AppendLine(context.FormatDataAsString(conventionFailure));
             }
         }
     }

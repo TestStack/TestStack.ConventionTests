@@ -1,9 +1,6 @@
 namespace TestStack.ConventionTests.Reporting
 {
-    using System.ComponentModel;
     using System.Reflection;
-    using ApprovalTests.Namers;
-    using TestStack.ConventionTests.Internal;
 
     public class MethodInfoDataFormatter : IReportDataFormatter
     {
@@ -12,11 +9,11 @@ namespace TestStack.ConventionTests.Reporting
             return failingData is MethodInfo;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object failingData)
         {
             var methodInfo = (MethodInfo)failingData;
 
-            return new ConventionReportFailure(methodInfo.DeclaringType + "." + methodInfo.Name);
+            return methodInfo.DeclaringType + "." + methodInfo.Name;
         }
     }
 }

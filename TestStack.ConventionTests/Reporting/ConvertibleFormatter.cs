@@ -3,7 +3,6 @@ namespace TestStack.ConventionTests.Reporting
     using System;
     using System.Diagnostics;
     using System.Globalization;
-    using TestStack.ConventionTests.Internal;
 
     public class ConvertibleFormatter : IReportDataFormatter
     {
@@ -12,11 +11,11 @@ namespace TestStack.ConventionTests.Reporting
             return failingData is IConvertible;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object failingData)
         {
             var convertible = failingData as IConvertible;
             Debug.Assert(convertible != null, "convertible != null");
-            return new ConventionReportFailure(convertible.ToString(CultureInfo.InvariantCulture));
+            return convertible.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

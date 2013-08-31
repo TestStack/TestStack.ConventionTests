@@ -33,7 +33,7 @@
             get { return testResultProcessor; }
         }
 
-        ConventionReportFailure IConventionFormatContext.FormatData(object failingData)
+        string IConventionFormatContext.FormatDataAsString(object failingData)
         {
             IReportDataFormatter formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
             if (formatter == null)
@@ -43,7 +43,7 @@
                     " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
             }
 
-            return formatter.Format(failingData);
+            return formatter.FormatString(failingData);
         }
 
         void IConventionResultContext.Is<TResult>(string resultTitle, IEnumerable<TResult> failingData)

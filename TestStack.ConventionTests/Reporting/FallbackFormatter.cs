@@ -1,7 +1,5 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
-    using TestStack.ConventionTests.Internal;
-
     public class FallbackFormatter : IReportDataFormatter
     {
         public bool CanFormat(object failingData)
@@ -9,10 +7,11 @@
             return true;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object failingData)
         {
-            // TODO: for now
-            return new ConventionReportFailure(failingData.ToString());
+            if (failingData == null)
+                return "<null>";
+            return failingData.ToString();
         }
     }
 }
