@@ -8,9 +8,9 @@
     {
         protected override void Process(IConventionFormatContext context)
         {
-            Process(AggregatedReports.OrderBy(c => c.ConventionTitle).GroupBy(r => r.DataDescription));
+            Process(context, AggregatedReports.OrderBy(c => c.ConventionTitle).GroupBy(r => r.DataDescription));
         }
 
-        protected abstract void Process(IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType);
+        protected abstract void Process(IConventionFormatContext context, IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType);
     }
 }

@@ -6,16 +6,21 @@ namespace TestStack.ConventionTests.Reporting
 
     public class ConvertibleFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is IConvertible;
+            return data is IConvertible;
         }
 
-        public string FormatString(object failingData)
+        public string FormatString(object data)
         {
-            var convertible = failingData as IConvertible;
+            var convertible = data as IConvertible;
             Debug.Assert(convertible != null, "convertible != null");
             return convertible.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public string FormatHtml(object data)
+        {
+            return FormatString(data);
         }
     }
 }

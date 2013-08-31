@@ -28,22 +28,33 @@
             get { return results.ToArray(); }
         }
 
+        string IConventionFormatContext.FormatDataAsHtml(object data)
+        {
+            var formatter = GetReportDataFormatterFor(data);
+            return formatter.FormatHtml(data);
+        }
+
         ITestResultProcessor IConventionFormatContext.TestResultProcessor
         {
             get { return testResultProcessor; }
         }
 
-        string IConventionFormatContext.FormatDataAsString(object failingData)
+        string IConventionFormatContext.FormatDataAsString(object data)
         {
-            IReportDataFormatter formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
+            var formatter = GetReportDataFormatterFor(data);
+
+            return formatter.FormatString(data);
+        }
+
+        IReportDataFormatter GetReportDataFormatterFor(object data)
+        {
+            IReportDataFormatter formatter = formatters.FirstOrDefault(f => f.CanFormat(data));
             if (formatter == null)
             {
                 throw new NoDataFormatterFoundException(
-                    failingData.GetType().Name +
-                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+                    data.GetType().Name + " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
             }
-
-            return formatter.FormatString(failingData);
+            return formatter;
         }
 
         void IConventionResultContext.Is<TResult>(string resultTitle, IEnumerable<TResult> failingData)

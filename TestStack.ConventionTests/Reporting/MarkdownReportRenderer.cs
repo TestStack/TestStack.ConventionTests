@@ -15,7 +15,7 @@
             file = Path.Combine(assemblyDirectory, "Conventions.md");
         }
 
-        protected override void Process(IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
+        protected override void Process(IConventionFormatContext context, IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
         {
             var sb = new StringBuilder();
             sb.AppendLine("# Project Conventions");

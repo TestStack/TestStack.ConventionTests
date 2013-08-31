@@ -2,16 +2,21 @@
 {
     public class FallbackFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
             return true;
         }
 
-        public string FormatString(object failingData)
+        public string FormatString(object data)
         {
-            if (failingData == null)
+            if (data == null)
                 return "<null>";
-            return failingData.ToString();
+            return data.ToString();
+        }
+
+        public string FormatHtml(object data)
+        {
+            return FormatString(data);
         }
     }
 }

@@ -4,14 +4,19 @@ namespace TestStack.ConventionTests.Reporting
 
     public class ProjectReferenceFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is ProjectReference;
+            return data is ProjectReference;
         }
 
-        public string FormatString(object failingData)
+        public string FormatString(object data)
         {
-            return ((ProjectReference)failingData).ReferencedPath;
+            return ((ProjectReference)data).ReferencedPath;
+        }
+
+        public string FormatHtml(object data)
+        {
+            return ((ProjectReference)data).ReferencedPath;
         }
     }
 }

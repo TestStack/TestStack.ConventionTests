@@ -4,7 +4,8 @@
 
     public interface IConventionFormatContext
     {
-        string FormatDataAsString(object failingData);
+        string FormatDataAsString(object data);
+        string FormatDataAsHtml(object data);
         ITestResultProcessor TestResultProcessor { get; }
     }
 }

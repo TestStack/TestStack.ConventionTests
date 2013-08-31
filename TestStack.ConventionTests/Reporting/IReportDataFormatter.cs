@@ -2,7 +2,8 @@
 {
     public interface IReportDataFormatter
     {
-        bool CanFormat(object failingData);
-        string FormatString(object failingData);
+        bool CanFormat(object data);
+        string FormatString(object data);
+        string FormatHtml(object data);
     }
 }

@@ -4,14 +4,19 @@ namespace TestStack.ConventionTests.Reporting
 
     public class ProjectFileFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is ProjectFileItem;
+            return data is ProjectFileItem;
         }
 
-        public string FormatString(object failingData)
+        public string FormatString(object data)
         {
-            return ((ProjectFileItem)failingData).FilePath;
+            return ((ProjectFileItem)data).FilePath;
+        }
+
+        public string FormatHtml(object data)
+        {
+            return ((ProjectFileItem) data).FilePath;
         }
     }
 }

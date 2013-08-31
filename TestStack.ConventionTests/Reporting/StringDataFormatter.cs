@@ -2,14 +2,19 @@
 {
     public class StringDataFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is string;
+            return data is string;
         }
 
-        public string FormatString(object failingData)
+        public string FormatString(object data)
         {
-            return (string)failingData;
+            return (string)data;
+        }
+
+        public string FormatHtml(object data)
+        {
+            return (string)data;
         }
     }
 }
