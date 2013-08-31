@@ -7,11 +7,11 @@
 
     public abstract class AbstractProjectData : IConventionData
     {
-        protected AbstractProjectData(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
+        protected AbstractProjectData(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
         {
             Assembly = assembly;
-            ProjectProvider = projectProvider;
-            ProjectLocator = projectLocator;
+            ProjectProvider = projectProvider ?? new ProjectProvider();
+            ProjectLocator = projectLocator ?? new AssemblyProjectLocator();
         }
 
         public Assembly Assembly { get; private set; }
