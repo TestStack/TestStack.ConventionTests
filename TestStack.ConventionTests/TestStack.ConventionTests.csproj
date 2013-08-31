@@ -81,8 +81,8 @@
     <Compile Include="Reporting\ThrowOnFailureResultsProcessor.cs" />
     <Compile Include="Conventions\ClassTypeHasSpecificNamespace.cs" />
     <Compile Include="Conventions\ConventionSourceInvalidException.cs" />
-    <Compile Include="ConventionData\ProjectFile.cs" />
-    <Compile Include="ConventionData\ProjectFiles.cs" />
+    <Compile Include="ConventionData\ProjectFileItem.cs" />
+    <Compile Include="ConventionData\ProjectFileItems.cs" />
     <Compile Include="ConventionData\ProjectReference.cs" />
     <Compile Include="ConventionData\ProjectReferences.cs" />
     <Compile Include="IConventionData.cs" />

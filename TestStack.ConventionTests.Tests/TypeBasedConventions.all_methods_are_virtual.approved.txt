@@ -1,4 +1,4 @@
-﻿'Methods must be virtual' for 'nHibernate Entitites'
-----------------------------------------------------
+﻿'Methods must be virtual' for 'Types in nHibernate Entitites'
+-------------------------------------------------------------
 
 	TestAssembly.SampleDomainClass.TestNonVirtual

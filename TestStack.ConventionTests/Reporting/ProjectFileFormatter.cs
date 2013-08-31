@@ -7,12 +7,12 @@ namespace TestStack.ConventionTests.Reporting
     {
         public bool CanFormat(object failingData)
         {
-            return failingData is ProjectFile;
+            return failingData is ProjectFileItem;
         }
 
         public ConventionReportFailure Format(object failingData)
         {
-            return new ConventionReportFailure(((ProjectFile)failingData).FilePath);
+            return new ConventionReportFailure(((ProjectFileItem)failingData).FilePath);
         }
     }
 }

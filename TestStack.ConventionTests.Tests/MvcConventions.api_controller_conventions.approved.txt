@@ -1,10 +1,10 @@
-﻿'Api Controllers must be suffixed with Controller' for 'TestAssembly'
----------------------------------------------------------------------
+﻿'Api Controllers must be suffixed with Controller' for 'Types in TestAssembly'
+------------------------------------------------------------------------------
 
 	TestAssembly.Controllers.BarApiControler
 
-'Types named *Controller must inherit from ApiController or Controller' for 'TestAssembly'
-------------------------------------------------------------------------------------------
+'Types named *Controller must inherit from ApiController or Controller' for 'Types in TestAssembly'
+---------------------------------------------------------------------------------------------------
 
 	TestAssembly.Controllers.TestApiController
 	TestAssembly.Controllers.TestController

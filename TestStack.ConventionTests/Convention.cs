@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using System.Text.RegularExpressions;
     using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Reporting;
 
@@ -53,14 +54,6 @@
             Execute(convention, data, processors.ToArray());
         }
 
-        static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            IResultsProcessor[] processors)
-            where TDataSource : IConventionData
-        {
-            var context = new ConventionContext(data.Description, Formatters, processors);
-            context.Execute(convention, data);
-        }
-
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
             params IResultsProcessor[] extraResultProcessors)
             where TDataSource : IConventionData
@@ -73,6 +66,19 @@
                 new ApproveResultsProcessor()
             };
             Execute(convention, data, processors.ToArray());
+        }
+
+        static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+            IResultsProcessor[] processors)
+            where TDataSource : IConventionData
+        {
+            var context = new ConventionContext(string.Format("{0} in {1}", ToSentenceCase(data.GetType().Name), data.Description), Formatters, processors);
+            context.Execute(convention, data);
+        }
+
+        static string ToSentenceCase(string str)
+        {
+            return Regex.Replace(str, "[a-z][A-Z]", m => m.Value[0] + " " + char.ToLower(m.Value[1]));
         }
     }
 }

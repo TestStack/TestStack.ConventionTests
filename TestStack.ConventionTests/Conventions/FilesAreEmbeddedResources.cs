@@ -3,7 +3,7 @@
     using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
-    public class FilesAreEmbeddedResources : IConvention<ProjectFiles>
+    public class FilesAreEmbeddedResources : IConvention<ProjectFileItems>
     {
         public FilesAreEmbeddedResources(string fileExtension)
         {
@@ -12,11 +12,11 @@
 
         public string FileExtension { get; private set; }
 
-        public void Execute(ProjectFiles data, IConventionResultContext result)
+        public void Execute(ProjectFileItems data, IConventionResultContext result)
         {
             result.Is(
                 string.Format("{0} Files must be embedded resources", FileExtension),
-                data.Files.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource"));
+                data.Items.Where(s => s.FilePath.EndsWith(FileExtension) && s.ReferenceType != "EmbeddedResource"));
         }
     }
 }

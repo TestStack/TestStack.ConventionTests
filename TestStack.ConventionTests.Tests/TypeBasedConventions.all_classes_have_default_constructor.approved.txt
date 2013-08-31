@@ -1,5 +1,5 @@
-﻿'Types must have a default constructor' for 'nHibernate Entitites'
-------------------------------------------------------------------
+﻿'Types must have a default constructor' for 'Types in nHibernate Entitites'
+---------------------------------------------------------------------------
 
 	TestAssembly.ClassWithNoDefaultCtor
 	TestAssembly.ClassWithPrivateDefaultCtor
