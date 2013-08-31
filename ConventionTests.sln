@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.20617.1 PREVIEW
+VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConventionTests", "ConventionTests\ConventionTests.csproj", "{1E12EA0C-9182-4029-991A-B0B9D38F5783}"
 EndProject
@@ -22,6 +22,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{35B8E1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssembly", "TestAssembly\TestAssembly.csproj", "{D5A0D078-C660-4654-8A14-DDC816BEBC54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E971721A-1271-4359-8F76-9FF17C29582B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Tests", "SampleApp.Tests\SampleApp.Tests.csproj", "{8FEF48A8-6FF5-4B65-B84A-6690D735C703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +51,20 @@ Global
 		{D5A0D078-C660-4654-8A14-DDC816BEBC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5A0D078-C660-4654-8A14-DDC816BEBC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5A0D078-C660-4654-8A14-DDC816BEBC54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEF48A8-6FF5-4B65-B84A-6690D735C703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEF48A8-6FF5-4B65-B84A-6690D735C703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEF48A8-6FF5-4B65-B84A-6690D735C703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEF48A8-6FF5-4B65-B84A-6690D735C703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8FEF48A8-6FF5-4B65-B84A-6690D735C703} = {E971721A-1271-4359-8F76-9FF17C29582B}
+		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A} = {E971721A-1271-4359-8F76-9FF17C29582B}
 	EndGlobalSection
 EndGlobal

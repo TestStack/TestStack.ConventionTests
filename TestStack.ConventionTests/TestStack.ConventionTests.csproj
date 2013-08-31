@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ConventionData\TypeExtensions.cs" />
     <Compile Include="ConventionFailedException.cs" />
+    <Compile Include="Conventions\ViewModelShouldInheritFromINotifyPropertyChanged.cs" />
     <Compile Include="IConventionResultContext.cs" />
     <Compile Include="Conventions\ApiControllerNamingAndBaseClassConvention.cs" />
     <Compile Include="Conventions\MvcControllerNameAndBaseClassConvention.cs" />

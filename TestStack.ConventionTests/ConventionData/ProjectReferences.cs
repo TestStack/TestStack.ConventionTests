@@ -9,7 +9,7 @@
 
     public class ProjectReferences : AbstractProjectData
     {
-        public ProjectReferences(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
+        public ProjectReferences(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
             : base(assembly, projectProvider, projectLocator)
         {
         }
