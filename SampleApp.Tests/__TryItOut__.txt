@@ -1,0 +1,11 @@
+﻿There are a number of conventions setup in this project, to try convention tests out, simply violate a convention, then run the tests.
+
+Some examples:
+
+ - Create a class ending in Dto outside the Dto namespace
+ - Add a non-virtual method to the domain class
+ - Make the domain class constructor private
+ - Change the SqlScripts\Script0001.sql file build action to Content (rather than EmbeddedResource)
+ - Create an API Controller where you incorrectly spell 'Controller'
+
+These are some of the examples of conventions which are easily put in place with convention tests!

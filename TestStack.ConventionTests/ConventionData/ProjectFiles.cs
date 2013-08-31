@@ -7,7 +7,7 @@
 
     public class ProjectFiles : AbstractProjectData
     {
-        public ProjectFiles(Assembly assembly, IProjectProvider projectProvider, IProjectLocator projectLocator)
+        public ProjectFiles(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
             : base(assembly, projectProvider, projectLocator)
         {
         }
