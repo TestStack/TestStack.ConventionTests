@@ -1,31 +1,38 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using System.Web.UI;
     using TestStack.ConventionTests.Internal;
 
-    public class HtmlReportRenderer : IResultsProcessor
+    public class HtmlReportRenderer : GroupedByDataTypeRendererBase
     {
         readonly string file;
-        static readonly List<ConventionResult> Reports = new List<ConventionResult>();
-        public static IEnumerable<ConventionResult> ConventionReports { get { return Reports; } }
 
         public HtmlReportRenderer(string assemblyDirectory)
         {
             file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        public void Process(IConventionFormatContext context, params ConventionResult[] results)
+        protected override void Process(IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
         {
-            Reports.AddRange(results);
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));
             html.WriteLine("<!DOCTYPE html>");
             html.RenderBeginTag(HtmlTextWriterTag.Html);  // <html>
             html.RenderBeginTag(HtmlTextWriterTag.Head);  // <head>
+            html.Write(@"
+           <style type=""text/css"">
+               h1 {
+                   color: #3c6eb4;
+               }
+
+               h2 {
+                   background: #f1f1f1;
+               }
+           </style>");
             html.RenderEndTag();                          // </head>
             html.WriteLine();
             html.RenderBeginTag(HtmlTextWriterTag.Body);  // <body>
@@ -34,25 +41,20 @@
             html.Write("Project Conventions");
             html.RenderEndTag();
 
-            foreach (var conventionReport in Reports)
+            foreach (var conventionReport in resultsGroupedByDataType)
             {
                 html.RenderBeginTag(HtmlTextWriterTag.P);
                 html.RenderBeginTag(HtmlTextWriterTag.Div);
-                html.RenderBeginTag(HtmlTextWriterTag.Strong);
+                html.RenderBeginTag(HtmlTextWriterTag.H2);
+                html.Write("Conventions for '<strong>{0}</strong>'", conventionReport.Key);
                 html.RenderEndTag();
-                var title = String.Format("{0} for {1}", conventionReport.ConventionTitle, conventionReport.DataDescription);
-                html.Write(title);
-                
                 html.RenderBeginTag(HtmlTextWriterTag.Ul);
-
-
-                foreach (var conventionFailure in conventionReport.Data)
+                foreach (var conventionResult in conventionReport)
                 {
                     html.RenderBeginTag(HtmlTextWriterTag.Li);
-                    html.Write(context.FormatData(conventionFailure).ToString());
+                    html.Write(conventionResult.ConventionTitle);
                     html.RenderEndTag();
                 }
-
                 html.RenderEndTag();
                 html.RenderEndTag();
                 html.RenderEndTag();

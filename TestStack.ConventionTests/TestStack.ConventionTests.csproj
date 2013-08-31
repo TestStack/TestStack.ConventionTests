@@ -70,14 +70,17 @@
     <Compile Include="Internal\ConventionTestsApprovalTextWriter.cs" />
     <Compile Include="Internal\IConventionFormatContext.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
+    <Compile Include="Reporting\AggregatedRenderer.cs" />
     <Compile Include="Reporting\ApproveResultsProcessor.cs" />
     <Compile Include="Reporting\ConvertibleFormatter.cs" />
     <Compile Include="Reporting\CsvReporter.cs" />
     <Compile Include="Reporting\DefaultFormatter.cs" />
     <Compile Include="Reporting\FallbackFormatter.cs" />
+    <Compile Include="Reporting\GroupedByDataTypeRendererBase.cs" />
     <Compile Include="Reporting\HtmlReportRenderer.cs" />
     <Compile Include="Reporting\ConventionReportTextRenderer.cs" />
     <Compile Include="Reporting\ConventionReportTraceRenderer.cs" />
+    <Compile Include="Reporting\MarkdownReportRenderer.cs" />
     <Compile Include="Reporting\ThrowOnFailureResultsProcessor.cs" />
     <Compile Include="Conventions\ClassTypeHasSpecificNamespace.cs" />
     <Compile Include="Conventions\ConventionSourceInvalidException.cs" />
