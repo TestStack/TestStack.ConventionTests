@@ -41,38 +41,37 @@
         }
 
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            params IResultsProcessor[] extraResultProcessors)
+            ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            var processors = new List<IResultsProcessor>(extraResultProcessors)
+            var processors = new List<IResultsProcessor>
             {
-                new ConventionReportTextRenderer(),
                 HtmlRenderer,
                 new ConventionReportTraceRenderer(),
                 new ThrowOnFailureResultsProcessor()
             };
-            Execute(convention, data, processors.ToArray());
+            Execute(convention, data, processors.ToArray(), resultProcessor ?? new ConventionReportTextRenderer());
         }
 
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            params IResultsProcessor[] extraResultProcessors)
+            ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            var processors = new List<IResultsProcessor>(extraResultProcessors)
+            var processors = new List<IResultsProcessor>
             {
-                new ConventionReportTextRenderer(),
                 HtmlRenderer,
                 new ConventionReportTraceRenderer(),
                 new ApproveResultsProcessor()
             };
-            Execute(convention, data, processors.ToArray());
+            Execute(convention, data, processors.ToArray(), resultProcessor ?? new ConventionReportTextRenderer());
         }
 
         static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            IResultsProcessor[] processors)
+            IResultsProcessor[] processors, ITestResultProcessor resultProcessor)
             where TDataSource : IConventionData
         {
-            var context = new ConventionContext(string.Format("{0} in {1}", ToSentenceCase(data.GetType().Name), data.Description), Formatters, processors);
+            var dataDescription = string.Format("{0} in {1}", ToSentenceCase(data.GetType().Name), data.Description);
+            var context = new ConventionContext(dataDescription, Formatters, processors, resultProcessor);
             context.Execute(convention, data);
         }
 

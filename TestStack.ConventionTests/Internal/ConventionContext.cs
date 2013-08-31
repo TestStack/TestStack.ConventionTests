@@ -11,13 +11,15 @@
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
         readonly IList<IResultsProcessor> processors;
+        readonly ITestResultProcessor testResultProcessor;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
 
         public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
-            IList<IResultsProcessor> processors)
+            IList<IResultsProcessor> processors, ITestResultProcessor testResultProcessor)
         {
             this.formatters = formatters;
             this.processors = processors;
+            this.testResultProcessor = testResultProcessor;
             this.dataDescription = dataDescription;
         }
 
@@ -26,9 +28,14 @@
             get { return results.ToArray(); }
         }
 
+        ITestResultProcessor IConventionFormatContext.TestResultProcessor
+        {
+            get { return testResultProcessor; }
+        }
+
         ConventionReportFailure IConventionFormatContext.FormatData(object failingData)
         {
-            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
+            IReportDataFormatter formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
             if (formatter == null)
             {
                 throw new NoDataFormatterFoundException(
@@ -43,7 +50,7 @@
         {
             // ReSharper disable PossibleMultipleEnumeration
             results.Add(new ConventionResult(
-                typeof(TResult),
+                typeof (TResult),
                 resultTitle,
                 dataDescription,
                 failingData.ToObjectArray()));
@@ -54,11 +61,11 @@
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
             results.Add(new ConventionResult(
-                typeof(TResult), firstSetFailureTitle,
+                typeof (TResult), firstSetFailureTitle,
                 dataDescription,
                 firstSetFailureData.ToObjectArray()));
             results.Add(new ConventionResult(
-                typeof(TResult), secondSetFailureTitle,
+                typeof (TResult), secondSetFailureTitle,
                 dataDescription,
                 secondSetFailureData.ToObjectArray()));
         }
@@ -70,8 +77,8 @@
             Func<TResult, bool> isPartOfSecondSet,
             IEnumerable<TResult> allData)
         {
-            var firstSetFailingData = allData.Where(isPartOfFirstSet).Unless(isPartOfSecondSet);
-            var secondSetFailingData = allData.Where(isPartOfSecondSet).Unless(isPartOfFirstSet);
+            IEnumerable<TResult> firstSetFailingData = allData.Where(isPartOfFirstSet).Unless(isPartOfSecondSet);
+            IEnumerable<TResult> secondSetFailingData = allData.Where(isPartOfSecondSet).Unless(isPartOfFirstSet);
 
             (this as IConventionResultContext).IsSymmetric(
                 firstSetFailureTitle, firstSetFailingData,
@@ -85,7 +92,7 @@
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
             convention.Execute(data, this);
 
-            foreach (var resultsProcessor in processors)
+            foreach (IResultsProcessor resultsProcessor in processors)
             {
                 resultsProcessor.Process(this, ConventionResults);
             }

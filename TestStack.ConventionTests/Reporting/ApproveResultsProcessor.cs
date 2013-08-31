@@ -17,7 +17,10 @@
                 var result = results[count];
                 try
                 {
-                    Approvals.Verify(new ConventionTestsApprovalTextWriter(result.FormattedResult, count,result.RecommendedFileExtension));
+                    //TODO Law of Demeter
+                    var formattedResult = context.TestResultProcessor.Process(context, result);
+                    var recommendedFileExtension = context.TestResultProcessor.RecommendedFileExtension;
+                    Approvals.Verify(new ConventionTestsApprovalTextWriter(formattedResult, count, recommendedFileExtension));
                 }
                 catch (ApprovalException ex)
                 {

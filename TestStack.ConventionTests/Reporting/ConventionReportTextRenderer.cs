@@ -3,26 +3,21 @@
     using System.Text;
     using TestStack.ConventionTests.Internal;
 
-    public class ConventionReportTextRenderer : IResultsProcessor
+    public class ConventionReportTextRenderer : ITestResultProcessor
     {
-        public void Process(IConventionFormatContext context, params ConventionResult[] results)
-        {
-            foreach (var result in results)
-            {
-                if (result.FormattedResult != null)
-                {
-                    continue;
-                }
-                var description = new StringBuilder();
-                var title = string.Format("'{0}' for '{1}'", result.ConventionTitle,
-                    result.DataDescription);
-                description.AppendLine(title);
-                description.AppendLine(string.Empty.PadRight(title.Length, '-'));
-                description.AppendLine();
+        public string RecommendedFileExtension { get { return "txt"; } }
 
-                RenderItems(result, description, context);
-                result.WithFormattedResult(description.ToString());
-            }
+        public string Process(IConventionFormatContext context, ConventionResult result)
+        {
+            var description = new StringBuilder();
+            var title = string.Format("'{0}' for '{1}'", result.ConventionTitle, result.DataDescription);
+            description.AppendLine(title);
+            description.AppendLine(string.Empty.PadRight(title.Length, '-'));
+            description.AppendLine();
+
+            RenderItems(result, description, context);
+
+            return description.ToString();
         }
 
         static void RenderItems(ConventionResult resultInfo, StringBuilder stringBuilder, IConventionFormatContext context)

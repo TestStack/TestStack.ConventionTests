@@ -3,17 +3,9 @@
     using System.Text;
     using TestStack.ConventionTests.Internal;
 
-    public class CsvReporter : IResultsProcessor
+    public class CsvReporter : ITestResultProcessor
     {
-        public void Process(IConventionFormatContext context, params ConventionResult[] results)
-        {
-            foreach (var result in results)
-            {
-                result.WithFormattedResult(Process(context, result), "csv");
-            }
-        }
-
-        string Process(IConventionFormatContext context, ConventionResult result)
+        public string Process(IConventionFormatContext context, ConventionResult result)
         {
             var formatter = new DefaultFormatter(result.DataType);
             var message = new StringBuilder();
@@ -24,5 +16,7 @@
             }
             return message.ToString();
         }
+
+        public string RecommendedFileExtension { get { return "csv"; } }
     }
 }

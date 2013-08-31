@@ -80,6 +80,7 @@
     <Compile Include="Reporting\HtmlReportRenderer.cs" />
     <Compile Include="Reporting\ConventionReportTextRenderer.cs" />
     <Compile Include="Reporting\ConventionReportTraceRenderer.cs" />
+    <Compile Include="Reporting\ITestResultProcessor.cs" />
     <Compile Include="Reporting\MarkdownReportRenderer.cs" />
     <Compile Include="Reporting\ThrowOnFailureResultsProcessor.cs" />
     <Compile Include="Conventions\ClassTypeHasSpecificNamespace.cs" />
