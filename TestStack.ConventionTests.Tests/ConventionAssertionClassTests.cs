@@ -5,7 +5,7 @@
     using TestStack.ConventionTests.Internal;
 
     [TestFixture]
-    [UseReporter(typeof(DiffReporter))] //NOTE: Can we take care of this in IsWithApprovedExceptions?
+    [UseReporter(typeof(QuietReporter))] //NOTE: Can we take care of this in IsWithApprovedExceptions?
     public class ConventionAssertionClassTests
     {
         [Test]
