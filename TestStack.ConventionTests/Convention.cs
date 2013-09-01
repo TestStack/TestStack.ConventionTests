@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Reporting;
 
@@ -50,7 +51,7 @@
             IResultsProcessor[] processors, ITestResultProcessor resultProcessor)
             where TDataSource : IConventionData
         {
-            var dataDescription = string.Format("{0} in {1}", ToSentenceCase(data.GetType().Name), data.Description);
+            var dataDescription = string.Format("{0} in {1}", data.GetType().GetSentenceCaseName(), data.Description);
             var context = new ConventionContext(dataDescription, Formatters, processors, resultProcessor);
             context.Execute(convention, data);
         }
@@ -75,11 +76,6 @@
             defaultApprovalProcessors[defaultProcessors.Length - 2] = conventionReportTraceRenderer;
             defaultProcessors[defaultProcessors.Length - 1] = new ThrowOnFailureResultsProcessor();
             defaultApprovalProcessors[defaultProcessors.Length - 1] = new ApproveResultsProcessor();
-        }
-
-        static string ToSentenceCase(string str)
-        {
-            return Regex.Replace(str, "[a-z][A-Z]", m => m.Value[0] + " " + char.ToLower(m.Value[1]));
         }
     }
 }

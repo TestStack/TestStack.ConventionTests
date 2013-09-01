@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Web.UI;
+    using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
 
     public class HtmlConventionResultsReporter : GroupedByDataTypeConventionResultsReporterBase
@@ -61,28 +62,35 @@
                         conventionResult.DataDescription.Replace("'", string.Empty).Replace(" ", string.Empty).Replace(".", string.Empty);
                     html.AddAttribute("style", "margin-left:20px;");
                     html.RenderBeginTag(HtmlTextWriterTag.H4);
-
-                    html.AddAttribute("class", "menu-toggle");
-                    html.AddAttribute("data-toggle", "collapse");
-                    html.AddAttribute("data-target", "." + targetId);
-                    html.RenderBeginTag(HtmlTextWriterTag.A);
-                    html.AddAttribute("class", "icon-angle-down");
-                    html.RenderBeginTag(HtmlTextWriterTag.I);
-                    html.RenderEndTag();
-                    html.RenderEndTag();
                     html.Write(conventionResult.ConventionTitle);
                     html.RenderEndTag();
-                    html.AddAttribute("class", targetId + " collapse");
-                    html.AddAttribute("style", "margin-left:20px;");
-                    html.RenderBeginTag(HtmlTextWriterTag.Div);
-                    html.RenderBeginTag(HtmlTextWriterTag.Ul);
-                    foreach (var o in conventionResult.Data)
+                    if (conventionResult.Data.Any())
                     {
-                        html.RenderBeginTag(HtmlTextWriterTag.Li);
-                        html.Write(context.FormatDataAsHtml(o));
+                        html.AddAttribute("style", "margin-left:20px;");
+                        html.RenderBeginTag(HtmlTextWriterTag.Div);
+                            html.AddAttribute("class", "menu-toggle");
+                            html.AddAttribute("data-toggle", "collapse");
+                            html.AddAttribute("data-target", "." + targetId);
+                            html.RenderBeginTag(HtmlTextWriterTag.A);
+                                html.AddAttribute("class", "icon-angle-down");
+                                html.RenderBeginTag(HtmlTextWriterTag.I);
+                                html.RenderEndTag();
+                                html.Write("With the exception of the following {0}: ", conventionResult.DataType.GetSentenceCaseName());
+                            html.RenderEndTag();
+                        html.AddAttribute("class", targetId + " collapse");
+                        html.AddAttribute("style", "margin-left:20px;");
+                        html.RenderBeginTag(HtmlTextWriterTag.Div);
+                            html.RenderBeginTag(HtmlTextWriterTag.Ul);
+                            foreach (var o in conventionResult.Data)
+                            {
+                                html.RenderBeginTag(HtmlTextWriterTag.Li);
+                                html.Write(context.FormatDataAsHtml(o));
+                                html.RenderEndTag();
+                            }
+                            html.RenderEndTag();
                         html.RenderEndTag();
                     }
-                    html.RenderEndTag();
+                    
                     html.RenderEndTag();
                 }
                 html.RenderEndTag();
