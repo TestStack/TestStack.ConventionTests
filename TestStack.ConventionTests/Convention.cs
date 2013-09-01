@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Reflection;
     using System.Text.RegularExpressions;
     using TestStack.ConventionTests.Internal;
@@ -10,7 +9,8 @@
 
     public static class Convention
     {
-        static readonly HtmlReportRenderer HtmlRenderer = new HtmlReportRenderer(AssemblyDirectory);
+        static IResultsProcessor[] defaultProcessors;
+        static IResultsProcessor[] defaultApprovalProcessors;
 
         static Convention()
         {
@@ -28,42 +28,22 @@
 
         public static IList<IReportDataFormatter> Formatters { get; set; }
 
-        static string AssemblyDirectory
-        {
-            get
-            {
-                // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
-                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                var uri = new UriBuilder(codeBase);
-                var path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
-        }
-
         public static void Is<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            var processors = new List<IResultsProcessor>
-            {
-                HtmlRenderer,
-                new ConventionReportTraceRenderer(),
-                new ThrowOnFailureResultsProcessor()
-            };
-            Execute(convention, data, processors.ToArray(), resultProcessor ?? new ConventionReportTextRenderer());
+            if (defaultProcessors == null || defaultApprovalProcessors == null)
+                Init(Assembly.GetCallingAssembly());
+            Execute(convention, data, defaultProcessors, resultProcessor ?? new ConventionReportTextRenderer());
         }
 
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            var processors = new List<IResultsProcessor>
-            {
-                HtmlRenderer,
-                new ConventionReportTraceRenderer(),
-                new ApproveResultsProcessor()
-            };
-            Execute(convention, data, processors.ToArray(), resultProcessor ?? new ConventionReportTextRenderer());
+            if (defaultProcessors == null || defaultApprovalProcessors == null)
+                Init(Assembly.GetCallingAssembly());
+            Execute(convention, data, defaultApprovalProcessors, resultProcessor ?? new ConventionReportTextRenderer());
         }
 
         static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
@@ -73,6 +53,28 @@
             var dataDescription = string.Format("{0} in {1}", ToSentenceCase(data.GetType().Name), data.Description);
             var context = new ConventionContext(dataDescription, Formatters, processors, resultProcessor);
             context.Execute(convention, data);
+        }
+
+        static void Init(Assembly assembly)
+        {
+            var customReporters = assembly.GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+
+            defaultProcessors = new IResultsProcessor[customReporters.Length + 2];
+            defaultApprovalProcessors = new IResultsProcessor[customReporters.Length + 2];
+
+            for (var index = 0; index < customReporters.Length; index++)
+            {
+                var customReporter = (ConventionReporterAttribute)customReporters[index];
+                var resultsProcessor = (IResultsProcessor)Activator.CreateInstance(customReporter.ReporterType);
+                defaultProcessors[index] = resultsProcessor;
+                defaultApprovalProcessors[index] = resultsProcessor;
+            }
+
+            var conventionReportTraceRenderer = new ConventionReportTraceRenderer();
+            defaultProcessors[defaultProcessors.Length - 2] = conventionReportTraceRenderer;
+            defaultApprovalProcessors[defaultProcessors.Length - 2] = conventionReportTraceRenderer;
+            defaultProcessors[defaultProcessors.Length - 1] = new ThrowOnFailureResultsProcessor();
+            defaultApprovalProcessors[defaultProcessors.Length - 1] = new ApproveResultsProcessor();
         }
 
         static string ToSentenceCase(string str)

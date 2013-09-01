@@ -1,21 +1,17 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Text;
     using TestStack.ConventionTests.Internal;
 
-    public class MarkdownReportRenderer : GroupedByDataTypeRendererBase
+    public class MarkdownConventionResultsReporter : GroupedByDataTypeConventionResultsReporterBase
     {
-        readonly string file;
-
-        public MarkdownReportRenderer(string assemblyDirectory)
+        public MarkdownConventionResultsReporter() : base("Conventions.md")
         {
-            file = Path.Combine(assemblyDirectory, "Conventions.md");
         }
 
-        protected override void Process(IConventionFormatContext context, IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
+        protected override string Process(IConventionFormatContext context, IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
         {
             var sb = new StringBuilder();
             sb.AppendLine("# Project Conventions");
@@ -31,7 +27,7 @@
                 }
             }
 
-            File.WriteAllText(file, sb.ToString());
+            return sb.ToString();
         }
     }
 }

@@ -7,16 +7,13 @@
     using System.Web.UI;
     using TestStack.ConventionTests.Internal;
 
-    public class HtmlReportRenderer : GroupedByDataTypeRendererBase
+    public class HtmlConventionResultsReporter : GroupedByDataTypeConventionResultsReporterBase
     {
-        readonly string file;
-
-        public HtmlReportRenderer(string assemblyDirectory)
+        public HtmlConventionResultsReporter() : base("Conventions.htm")
         {
-            file = Path.Combine(assemblyDirectory, "Conventions.htm");
         }
 
-        protected override void Process(IConventionFormatContext context, IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
+        protected override string Process(IConventionFormatContext context, IEnumerable<IGrouping<string, ConventionResult>> resultsGroupedByDataType)
         {
             var sb = new StringBuilder();
             var html = new HtmlTextWriter(new StringWriter(sb));
@@ -100,8 +97,7 @@
             html.RenderEndTag();                          // </body>
             html.RenderEndTag();                          // </html>
             html.Flush();
-
-            File.WriteAllText(file, sb.ToString());
+            return sb.ToString();
         }
     }
 }
