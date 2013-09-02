@@ -1,18 +1,22 @@
 namespace TestStack.ConventionTests.Reporting
 {
     using TestStack.ConventionTests.ConventionData;
-    using TestStack.ConventionTests.Internal;
 
     public class ProjectFileFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is ProjectFile;
+            return data is ProjectFileItem;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object data)
         {
-            return new ConventionReportFailure(((ProjectFile)failingData).FilePath);
+            return ((ProjectFileItem)data).FilePath;
+        }
+
+        public string FormatHtml(object data)
+        {
+            return ((ProjectFileItem) data).FilePath;
         }
     }
 }

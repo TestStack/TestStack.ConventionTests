@@ -1,18 +1,22 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
-    using TestStack.ConventionTests.Internal;
-
     public class FallbackFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
             return true;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object data)
         {
-            // TODO: for now
-            return new ConventionReportFailure(failingData.ToString());
+            if (data == null)
+                return "<null>";
+            return data.ToString();
+        }
+
+        public string FormatHtml(object data)
+        {
+            return FormatString(data);
         }
     }
 }

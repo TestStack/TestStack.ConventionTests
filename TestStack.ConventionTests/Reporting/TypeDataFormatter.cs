@@ -1,18 +1,26 @@
 namespace TestStack.ConventionTests.Reporting
 {
     using System;
-    using TestStack.ConventionTests.Internal;
 
     public class TypeDataFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is Type;
+            return data is Type;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object data)
         {
-            return new ConventionReportFailure(((Type)failingData).FullName);
+            return ((Type)data).FullName;
+        }
+
+        public string FormatHtml(object data)
+        {
+            var type = ((Type)data);
+            var ns = type.Namespace;
+            if (ns == null)
+                return type.Name;
+            return string.Format("{0}.<strong>{1}</strong>", ns, type.Name);
         }
     }
 }

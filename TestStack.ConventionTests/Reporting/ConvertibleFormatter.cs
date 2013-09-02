@@ -3,20 +3,24 @@ namespace TestStack.ConventionTests.Reporting
     using System;
     using System.Diagnostics;
     using System.Globalization;
-    using TestStack.ConventionTests.Internal;
 
     public class ConvertibleFormatter : IReportDataFormatter
     {
-        public bool CanFormat(object failingData)
+        public bool CanFormat(object data)
         {
-            return failingData is IConvertible;
+            return data is IConvertible;
         }
 
-        public ConventionReportFailure Format(object failingData)
+        public string FormatString(object data)
         {
-            var convertible = failingData as IConvertible;
+            var convertible = data as IConvertible;
             Debug.Assert(convertible != null, "convertible != null");
-            return new ConventionReportFailure(convertible.ToString(CultureInfo.InvariantCulture));
+            return convertible.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public string FormatHtml(object data)
+        {
+            return FormatString(data);
         }
     }
 }

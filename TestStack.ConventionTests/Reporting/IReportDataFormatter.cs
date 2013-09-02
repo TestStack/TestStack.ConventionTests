@@ -1,10 +1,9 @@
 ﻿namespace TestStack.ConventionTests.Reporting
 {
-    using TestStack.ConventionTests.Internal;
-
     public interface IReportDataFormatter
     {
-        bool CanFormat(object failingData);
-        ConventionReportFailure Format(object failingData);
+        bool CanFormat(object data);
+        string FormatString(object data);
+        string FormatHtml(object data);
     }
 }

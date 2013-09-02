@@ -9,7 +9,7 @@
         {
             foreach (var conventionResult in results)
             {
-                Trace.WriteLine(conventionResult.FormattedResult);
+                Trace.WriteLine(context.TestResultProcessor.Process(context, conventionResult));
             }
         }
     }

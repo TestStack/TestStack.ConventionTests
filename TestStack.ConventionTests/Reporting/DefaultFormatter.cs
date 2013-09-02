@@ -27,7 +27,7 @@
 
         public string[] DesribeItem(object result, IConventionFormatContext context)
         {
-            return properties.Select(p => context.FormatData(p.GetValue(result, null)).ToString()).ToArray();
+            return properties.Select(p => context.FormatDataAsString(p.GetValue(result, null)).ToString()).ToArray();
         }
     }
 }

@@ -11,13 +11,15 @@
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
         readonly IList<IResultsProcessor> processors;
+        readonly ITestResultProcessor testResultProcessor;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
 
         public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
-            IList<IResultsProcessor> processors)
+            IList<IResultsProcessor> processors, ITestResultProcessor testResultProcessor)
         {
             this.formatters = formatters;
             this.processors = processors;
+            this.testResultProcessor = testResultProcessor;
             this.dataDescription = dataDescription;
         }
 
@@ -26,24 +28,40 @@
             get { return results.ToArray(); }
         }
 
-        ConventionReportFailure IConventionFormatContext.FormatData(object failingData)
+        string IConventionFormatContext.FormatDataAsHtml(object data)
         {
-            var formatter = formatters.FirstOrDefault(f => f.CanFormat(failingData));
+            var formatter = GetReportDataFormatterFor(data);
+            return formatter.FormatHtml(data);
+        }
+
+        ITestResultProcessor IConventionFormatContext.TestResultProcessor
+        {
+            get { return testResultProcessor; }
+        }
+
+        string IConventionFormatContext.FormatDataAsString(object data)
+        {
+            var formatter = GetReportDataFormatterFor(data);
+
+            return formatter.FormatString(data);
+        }
+
+        IReportDataFormatter GetReportDataFormatterFor(object data)
+        {
+            IReportDataFormatter formatter = formatters.FirstOrDefault(f => f.CanFormat(data));
             if (formatter == null)
             {
                 throw new NoDataFormatterFoundException(
-                    failingData.GetType().Name +
-                    " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
+                    data.GetType().Name + " has no formatter, add one with `Convention.Formatters.Add(new MyDataFormatter());`");
             }
-
-            return formatter.Format(failingData);
+            return formatter;
         }
 
         void IConventionResultContext.Is<TResult>(string resultTitle, IEnumerable<TResult> failingData)
         {
             // ReSharper disable PossibleMultipleEnumeration
             results.Add(new ConventionResult(
-                typeof(TResult),
+                typeof (TResult),
                 resultTitle,
                 dataDescription,
                 failingData.ToObjectArray()));
@@ -54,11 +72,11 @@
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
             results.Add(new ConventionResult(
-                typeof(TResult), firstSetFailureTitle,
+                typeof (TResult), firstSetFailureTitle,
                 dataDescription,
                 firstSetFailureData.ToObjectArray()));
             results.Add(new ConventionResult(
-                typeof(TResult), secondSetFailureTitle,
+                typeof (TResult), secondSetFailureTitle,
                 dataDescription,
                 secondSetFailureData.ToObjectArray()));
         }
@@ -70,8 +88,8 @@
             Func<TResult, bool> isPartOfSecondSet,
             IEnumerable<TResult> allData)
         {
-            var firstSetFailingData = allData.Where(isPartOfFirstSet).Unless(isPartOfSecondSet);
-            var secondSetFailingData = allData.Where(isPartOfSecondSet).Unless(isPartOfFirstSet);
+            IEnumerable<TResult> firstSetFailingData = allData.Where(isPartOfFirstSet).Unless(isPartOfSecondSet);
+            IEnumerable<TResult> secondSetFailingData = allData.Where(isPartOfSecondSet).Unless(isPartOfFirstSet);
 
             (this as IConventionResultContext).IsSymmetric(
                 firstSetFailureTitle, firstSetFailingData,
@@ -85,7 +103,7 @@
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
             convention.Execute(data, this);
 
-            foreach (var resultsProcessor in processors)
+            foreach (IResultsProcessor resultsProcessor in processors)
             {
                 resultsProcessor.Process(this, ConventionResults);
             }
