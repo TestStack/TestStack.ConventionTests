@@ -10,7 +10,7 @@
     /// </summary>
     public class ProjectFileItems : AbstractProjectData
     {
-        public ProjectFilesItems(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
+        public ProjectFileItems(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
             : base(assembly, projectProvider, projectLocator)
         {
         }
