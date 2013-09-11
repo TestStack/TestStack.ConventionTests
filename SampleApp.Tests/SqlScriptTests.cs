@@ -12,7 +12,7 @@
         [Test]
         public void SqlScriptsShouldBeEmbeddedResources()
         {
-            Convention.Is(new FilesAreEmbeddedResources(".sql"), new ProjectFiles(typeof(DomainClass).Assembly));
+            Convention.Is(new FilesAreEmbeddedResources(".sql"), new ProjectFileItems(typeof(DomainClass).Assembly));
         }
     }
 }
