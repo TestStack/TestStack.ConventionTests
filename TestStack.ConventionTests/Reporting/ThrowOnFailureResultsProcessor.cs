@@ -8,7 +8,7 @@
     {
         public void Process(IConventionFormatContext context, params ConventionResult[] results)
         {
-            var invalidResults = results.Where(r => r.HasData).Select(r => r.FormattedResult).ToArray();
+            var invalidResults = results.Where(r => r.HasData).Select(r => context.TestResultProcessor.Process(context, r)).ToArray();
             if (invalidResults.None())
             {
                 return;

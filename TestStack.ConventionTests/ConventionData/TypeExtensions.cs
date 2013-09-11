@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Text.RegularExpressions;
 
     public static class TypeExtensions
     {
@@ -65,6 +66,11 @@
         public static bool ClosesInterface(this Type t, Type openGeneric)
         {
             return t.GetClosedInterfacesOf(openGeneric).Any();
+        }
+
+        internal static string GetSentenceCaseName(this Type type)
+        {
+            return Regex.Replace(type.Name, "[a-z][A-Z]", m => m.Value[0] + " " + char.ToLower(m.Value[1]));
         }
     }
 }

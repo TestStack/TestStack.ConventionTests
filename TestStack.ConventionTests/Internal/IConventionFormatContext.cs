@@ -1,7 +1,11 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
+    using TestStack.ConventionTests.Reporting;
+
     public interface IConventionFormatContext
     {
-        ConventionReportFailure FormatData(object failingData);
+        string FormatDataAsString(object data);
+        string FormatDataAsHtml(object data);
+        ITestResultProcessor TestResultProcessor { get; }
     }
 }

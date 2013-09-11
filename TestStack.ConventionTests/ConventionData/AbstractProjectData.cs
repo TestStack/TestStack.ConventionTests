@@ -2,7 +2,6 @@
 {
     using System.Reflection;
     using System.Xml.Linq;
-    using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Internal;
 
     public abstract class AbstractProjectData : IConventionData

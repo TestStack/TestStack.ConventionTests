@@ -5,14 +5,17 @@
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
-    public class ProjectFiles : AbstractProjectData
+    /// <summary>
+    /// Items/Files in a .*proj project file
+    /// </summary>
+    public class ProjectFileItems : AbstractProjectData
     {
-        public ProjectFiles(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
+        public ProjectFileItems(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
             : base(assembly, projectProvider, projectLocator)
         {
         }
 
-        public ProjectFile[] Files
+        public ProjectFileItem[] Items
         {
             get
             {
@@ -23,7 +26,7 @@
                     .Elements(XName.Get("ItemGroup", msbuild))
                     .Elements()
                     .Select(refElem =>
-                        new ProjectFile
+                        new ProjectFileItem
                         {
                             ReferenceType = refElem.Name.LocalName,
                             FilePath = refElem.Attribute("Include").Value
