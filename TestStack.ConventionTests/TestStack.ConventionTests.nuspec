@@ -4,8 +4,8 @@
     <version>$version$</version>
     <authors>Krzysztof Kozmic, Jake Ginnivan</authors>
     <owners>Krzysztof Kozmic, Jake Ginnivan</owners>
-    <id>ConventionTests</id>
-    <title>ConventionTests</title>
+    <id>TestStack.ConventionTests</id>
+    <title>TestStack.ConventionTests</title>
     <tags>xunit nunit convention testing documentation</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simple convention-tester</description>
