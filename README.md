@@ -41,7 +41,11 @@ Here is a list of some of the pacakged conventions
 
 If you would like to define your own conventions see [Defining Conventions](http://docs.teststack.net/ConventionTests/DefiningConventions.html)
 
-### Where to find out more
-[Krzysztof Koźmic](https://github.com/kkozmic) spoke about ConventionTests at NDC 2012. You can find the video of that talk [here](http://vimeo.com/43676874), slides [here](http://kozmic.pl/presentations/) and the introductory blog post [here](http://kozmic.pl/2012/06/14/using-conventiontests/).
+### More Information
+[Krzysztof Koźmic](https://github.com/kkozmic) first spoke about ConventionTests at NDC 2012. You can find the video of that talk [here](http://vimeo.com/43676874), slides [here](http://kozmic.pl/presentations/) and the introductory blog post [here](http://kozmic.pl/2012/06/14/using-conventiontests/).
 
-[TestStack.ConventionTests documentation](http://docs.teststack.net/conventiontests/index.html)
+In v2, we have rewritten convention tests from the ground up to make it easier to get started, bundle some default conventions and also decouple it from a specific unit testing framework.
+
+There is still plenty we can make better, so please raise issues on github with suggestions!
+
+Docs are available at [TestStack.ConventionTests documentation](http://docs.teststack.net/conventiontests/index.html)
