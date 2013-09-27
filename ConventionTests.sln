@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
+VisualStudioVersion = 12.0.20827.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConventionTests", "ConventionTests\ConventionTests.csproj", "{1E12EA0C-9182-4029-991A-B0B9D38F5783}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Tests", "SampleApp.Tests\SampleApp.Tests.csproj", "{8FEF48A8-6FF5-4B65-B84A-6690D735C703}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests.Autofac", "TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj", "{A747FD64-5338-4572-879D-A9DEB00EBD56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A747FD64-5338-4572-879D-A9DEB00EBD56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A747FD64-5338-4572-879D-A9DEB00EBD56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A747FD64-5338-4572-879D-A9DEB00EBD56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A747FD64-5338-4572-879D-A9DEB00EBD56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

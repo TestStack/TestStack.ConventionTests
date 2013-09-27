@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public static class TypeExtensions
@@ -70,7 +71,53 @@
 
         internal static string GetSentenceCaseName(this Type type)
         {
-            return Regex.Replace(type.Name, "[a-z][A-Z]", m => m.Value[0] + " " + char.ToLower(m.Value[1]));
+            return Regex.Replace(type.Name, "[a-z][A-Z]", m => m.Value[0] + " " + Char.ToLower(m.Value[1]));
+        }
+
+        /// <summary>
+        /// Type.ToString does not read very well for generics, use this method to print in a nice way
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string ToTypeNameString(this Type type)
+        {
+            var nullableType = Nullable.GetUnderlyingType(type);
+            if (nullableType != null)
+                return nullableType.Name + "?";
+
+            if (!type.IsGenericType)
+                switch (type.Name)
+                {
+                    case "String":
+                        return "string";
+                    case "Int32":
+                        return "int";
+                    case "Decimal":
+                        return "decimal";
+                    case "Object":
+                        return "object";
+                    case "Void":
+                        return "void";
+                    default:
+                    {
+                        return String.IsNullOrWhiteSpace(type.FullName) ? type.Name : type.FullName;
+                    }
+                }
+
+            var sb = new StringBuilder(type.Name.Substring(0,
+                type.Name.IndexOf('`'))
+                );
+            sb.Append('<');
+            var first = true;
+            foreach (var t in type.GetGenericArguments())
+            {
+                if (!first)
+                    sb.Append(',');
+                sb.Append(t.ToTypeNameString());
+                first = false;
+            }
+            sb.Append('>');
+            return sb.ToString();
         }
     }
 }
