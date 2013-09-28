@@ -115,6 +115,7 @@
     <Compile Include="Reporting\TestResult.cs" />
     <Compile Include="Reporting\StringDataFormatter.cs" />
     <Compile Include="Reporting\TypeDataFormatter.cs" />
+    <Compile Include="Internal\ResultNotSetException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
