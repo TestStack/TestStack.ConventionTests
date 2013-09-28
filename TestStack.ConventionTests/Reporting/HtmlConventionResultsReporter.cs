@@ -66,6 +66,10 @@
                     html.RenderBeginTag(HtmlTextWriterTag.H4);
                     html.Write(conventionResult.ConventionTitle);
                     html.RenderEndTag();
+                    html.AddAttribute("style", "margin-left:20px;");
+                    html.RenderBeginTag(HtmlTextWriterTag.Div);
+                    html.Write(conventionResult.ConventionReason);
+                    html.RenderEndTag();
                     if (conventionResult.Data.Any())
                     {
                         html.AddAttribute("style", "margin-left:20px;");

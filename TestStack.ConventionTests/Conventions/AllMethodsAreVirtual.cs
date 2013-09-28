@@ -9,5 +9,10 @@
         {
             result.Is("Methods must be virtual", data.TypesToVerify.SelectMany(t => t.NonVirtualMethods()));
         }
+
+        public string ConventionReason
+        {
+            get { return "This convention is useful when classes need to be proxied (nHibernate entities), which need members to be virtual"; }
+        }
     }
 }

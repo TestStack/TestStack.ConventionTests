@@ -1,7 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Autofac
 {
-    using System.Collections.Generic;
     using global::Autofac.Core;
+    using System.Collections.Generic;
     using TestStack.ConventionTests.ConventionData;
 
     public class ServicesShouldOnlyHaveDependenciesWithLesserLifetime : IConvention<AutofacRegistrations>
@@ -36,6 +36,11 @@
             }
 
             result.Is("Components should not depend on with greater lifetimes", exceptions);
+        }
+
+        public string ConventionReason
+        {
+            get { return @"When classes with larger lifetimes depend on classes with smaller lifetimes this often indicates an error and can lead to subtle bugs"; }
         }
     }
 }

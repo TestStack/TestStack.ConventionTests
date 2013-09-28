@@ -23,5 +23,13 @@
             result.Is("ViewModels (types named *{0}) should inherit from INotifyPropertyChanged",
                 failingData);
         }
+
+        public string ConventionReason
+        {
+            get
+            {
+                return "In different scenarios, WPF can hold onto ViewModels if they do not inherit from INotifyPropertyChanged";
+            }
+        }
     }
 }

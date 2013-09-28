@@ -10,5 +10,10 @@
             result.Is("Types must have a default constructor",
                 data.TypesToVerify.Where(t => t.HasDefaultConstructor() == false));
         }
+
+        public string ConventionReason
+        {
+            get { return "This convention is useful when classes need to be proxied (nHibernate/Entity Framework entities), which need a public or protected constructor"; }
+        }
     }
 }
