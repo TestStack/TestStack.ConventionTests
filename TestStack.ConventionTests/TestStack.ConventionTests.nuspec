@@ -12,10 +12,7 @@
     <summary>Simple library offering a simple way to test conventions.</summary>
     <projectUrl>https://github.com/TestStack/ConventionTests</projectUrl>
     <licenseUrl>https://github.com/TestStack/ConventionTests/blob/master/license.txt</licenseUrl>
-    <releaseNotes>v2 Release Highlights
- - Can be used with any unit testing framework
- - Outputs html convention report with your project conventions (living doco)
- - Pre-packaged conventions</releaseNotes>
+    <releaseNotes>https://github.com/TestStack/ConventionTests/releases</releaseNotes>
     <dependencies>
       <dependency id="Mono.Cecil" />
       <dependency id="ApprovalTests" />

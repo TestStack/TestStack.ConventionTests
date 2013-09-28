@@ -12,6 +12,7 @@
     <summary>A selection of pre-packaged conventions to validate autofac</summary>
     <projectUrl>https://github.com/TestStack/ConventionTests</projectUrl>
     <licenseUrl>https://github.com/TestStack/ConventionTests/blob/master/license.txt</licenseUrl>
+    <releaseNotes>https://github.com/TestStack/ConventionTests/releases</releaseNotes>
     <dependencies>
       <dependency id="TestStack.ConventionTests" />
       <dependency id="Autofac" />
