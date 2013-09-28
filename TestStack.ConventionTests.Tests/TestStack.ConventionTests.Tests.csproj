@@ -36,6 +36,9 @@
     <Reference Include="ApprovalUtilities">
       <HintPath>..\packages\ApprovalUtilities.3.0.01\lib\net35\ApprovalUtilities.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\packages\NSubstitute.1.6.1.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
@@ -51,6 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Autofac\CanResolveAllRegisteredServicesTests.cs" />
+    <Compile Include="Autofac\ServicesShouldOnlyHaveDependenciesWithLesserLifetimeTests.cs" />
+    <Compile Include="Autofac\TestTypes\Bar.cs" />
+    <Compile Include="Autofac\TestTypes\Foo.cs" />
+    <Compile Include="Autofac\TestTypes\IBar.cs" />
+    <Compile Include="Autofac\TestTypes\IFoo.cs" />
     <Compile Include="ConventionAssertionClassTests.cs" />
     <Compile Include="CsvReportTests.cs" />
     <Compile Include="MvcConventions.cs" />
@@ -72,6 +81,10 @@
       <Project>{D5A0D078-C660-4654-8A14-DDC816BEBC54}</Project>
       <Name>TestAssembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj">
+      <Project>{a747fd64-5338-4572-879d-a9deb00ebd56}</Project>
+      <Name>TestStack.ConventionTests.Autofac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestStack.ConventionTests\TestStack.ConventionTests.csproj">
       <Project>{955B0236-089F-434D-BA02-63A1E24C2B7C}</Project>
       <Name>TestStack.ConventionTests</Name>
@@ -89,6 +102,7 @@
   <ItemGroup>
     <None Include="Resources\ProjectFileWithInvalidSqlScriptFile.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
