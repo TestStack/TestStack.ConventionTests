@@ -52,9 +52,11 @@
             {
                 html.RenderBeginTag(HtmlTextWriterTag.Div);
                 html.AddAttribute("style", "margin-left:20px;border-bottom: 1px solid");
+
                 html.RenderBeginTag(HtmlTextWriterTag.H2);
                 html.Write("Conventions for '<strong>{0}</strong>'", conventionReport.Key);
                 html.RenderEndTag();
+
                 foreach (var conventionResult in conventionReport)
                 {
                     var targetId = 
@@ -90,8 +92,6 @@
                             html.RenderEndTag();
                         html.RenderEndTag();
                     }
-                    
-                    html.RenderEndTag();
                 }
                 html.RenderEndTag();
             }
@@ -99,9 +99,11 @@
             html.AddAttribute("src", "http://code.jquery.com/jquery.js");
             html.RenderBeginTag(HtmlTextWriterTag.Script);
             html.RenderEndTag();
+
             html.AddAttribute("src", "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js");
             html.RenderBeginTag(HtmlTextWriterTag.Script);
             html.RenderEndTag();
+
             html.RenderEndTag();                          // </body>
             html.RenderEndTag();                          // </html>
             html.Flush();
