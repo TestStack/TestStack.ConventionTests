@@ -13,6 +13,7 @@
         readonly IList<IResultsProcessor> processors;
         readonly ITestResultProcessor testResultProcessor;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
+        bool resultSet;
 
         public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
             IList<IResultsProcessor> processors, ITestResultProcessor testResultProcessor)
@@ -59,6 +60,7 @@
 
         void IConventionResultContext.Is<TResult>(string resultTitle, IEnumerable<TResult> failingData)
         {
+            resultSet = true;
             // ReSharper disable PossibleMultipleEnumeration
             results.Add(new ConventionResult(
                 typeof (TResult),
@@ -71,6 +73,7 @@
             string firstSetFailureTitle, IEnumerable<TResult> firstSetFailureData,
             string secondSetFailureTitle, IEnumerable<TResult> secondSetFailureData)
         {
+            resultSet = true;
             results.Add(new ConventionResult(
                 typeof (TResult), firstSetFailureTitle,
                 dataDescription,
@@ -102,6 +105,9 @@
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
             convention.Execute(data, this);
+
+            if (!resultSet) 
+                throw new ResultNotSetException("{0} did not set a result, conventions must always set a result");
 
             foreach (IResultsProcessor resultsProcessor in processors)
             {

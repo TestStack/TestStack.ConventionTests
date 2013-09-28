@@ -61,6 +61,7 @@
     <Compile Include="Autofac\TestTypes\IBar.cs" />
     <Compile Include="Autofac\TestTypes\IFoo.cs" />
     <Compile Include="ConventionAssertionClassTests.cs" />
+    <Compile Include="ConventionFixture.cs" />
     <Compile Include="CsvReportTests.cs" />
     <Compile Include="MvcConventions.cs" />
     <Compile Include="ProjectBasedConventions.cs" />
