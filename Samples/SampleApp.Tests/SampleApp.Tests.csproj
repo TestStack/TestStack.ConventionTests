@@ -72,7 +72,7 @@
       <Project>{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}</Project>
       <Name>SampleApp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestStack.ConventionTests\TestStack.ConventionTests.csproj">
+    <ProjectReference Include="..\..\TestStack.ConventionTests\TestStack.ConventionTests.csproj">
       <Project>{955B0236-089F-434D-BA02-63A1E24C2B7C}</Project>
       <Name>TestStack.ConventionTests</Name>
     </ProjectReference>
