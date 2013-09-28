@@ -21,12 +21,17 @@
                 .SelectMany(r => r.Services.OfType<TypedService>().Select(s => s.ServiceType).Union(GetGenericFactoryTypes(data, r)))
                 .Distinct();
 
-            var failingTypes = new List<Type>();
+            var failingTypes = new List<string>();
             foreach (var distinctType in distinctTypes)
             {
-                object resolvedInstance;
-                if (!container.TryResolve(distinctType, out resolvedInstance))
-                    failingTypes.Add(distinctType);
+                try
+                {
+                    container.Resolve(distinctType);
+                }
+                catch (DependencyResolutionException e)
+                {
+                    failingTypes.Add(e.Message);
+                }
             }
 
             result.Is("Can resolve all types registered with Autofac", failingTypes);
