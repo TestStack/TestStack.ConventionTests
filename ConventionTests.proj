@@ -53,5 +53,6 @@
     </PropertyGroup>
     <MakeDir Directories="$(Root)build\Artifacts" />
     <Exec Command="@(NuGet) pack $(Root)TestStack.ConventionTests\TestStack.ConventionTests.nuspec -Version $(Version) -OutputDir $(Root)build\Artifacts -BasePath $(Root)TestStack.ConventionTests\bin\$(Configuration)" />
+    <Exec Command="@(NuGet) pack $(Root)TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -Version $(Version) -OutputDir $(Root)build\Artifacts -BasePath $(Root)TestStack.ConventionTests.Autofac\bin\$(Configuration)" />
   </Target>
 </Project>

@@ -1,8 +1,8 @@
 namespace TestStack.ConventionTests.Reporting
 {
-    using System;
     using System.Reflection;
     using System.Text;
+    using TestStack.ConventionTests.ConventionData;
 
     public class MethodInfoDataFormatter : IReportDataFormatter
     {
@@ -59,7 +59,7 @@ namespace TestStack.ConventionTests.Reporting
                         firstParam = false;
                     else
                         sb.Append(", ");
-                    sb.Append(TypeName(g));
+                    sb.Append(g.ToTypeNameString());
                 }
                 sb.Append(">");
             }
@@ -77,47 +77,6 @@ namespace TestStack.ConventionTests.Reporting
                 sb.AppendFormat("protected ");
             if (method.IsStatic)
                 sb.AppendFormat("static ");
-        }
-
-        static string TypeName(Type type)
-        {
-            var nullableType = Nullable.GetUnderlyingType(type);
-            if (nullableType != null)
-                return nullableType.Name + "?";
-
-            if (!type.IsGenericType)
-                switch (type.Name)
-                {
-                    case "String":
-                        return "string";
-                    case "Int32":
-                        return "int";
-                    case "Decimal":
-                        return "decimal";
-                    case "Object":
-                        return "object";
-                    case "Void":
-                        return "void";
-                    default:
-                        {
-                            return string.IsNullOrWhiteSpace(type.FullName) ? type.Name : type.FullName;
-                        }
-                }
-
-            var sb = new StringBuilder(type.Name.Substring(0,
-            type.Name.IndexOf('`'))
-            );
-            sb.Append('<');
-            var first = true;
-            foreach (var t in type.GetGenericArguments())
-            {
-                if (!first)
-                    sb.Append(',');
-                sb.Append(TypeName(t));
-                first = false;
-            }
-            sb.Append('>');
-            return sb.ToString();
         }
     }
 }
