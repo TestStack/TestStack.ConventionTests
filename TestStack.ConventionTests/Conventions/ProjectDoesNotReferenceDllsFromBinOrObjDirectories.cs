@@ -14,6 +14,8 @@
                 data.References.Where(IsBinOrObjReference));
         }
 
+        public string ConventionReason { get { return "Referencing assemblies from the bin/obj folder is normally due to a broken reference, this convention detects these issues"; } }
+
         static bool IsBinOrObjReference(ProjectReference reference)
         {
             return Regex.IsMatch(reference.ReferencedPath, AssemblyReferencingObjRegex, RegexOptions.IgnoreCase);

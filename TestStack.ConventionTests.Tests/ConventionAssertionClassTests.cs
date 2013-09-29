@@ -31,6 +31,11 @@
             {
                 result.Is("Header", new[] {"Different"});
             }
+
+            public string ConventionReason
+            {
+                get { return "Because fail.."; }
+            }
         }
     }
 }

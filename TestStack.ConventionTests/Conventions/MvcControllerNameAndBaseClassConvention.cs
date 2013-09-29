@@ -22,6 +22,8 @@
                 controllersWhichDoNotInheritFromController);
         }
 
+        public string ConventionReason { get { return "This convention detects when Mvc Controllers are likely misconfigured and do not follow Mvc conventions"; } }
+
         protected virtual string GetControllerTypeName()
         {
             return "Mvc Controller";

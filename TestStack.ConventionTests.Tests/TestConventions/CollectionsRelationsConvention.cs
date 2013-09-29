@@ -29,6 +29,11 @@
             result.Is("Some title", collectionToItemLookup);
         }
 
+        public string ConventionReason
+        {
+            get { return "Test convention"; }
+        }
+
         IEnumerable<Type> GetItemTypes(Type type)
         {
             return from @interface in type.GetInterfaces()
