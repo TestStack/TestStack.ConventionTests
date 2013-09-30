@@ -41,6 +41,11 @@
                 data.TypesToVerify);
         }
 
+        public string ConventionReason
+        {
+            get { return "To simplify project structure and allow developers to know where this type of class should live in the project"; }
+        }
+
         bool TypeLivesInSpecifiedNamespace(Type t)
         {
             return t.Namespace == null || t.Namespace.StartsWith(namespaceToCheck);

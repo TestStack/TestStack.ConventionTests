@@ -22,8 +22,10 @@
 
                 foreach (var conventionResult in conventionReport)
                 {
-                    sb.Append(" - ");
-                    sb.AppendLine(conventionResult.ConventionTitle);
+                    sb.Append(" - **");
+                    sb.Append(conventionResult.ConventionTitle);
+                    sb.AppendLine("**  ");
+                    sb.AppendLine(conventionResult.ConventionReason);
                 }
             }
 

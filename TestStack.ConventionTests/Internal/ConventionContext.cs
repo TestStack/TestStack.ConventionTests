@@ -13,6 +13,7 @@
         readonly IList<IResultsProcessor> processors;
         readonly ITestResultProcessor testResultProcessor;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
+        string conventionReason;
         bool resultSet;
 
         public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
@@ -65,6 +66,7 @@
             results.Add(new ConventionResult(
                 typeof (TResult),
                 resultTitle,
+                conventionReason,
                 dataDescription,
                 failingData.ToObjectArray()));
         }
@@ -76,11 +78,11 @@
             resultSet = true;
             results.Add(new ConventionResult(
                 typeof (TResult), firstSetFailureTitle,
-                dataDescription,
+                conventionReason, dataDescription,
                 firstSetFailureData.ToObjectArray()));
             results.Add(new ConventionResult(
                 typeof (TResult), secondSetFailureTitle,
-                dataDescription,
+                conventionReason, dataDescription,
                 secondSetFailureData.ToObjectArray()));
         }
 
@@ -102,6 +104,7 @@
         public void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data)
             where TDataSource : IConventionData
         {
+            conventionReason = convention.ConventionReason;
             if (!data.HasData)
                 throw new ConventionSourceInvalidException(String.Format("{0} has no data", data.Description));
             convention.Execute(data, this);

@@ -1,10 +1,10 @@
 ﻿namespace TestStack.ConventionTests.Autofac
 {
+    using global::Autofac;
+    using global::Autofac.Core;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using global::Autofac;
-    using global::Autofac.Core;
 
     public class CanResolveAllRegisteredServices : IConvention<AutofacRegistrations>
     {
@@ -35,6 +35,14 @@
             }
 
             result.Is("Can resolve all types registered with Autofac", failingTypes);
+        }
+
+        public string ConventionReason
+        {
+            get
+            {
+                return "Container resolution failings are runtime exceptions, this convention allows you to detect missing registrations faster!";
+            }
         }
 
         private IEnumerable<Type> GetGenericFactoryTypes(AutofacRegistrations data, IComponentRegistration componentRegistration)

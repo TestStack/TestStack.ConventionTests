@@ -5,8 +5,9 @@
 
     public class ConventionResult
     {
-        public ConventionResult(Type dataType, string conventionTitle, string dataDescription, object[] data)
+        public ConventionResult(Type dataType, string conventionTitle, string conventionReason, string dataDescription, object[] data)
         {
+            ConventionReason = conventionReason;
             DataType = dataType;
             ConventionTitle = conventionTitle;
             DataDescription = dataDescription;
@@ -15,6 +16,7 @@
 
         public Type DataType { get; private set; }
         public string ConventionTitle { get; private set; }
+        public string ConventionReason { get; private set; }
         public string DataDescription { get; private set; }
         public object[] Data { get; private set; }
 
@@ -22,6 +24,7 @@
         {
             get { return Data.Any(); }
         }
+
 
         protected bool Equals(ConventionResult other)
         {
