@@ -132,4 +132,5 @@
   <Target Name="AfterBuild">
     <Copy SourceFiles="..\Readme.md" DestinationFiles="$(OutputPath)\Readme.txt" Condition="'$(NCrunch)' != '1'" />
   </Target>
+  <Import Project="..\packages\GitFlowVersionTask.0.2.0\Build\GitFlowVersionTask.targets" Condition="Exists('..\packages\GitFlowVersionTask.0.2.0\Build\GitFlowVersionTask.targets') AND $(nCrunch) ==''" />
 </Project>
