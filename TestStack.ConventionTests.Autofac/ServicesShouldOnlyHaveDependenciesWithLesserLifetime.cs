@@ -35,7 +35,7 @@
                 }
             }
 
-            result.Is("Components should not depend on with greater lifetimes", exceptions);
+            result.Is("Components should not depend on services with lesser lifetimes", exceptions);
         }
 
         public string ConventionReason
