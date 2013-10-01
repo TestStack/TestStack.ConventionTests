@@ -20,7 +20,7 @@
             var failingData = data.TypesToVerify.Where(t => t.Name.EndsWith(viewModelSuffix, StringComparison.InvariantCultureIgnoreCase))
                 .Where(t => !notifyPropertyChanged.IsAssignableFrom(t));
 
-            result.Is("ViewModels (types named *{0}) should inherit from INotifyPropertyChanged",
+            result.Is(string.Format("ViewModels (types named *{0}) should inherit from INotifyPropertyChanged", viewModelSuffix),
                 failingData);
         }
 
