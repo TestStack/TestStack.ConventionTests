@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///     This is where we set what our convention is all about.
@@ -20,12 +21,19 @@
 
         public bool HasData {get { return TypesToVerify.Any(); }}
 
-        public static Types InAssemblyOf<T>()
+        public static Types InAssemblyOf<T>(bool excludeCompilerGeneratedTypes = true)
         {
             var assembly = typeof(T).Assembly;
+            var typesToVerify = assembly.GetTypes();
+            if (excludeCompilerGeneratedTypes)
+            {
+                typesToVerify = typesToVerify
+                    .Where(t => !t.GetCustomAttributes(typeof (CompilerGeneratedAttribute), true).Any())
+                    .ToArray();
+            }
             return new Types(assembly.GetName().Name)
             {
-                TypesToVerify = assembly.GetTypes()
+                TypesToVerify = typesToVerify
             };
         }
 
