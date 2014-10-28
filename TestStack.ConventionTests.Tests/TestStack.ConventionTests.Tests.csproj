@@ -62,6 +62,7 @@
     <Compile Include="Autofac\TestTypes\IBar.cs" />
     <Compile Include="Autofac\TestTypes\IFoo.cs" />
     <Compile Include="ConventionAssertionClassTests.cs" />
+    <Compile Include="ConventionData\ProjectPropertyGroupsTests.cs" />
     <Compile Include="ConventionFixture.cs" />
     <Compile Include="CsvReportTests.cs" />
     <Compile Include="MvcConventions.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="TypeBasedConventions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ProjectFileWithInvalidSqlScriptFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ProjectFileWithReleaseDebugTypeFull.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
