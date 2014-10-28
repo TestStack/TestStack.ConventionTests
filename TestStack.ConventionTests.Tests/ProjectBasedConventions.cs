@@ -74,5 +74,53 @@
 
             Convention.IsWithApprovedExeptions(new FilesAreEmbeddedResources(".sql"), project);
         }
+
+        [Test]
+        public void release_debug_type_should_be_pdb_only()
+        {
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithReleaseDebugTypeFull));
+
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var propertyGroups = new ProjectPropertyGroups(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
+            var ex =
+                Assert.Throws<ConventionFailedException>(
+                    () => Convention.Is(new ConfigurationHasSpecificValue(ConfigurationType.Release, "DebugType", "pdbonly"), propertyGroups));
+
+            Approvals.Verify(ex.Message);
+        }
+        
+        [Test]
+        public void all_configuration_groups_should_have_platform_AnyCPU()
+        {
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithReleaseDebugTypeFull));
+
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var propertyGroups = new ProjectPropertyGroups(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
+            var ex =
+                Assert.Throws<ConventionFailedException>(
+                    () => Convention.Is(new ConfigurationHasSpecificValue(ConfigurationType.All, "Platform", "AnyCPU"), propertyGroups));
+
+            Approvals.Verify(ex.Message);
+        }
+        
+        [Test]
+        public void all_configuration_groups_should_have_optimize_true_if_property_defined()
+        {
+            projectProvider
+                .LoadProjectDocument(Arg.Any<string>())
+                .Returns(XDocument.Parse(Resources.ProjectFileWithReleaseDebugTypeFull));
+
+            var projectLocator = Substitute.For<IProjectLocator>();
+            var propertyGroups = new ProjectPropertyGroups(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
+            var ex =
+                Assert.Throws<ConventionFailedException>(
+                    () => Convention.Is(new ConfigurationHasSpecificValue(ConfigurationType.All, "Optimize", "true"), propertyGroups));
+
+            Approvals.Verify(ex.Message);
+        }
     }
 }
