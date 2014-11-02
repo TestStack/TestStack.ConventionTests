@@ -1,0 +1,9 @@
+﻿'DebugType property in Release|AnyCPU must have a value of pdbonly' for 'Project property groups in TestStack.ConventionTests.Tests'
+------------------------------------------------------------------------------------------------------------------------------------
+
+	DebugType:full
+
+'DebugType property in Release|x86 must have a value of pdbonly' for 'Project property groups in TestStack.ConventionTests.Tests'
+---------------------------------------------------------------------------------------------------------------------------------
+
+	DebugType:full
