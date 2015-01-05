@@ -18,6 +18,7 @@
 *.png binary
 *.gif binary
 
+packages/**/*.* binary
 
 # Custom for Visual Studio
 *.cs     text eol=crlf diff=csharp
