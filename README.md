@@ -14,7 +14,7 @@ TestStack.ConventionTests also will generate a convention report of the conventi
     public void DomainHasVirtualMethodsConvention()
     {
 	    // Define some data
-	    var nHibernateEntities = Tpes.InAssemblyOf<SampleDomainClass>()
+	    var nHibernateEntities = Types.InAssemblyOf<SampleDomainClass>()
                 .ConcreteTypes().InNamespace(typeof (SampleDomainClass).Namespace)
                 .ToTypes("nHibernate Entitites");
 
