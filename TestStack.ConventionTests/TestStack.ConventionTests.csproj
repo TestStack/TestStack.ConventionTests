@@ -59,12 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConventionData\TypeExtensions.cs" />
     <Compile Include="ConventionFailedException.cs" />
     <Compile Include="ConventionData\ProjectPropertyGroup.cs" />
     <Compile Include="ConventionData\ProjectPropertyGroups.cs" />
     <Compile Include="ConventionData\TypeExtensions.cs" />
-    <Compile Include="ConventionFailedException.cs" />
     <Compile Include="Conventions\ConfigurationHasSpecificValue.cs" />
     <Compile Include="Conventions\ViewModelShouldInheritFromINotifyPropertyChanged.cs" />
     <Compile Include="ConventionReporterAttribute.cs" />

@@ -16,3 +16,4 @@ _NCrunch*
 *.received.txt
 *.orig
 packages
+ConventionTests.sln.ide/
