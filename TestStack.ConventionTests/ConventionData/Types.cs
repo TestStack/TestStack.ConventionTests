@@ -11,12 +11,17 @@
     /// </summary>
     public class Types : IConventionData
     {
-        public Types(string descriptionOfTypes)
+        public Types(string descriptionOfTypes) : this(Enumerable.Empty<Type>(), descriptionOfTypes)
         {
+        }
+
+        public Types(IEnumerable<Type> types, string descriptionOfTypes)
+        {
+            TypesToVerify = types.ToArray();
             Description = descriptionOfTypes;
         }
 
-        public Type[] TypesToVerify { get; set; }
+        public Type[] TypesToVerify { get; private set; }
 
         public string Description { get; private set; }
 
@@ -198,7 +203,7 @@
         /// <param name="descriptionOfTypes">A description of the matched types.</param>
         public static Types InCollection(IEnumerable<Type> types, string descriptionOfTypes)
         {
-            return new Types(descriptionOfTypes) { TypesToVerify = types.ToArray() };
+            return new Types(types, descriptionOfTypes);
         }
 
         private static string GetAssemblyName(Assembly assembly)
