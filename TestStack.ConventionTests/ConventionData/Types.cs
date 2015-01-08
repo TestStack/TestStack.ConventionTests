@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
@@ -9,7 +10,7 @@
     /// <summary>
     ///     This is where we set what our convention is all about.
     /// </summary>
-    public class Types : IConventionData
+    public class Types : IConventionData, IEnumerable<Type>
     {
         public Types(string descriptionOfTypes) : this(Enumerable.Empty<Type>(), descriptionOfTypes)
         {
@@ -21,7 +22,7 @@
             Description = descriptionOfTypes;
         }
 
-        public Type[] TypesToVerify { get; private set; }
+        public IEnumerable<Type> TypesToVerify { get; private set; }
 
         public string Description { get; private set; }
 
@@ -209,6 +210,16 @@
         private static string GetAssemblyName(Assembly assembly)
         {
             return assembly.GetName().Name;
+        }
+
+        public IEnumerator<Type> GetEnumerator()
+        {
+            return TypesToVerify.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
