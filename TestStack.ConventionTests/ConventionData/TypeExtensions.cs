@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Text.RegularExpressions;
 
@@ -22,6 +23,11 @@
         public static bool IsStatic(this Type type)
         {
             return type.IsClass && !(type.IsSealed && type.IsAbstract);
+        }
+
+        public static bool IsCompilerGenerated(this Type type)
+        {
+            return type.IsDefined(typeof(CompilerGeneratedAttribute), true);
         }
 
         public static bool HasDefaultConstructor(this Type type)

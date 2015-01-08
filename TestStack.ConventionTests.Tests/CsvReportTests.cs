@@ -14,12 +14,12 @@
         [Test]
         public void Can_run_convention_with_simple_reporter()
         {
-            Convention.IsWithApprovedExeptions(new CollectionsRelationsConvention(), new Types("Entities")
-            {
-                TypesToVerify =
-                    typeof (Leaf).Assembly.GetExportedTypes()
-                        .Where(t => t.Namespace == typeof (Leaf).Namespace).ToArray()
-            }, new CsvReporter());
+            var typesToVerify = typeof (Leaf).Assembly.GetExportedTypes()
+                .Where(t => t.Namespace == typeof (Leaf).Namespace);
+
+            Convention.IsWithApprovedExeptions(new CollectionsRelationsConvention(),
+                new Types(typesToVerify, "Entities"),
+                new CsvReporter());
         }
     }
 }

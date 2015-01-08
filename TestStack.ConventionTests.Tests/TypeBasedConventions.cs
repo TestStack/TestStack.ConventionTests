@@ -1,6 +1,5 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
-    using System.Linq;
     using ApprovalTests;
     using ApprovalTests.Reporters;
     using NUnit.Framework;
@@ -17,7 +16,7 @@
         public TypeBasedConventions()
         {
             nhibernateEntities = Types.InAssemblyOf<SampleDomainClass>("nHibernate Entitites",
-                types => types.Where(t => t.IsConcreteClass() && t.Namespace == typeof (SampleDomainClass).Namespace));
+                type => type.IsConcreteClass() && type.Namespace == typeof (SampleDomainClass).Namespace);
         }
 
         [Test]
