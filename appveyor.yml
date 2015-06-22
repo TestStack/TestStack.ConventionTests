@@ -18,10 +18,10 @@ build:
   project: ConventionTests.sln
 
 after_build:
-  - cmd: ECHO nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -OutputDir build\Artifacts -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
-  - cmd:      nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -OutputDir build\Artifacts -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
-  - cmd: ECHO nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -OutputDir build\Artifacts -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
-  - cmd:      nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -OutputDir build\Artifacts -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
+  - cmd: ECHO nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
+  - cmd:      nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
+  - cmd: ECHO nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
+  - cmd:      nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
   
-  - cmd: appveyor PushArtifact "build\Artifacts\TestStack.ConventionTests.%GitVersion_NuGetVersion%.nupkg"
-  - cmd: appveyor PushArtifact "build\Artifacts\TestStack.ConventionTests.Autofac.%GitVersion_NuGetVersion%.nupkg"
+  - cmd: appveyor PushArtifact "TestStack.ConventionTests.%GitVersion_NuGetVersion%.nupkg"
+  - cmd: appveyor PushArtifact "TestStack.ConventionTests.Autofac.%GitVersion_NuGetVersion%.nupkg"
