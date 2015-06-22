@@ -1,0 +1,27 @@
+install:
+  - choco install gitversion.portable -pre -y
+
+assembly_info:
+  patch: false
+  
+before_build:
+  - nuget restore
+  - gitversion /l console /output buildserver /updateAssemblyInfo
+
+platform:
+  - Any CPU
+
+configuration:
+  - Debug
+ 
+build:
+  project: ConventionTests.sln
+
+after_build:
+  - cmd: ECHO nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
+  - cmd:      nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
+  - cmd: ECHO nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
+  - cmd:      nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
+  
+  - cmd: appveyor PushArtifact "TestStack.ConventionTests.%GitVersion_NuGetVersion%.nupkg"
+  - cmd: appveyor PushArtifact "TestStack.ConventionTests.Autofac.%GitVersion_NuGetVersion%.nupkg"

@@ -10,6 +10,7 @@
     public class SqlScriptTests
     {
         [Test]
+        [Explicit] // Only works when shadow copy disabled for tests
         public void SqlScriptsShouldBeEmbeddedResources()
         {
             Convention.Is(new FilesAreEmbeddedResources(".sql"), new ProjectFileItems(typeof(DomainClass).Assembly));
