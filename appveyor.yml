@@ -12,7 +12,7 @@ platform:
   - Any CPU
 
 configuration:
-  - Release
+  - Debug
  
 build:
   project: ConventionTests.sln
