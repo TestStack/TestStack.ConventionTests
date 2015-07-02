@@ -1,6 +1,8 @@
 TestStack.ConventionTests
 =========================
 
+[![Join the chat at https://gitter.im/TestStack/TestStack.ConventionTests](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TestStack/TestStack.ConventionTests?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ### What is ConventionTests?
 Convention over Configuration is a great way to cut down repetitive boilerplate code. 
 But how do you validate that your code adheres to your conventions? 
