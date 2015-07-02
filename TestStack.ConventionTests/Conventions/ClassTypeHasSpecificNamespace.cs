@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
+    using System.Linq;
     using TestStack.ConventionTests.ConventionData;
 
     /// <summary>
@@ -38,7 +39,7 @@
                 string.Format("Non-{0}s must not be under the '{1}' namespace", classType, namespaceToCheck),
                 classIsApplicable,
                 TypeLivesInSpecifiedNamespace,
-                data.TypesToVerify);
+                data.TypesToVerify.Where(t => !t.IsCompilerGenerated()));
         }
 
         public string ConventionReason
@@ -48,7 +49,7 @@
 
         bool TypeLivesInSpecifiedNamespace(Type t)
         {
-            return t.Namespace == null || t.Namespace.StartsWith(namespaceToCheck);
+            return t.Namespace == null || (t.Namespace.StartsWith(namespaceToCheck + ".") || t.Namespace == namespaceToCheck);
         }
     }
 }
