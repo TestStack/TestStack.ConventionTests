@@ -37,6 +37,10 @@
             Execute(convention, data, defaultProcessors, resultProcessor ?? new ConventionReportTextRenderer());
         }
 
+        /// <summary>
+        /// Verifies a convention, any exceptions are written to ApprovalTests to approve
+        /// </summary>
+        /// <example>Convention.IsWithApprovedExeptions(new SomeConvention(), Types.InAssemblyOf&lt;SomeTypeOfMine&gt;())</example>
         public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData

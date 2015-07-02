@@ -8,14 +8,22 @@
     using System.Reflection;
 
     /// <summary>
-    ///     This is where we set what our convention is all about.
+    ///  ConventionTests data source of Types
     /// </summary>
     public class Types : IConventionData, IEnumerable<Type>
     {
+        /// <summary>
+        /// Create an empty Types data source.
+        /// NOTE: There are static helper methods on this type. i.e Types.InAssemblyOf&lt;Foo&gt;()
+        /// </summary>
         public Types(string descriptionOfTypes) : this(Enumerable.Empty<Type>(), descriptionOfTypes)
         {
         }
 
+        /// <summary>
+        /// Create a Types data source.
+        /// NOTE: There are static helper methods on this type. i.e Types.InAssemblyOf&lt;Foo&gt;()
+        /// </summary>
         public Types(IEnumerable<Type> types, string descriptionOfTypes)
         {
             TypesToVerify = types.ToArray();
@@ -187,10 +195,10 @@
         }
 
         /// <summary>
-        /// Gets an optionally filtered list of types from the specified <param name="assemblies" />.
+        /// Creates a Types data source which includes all types from the specified assemblies
         /// </summary>
         /// <param name="assemblies">A list of assemblies to get types from.</param>
-        /// <param name="descriptionOfTypes">A description of the matched types.</param>
+        /// <param name="descriptionOfTypes">A description of the types.</param>
         /// <param name="excludeCompilerGeneratedTypes">Compiler generated types will be excluded if set to <c>true</c>.</param>
         public static Types InAssemblies(IEnumerable<Assembly> assemblies, string descriptionOfTypes, bool excludeCompilerGeneratedTypes = true)
         {
@@ -198,10 +206,10 @@
         }
 
         /// <summary>
-        /// Gets a list of types from the specified <param name="types" /> collection.
+        /// Creates a Types data source from an existing list of types
         /// </summary>
         /// <param name="types">The types.</param>
-        /// <param name="descriptionOfTypes">A description of the matched types.</param>
+        /// <param name="descriptionOfTypes">A description of the types.</param>
         public static Types InCollection(IEnumerable<Type> types, string descriptionOfTypes)
         {
             return new Types(types, descriptionOfTypes);

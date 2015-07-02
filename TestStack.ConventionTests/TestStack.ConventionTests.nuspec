@@ -22,5 +22,6 @@
   <files>
     <file src="TestStack.ConventionTests.dll" target="lib\net40" />
     <file src="TestStack.ConventionTests.pdb" target="lib\net40" />
+    <file src="TestStack.ConventionTests.xml" target="lib\net40" />
   </files>
 </package>
