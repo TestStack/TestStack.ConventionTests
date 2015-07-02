@@ -1,6 +1,10 @@
 TestStack.ConventionTests
 =========================
 
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/TestSTack/TestStack.ConventionTests?branch=master&svg=true)](https://ci.appveyor.com/project/TestStack/TestStack.ConventionTests) 
+[![NuGet](https://img.shields.io/nuget/dt/TestStack.ConventionTests.svg)](https://www.nuget.org/packages/TestStack.ConventionTests) 
+[![NuGet](https://img.shields.io/nuget/vpre/TestStack.ConventionTests.svg)](https://www.nuget.org/packages/TestStack.ConventionTests)
+
 [![Join the chat at https://gitter.im/TestStack/TestStack.ConventionTests](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TestStack/TestStack.ConventionTests?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### What is ConventionTests?
@@ -15,13 +19,13 @@ TestStack.ConventionTests also will generate a convention report of the conventi
     [Test]
     public void DomainHasVirtualMethodsConvention()
     {
-	    // Define some data
-	    var nHibernateEntities = Types.InAssemblyOf<SampleDomainClass>()
+        // Define some data
+        var nHibernateEntities = Types.InAssemblyOf<SampleDomainClass>()
                 .ConcreteTypes().InNamespace(typeof (SampleDomainClass).Namespace)
                 .ToTypes("nHibernate Entitites");
 
         // Apply convention to data
-	    Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities);
+        Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities);
     }
 
 For more information [view the TestStack.ConventionTests documentation](http://docs.teststack.net/conventiontests/index.html)
@@ -36,10 +40,10 @@ Here is a list of some of the pacakged conventions
  - **ProjectDoesNotReferenceDllsFromBinOrObjDirectories** - Specified project file must not reference assemblies from bin/obj directory
  - **MvcControllerNameAndBaseClassConvention** - Enforces MVC controller naming conventions
     - Types ending in *Controller must inherit from Controller (or ApiController), and
-	- Types inheriting from ControllerBase must be named *Controller
+    - Types inheriting from ControllerBase must be named *Controller
  - **MvcControllerNameAndBaseClassConvention** - Enforces WebApi controller naming conventions
     - Types ending in *Controller must inherit from ApiController (or Controller), and
-	- Types inheriting from ApiController must be named *Controller
+    - Types inheriting from ApiController must be named *Controller
 
 If you would like to define your own conventions see [Defining Conventions](http://docs.teststack.net/ConventionTests/DefiningConventions.html)
 
