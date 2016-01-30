@@ -35,24 +35,6 @@
     <DocumentationFile>bin\Release\TestStack.ConventionTests.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApprovalTests">
-      <HintPath>..\packages\ApprovalTests.3.0.01\lib\net40\ApprovalTests.dll</HintPath>
-    </Reference>
-    <Reference Include="ApprovalUtilities">
-      <HintPath>..\packages\ApprovalUtilities.3.0.01\lib\net35\ApprovalUtilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -77,7 +59,7 @@
     <Compile Include="Internal\IConventionFormatContext.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
     <Compile Include="Reporting\AggregatedConventionResultsReporter.cs" />
-    <Compile Include="Reporting\ApproveResultsProcessor.cs" />
+    <Compile Include="Reporting\CaptureFailuresProcessor.cs" />
     <Compile Include="Reporting\ConvertibleFormatter.cs" />
     <Compile Include="Reporting\CsvReporter.cs" />
     <Compile Include="Reporting\DefaultFormatter.cs" />
@@ -124,7 +106,6 @@
     <Compile Include="Internal\ResultNotSetException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="TestStack.ConventionTests.nuspec">
       <SubType>Designer</SubType>
     </None>

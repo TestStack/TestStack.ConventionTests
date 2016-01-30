@@ -10,14 +10,14 @@
     {
         readonly string dataDescription;
         readonly IList<IReportDataFormatter> formatters;
-        readonly IList<IResultsProcessor> processors;
+        readonly IEnumerable<IResultsProcessor> processors;
         readonly ITestResultProcessor testResultProcessor;
         readonly IList<ConventionResult> results = new List<ConventionResult>();
         string conventionReason;
         bool resultSet;
 
         public ConventionContext(string dataDescription, IList<IReportDataFormatter> formatters,
-            IList<IResultsProcessor> processors, ITestResultProcessor testResultProcessor)
+            IEnumerable<IResultsProcessor> processors, ITestResultProcessor testResultProcessor)
         {
             this.formatters = formatters;
             this.processors = processors;

@@ -1,17 +1,15 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
     using System.Xml.Linq;
-    using ApprovalTests;
-    using ApprovalTests.Reporters;
     using NSubstitute;
     using NUnit.Framework;
+    using Shouldly;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
     using TestStack.ConventionTests.Internal;
     using TestStack.ConventionTests.Tests.Properties;
 
     [TestFixture]
-    [UseReporter(typeof(DiffReporter))]
     public class ProjectBasedConventions
     {
         IProjectProvider projectProvider;
@@ -31,9 +29,9 @@
 
             var projectLocator = Substitute.For<IProjectLocator>();
             var project = new ProjectReferences(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
-            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project));
-
-            Approvals.Verify(ex.Message);
+            var failures = Convention.GetFailures(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
+            
+            failures.ShouldMatchApproved();
         }
 
         [Test]
@@ -46,7 +44,9 @@
 
             var projectLocator = Substitute.For<IProjectLocator>();
             var project = new ProjectReferences(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
-            Convention.IsWithApprovedExeptions(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
+            var failures = Convention.GetFailures(new ProjectDoesNotReferenceDllsFromBinOrObjDirectories(), project);
+
+            failures.ShouldMatchApproved();
         }
 
         [Test]
@@ -58,9 +58,9 @@
 
             var projectLocator = Substitute.For<IProjectLocator>();
             var project = new ProjectFileItems(typeof (ProjectBasedConventions).Assembly, projectProvider, projectLocator);
-            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(new FilesAreEmbeddedResources(".sql"), project));
+            var failures = Convention.GetFailures(new FilesAreEmbeddedResources(".sql"), project);
 
-            Approvals.Verify(ex.Message);
+            failures.ShouldMatchApproved();
         }
 
         [Test]
@@ -72,7 +72,7 @@
                 .LoadProjectDocument(Arg.Any<string>())
                 .Returns(XDocument.Parse(Resources.ProjectFileWithInvalidSqlScriptFile));
 
-            Convention.IsWithApprovedExeptions(new FilesAreEmbeddedResources(".sql"), project);
+            Convention.GetFailures(new FilesAreEmbeddedResources(".sql"), project);
         }
 
         [Test]
@@ -84,11 +84,9 @@
 
             var projectLocator = Substitute.For<IProjectLocator>();
             var propertyGroups = new ProjectPropertyGroups(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
-            var ex =
-                Assert.Throws<ConventionFailedException>(
-                    () => Convention.Is(new ConfigurationHasSpecificValue(ConfigurationType.Release, "DebugType", "pdbonly"), propertyGroups));
+            var failures = Convention.GetFailures(new ConfigurationHasSpecificValue(ConfigurationType.Release, "DebugType", "pdbonly"), propertyGroups);
 
-            Approvals.Verify(ex.Message);
+            failures.ShouldMatchApproved();
         }
         
         [Test]
@@ -100,11 +98,9 @@
 
             var projectLocator = Substitute.For<IProjectLocator>();
             var propertyGroups = new ProjectPropertyGroups(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
-            var ex =
-                Assert.Throws<ConventionFailedException>(
-                    () => Convention.Is(new ConfigurationHasSpecificValue(ConfigurationType.All, "Platform", "AnyCPU"), propertyGroups));
+            var failures = Convention.GetFailures(new ConfigurationHasSpecificValue(ConfigurationType.All, "Platform", "AnyCPU"), propertyGroups);
 
-            Approvals.Verify(ex.Message);
+            failures.ShouldMatchApproved();
         }
         
         [Test]
@@ -116,11 +112,11 @@
 
             var projectLocator = Substitute.For<IProjectLocator>();
             var propertyGroups = new ProjectPropertyGroups(typeof(ProjectBasedConventions).Assembly, projectProvider, projectLocator);
-            var ex =
-                Assert.Throws<ConventionFailedException>(
-                    () => Convention.Is(new ConfigurationHasSpecificValue(ConfigurationType.All, "Optimize", "true"), propertyGroups));
+            var failures =
+                Convention.GetFailures(new ConfigurationHasSpecificValue(ConfigurationType.All, "Optimize", "true"),
+                    propertyGroups);
 
-            Approvals.Verify(ex.Message);
+            failures.ShouldMatchApproved();
         }
     }
 }
