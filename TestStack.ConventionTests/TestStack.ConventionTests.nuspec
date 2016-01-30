@@ -14,10 +14,6 @@
     <licenseUrl>https://github.com/TestStack/ConventionTests/blob/master/license.txt</licenseUrl>
     <iconUrl>https://raw.github.com/TestStack/ConventionTests/master/logo.png</iconUrl>
     <releaseNotes>https://github.com/TestStack/ConventionTests/releases</releaseNotes>
-    <dependencies>
-      <dependency id="Mono.Cecil" />
-      <dependency id="ApprovalTests" />
-    </dependencies>
   </metadata>
   <files>
     <file src="TestStack.ConventionTests.dll" target="lib\net40" />
