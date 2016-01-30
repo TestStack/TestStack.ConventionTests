@@ -2,14 +2,17 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
     public class ProjectPropertyGroups : AbstractProjectData
     {
-        public ProjectPropertyGroups(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
-            : base(assembly, projectProvider, projectLocator)
+        public ProjectPropertyGroups(IProjectProvider projectProvider)
+            : base(projectProvider)
+        {
+        }
+        public ProjectPropertyGroups(string projectFileLocation)
+            : base(projectFileLocation)
         {
         }
 

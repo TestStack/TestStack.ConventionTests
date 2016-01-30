@@ -1,5 +1,7 @@
 ﻿namespace SampleApp.Tests
 {
+    using System;
+    using System.IO;
     using NUnit.Framework;
     using SampleApp.Domain;
     using TestStack.ConventionTests;
@@ -9,11 +11,17 @@
     [TestFixture]
     public class SqlScriptTests
     {
+        string projectLocation;
+
+        public SqlScriptTests()
+        {
+            projectLocation = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\SampleApp\SampleApp.csproj"));
+        }
+
         [Test]
-        [Explicit] // Only works when shadow copy disabled for tests
         public void SqlScriptsShouldBeEmbeddedResources()
         {
-            Convention.Is(new FilesAreEmbeddedResources(".sql"), new ProjectFileItems(typeof(DomainClass).Assembly));
+            Convention.Is(new FilesAreEmbeddedResources(".sql"), new ProjectFileItems(projectLocation));
         }
     }
 }

@@ -55,7 +55,6 @@
     <Compile Include="Conventions\MvcControllerNameAndBaseClassConvention.cs" />
     <Compile Include="Internal\ConventionContext.cs" />
     <Compile Include="Internal\ConventionResult.cs" />
-    <Compile Include="Internal\ConventionTestsApprovalTextWriter.cs" />
     <Compile Include="Internal\IConventionFormatContext.cs" />
     <Compile Include="Internal\NoDataFormatterFoundException.cs" />
     <Compile Include="Reporting\AggregatedConventionResultsReporter.cs" />
@@ -83,18 +82,16 @@
     <Compile Include="Conventions\FilesAreEmbeddedResources.cs" />
     <Compile Include="Reporting\IResultsProcessor.cs" />
     <Compile Include="Reporting\IReportDataFormatter.cs" />
-    <Compile Include="Internal\AssemblyProjectLocator.cs" />
     <Compile Include="Convention.cs" />
     <Compile Include="IConvention.cs" />
     <Compile Include="ConventionData\AbstractProjectData.cs" />
     <Compile Include="ConventionData\Types.cs" />
     <Compile Include="ConventionData.cs" />
-    <Compile Include="Internal\IProjectLocator.cs" />
     <Compile Include="Internal\IProjectProvider.cs" />
     <Compile Include="Internal\LinqExtensions.cs" />
     <Compile Include="Conventions\ProjectDoesNotReferenceDllsFromBinOrObjDirectories.cs" />
     <Compile Include="Internal\PredicateHelpers.cs" />
-    <Compile Include="Internal\ProjectProvider.cs" />
+    <Compile Include="Internal\ProjectFileFromDiskProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\ReflectionExtensions.cs" />
     <Compile Include="Reporting\MethodInfoDataFormatter.cs" />

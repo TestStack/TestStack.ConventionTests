@@ -1,4 +1,12 @@
-﻿'Platform property in Release|x86 must have a value of AnyCPU' for 'Project property groups in TestStack.ConventionTests.Tests'
--------------------------------------------------------------------------------------------------------------------------------
+﻿'Platform property in Global must have a value of AnyCPU' for 'Project property groups in ProjectName'
+------------------------------------------------------------------------------------------------------
+
+
+'Platform property in Release|AnyCPU must have a value of AnyCPU' for 'Project property groups in ProjectName'
+--------------------------------------------------------------------------------------------------------------
+
+
+'Platform property in Release|x86 must have a value of AnyCPU' for 'Project property groups in ProjectName'
+-----------------------------------------------------------------------------------------------------------
 
 	Platform:x86
