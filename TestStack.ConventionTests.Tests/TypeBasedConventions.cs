@@ -1,14 +1,12 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
-    using ApprovalTests;
-    using ApprovalTests.Reporters;
     using NUnit.Framework;
+    using Shouldly;
     using TestAssembly;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
 
     [TestFixture]
-    [UseReporter(typeof (DiffReporter))]
     public class TypeBasedConventions
     {
         readonly Types nhibernateEntities;
@@ -22,29 +20,33 @@
         [Test]
         public void all_classes_have_default_constructor()
         {
-            var ex = Assert.Throws<ConventionFailedException>(()=>Convention.Is(new AllClassesHaveDefaultConstructor(), nhibernateEntities));
+            var failures = Convention.GetFailures(new AllClassesHaveDefaultConstructor(), nhibernateEntities);
 
-            Approvals.Verify(ex.Message);
+            failures.ShouldMatchApproved();
         }
 
         [Test]
         public void all_classes_have_default_constructor_wth_approved_exceptions()
         {
-            Convention.IsWithApprovedExeptions(new AllClassesHaveDefaultConstructor(), nhibernateEntities);
+            var failures = Convention.GetFailures(new AllClassesHaveDefaultConstructor(), nhibernateEntities);
+
+            failures.ShouldMatchApproved();
         }
 
         [Test]
         public void all_methods_are_virtual()
         {
-            var ex = Assert.Throws<ConventionFailedException>(()=>Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities));
+            var failures = Convention.GetFailures(new AllMethodsAreVirtual(), nhibernateEntities);
 
-            Approvals.Verify(ex.Message);
+            failures.ShouldMatchApproved();
         }
 
         [Test]
         public void all_methods_are_virtual_wth_approved_exceptions()
         {
-            Convention.IsWithApprovedExeptions(new AllMethodsAreVirtual(), nhibernateEntities);
+            var failures = Convention.GetFailures(new AllMethodsAreVirtual(), nhibernateEntities);
+
+            failures.ShouldMatchApproved();
         }
 
         [Test]
@@ -53,8 +55,9 @@
             var types = Types.InAssemblyOf<SomeDto>();
             var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
 
-            var ex = Assert.Throws<ConventionFailedException>(() =>Convention.Is(convention, types));
-            Approvals.Verify(ex.Message);
+            var failures = Convention.GetFailures(convention, types);
+
+            failures.ShouldMatchApproved();
         }
 
         [Test]
@@ -63,7 +66,7 @@
             var types = Types.InAssemblyOf<SomeDto>();
             var convention = new ClassTypeHasSpecificNamespace(t => t.Name.EndsWith("Dto"), "TestAssembly.Dtos", "Dto");
 
-            Convention.IsWithApprovedExeptions(convention, types);
+            Convention.GetFailures(convention, types);
         }
     }
 }

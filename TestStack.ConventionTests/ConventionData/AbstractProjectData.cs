@@ -1,33 +1,29 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
-    using System.Reflection;
+    using System.IO;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
     public abstract class AbstractProjectData : IConventionData
     {
-        protected AbstractProjectData(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
+        protected AbstractProjectData(IProjectProvider projectProvider)
         {
-            Assembly = assembly;
-            ProjectProvider = projectProvider ?? new ProjectProvider();
-            ProjectLocator = projectLocator ?? new AssemblyProjectLocator();
+            ProjectProvider = projectProvider;
         }
-
-        public Assembly Assembly { get; private set; }
-
-        public IProjectLocator ProjectLocator { get; private set; }
+        protected AbstractProjectData(string projectFilePath)
+        {
+            ProjectProvider = new ProjectFileFromDiskProvider(projectFilePath);
+        }
 
         public IProjectProvider ProjectProvider { get; private set; }
 
-        public string Description { get { return Assembly.GetName().Name; } }
+        public string Description { get { return ProjectProvider.GetName(); } }
 
-        public bool HasData { get { return ProjectLocator.ResolveProjectFilePath(Assembly) != null; } }
+        public bool HasData { get { return true; } }
 
         protected XDocument GetProject()
         {
-            var location = ProjectLocator.ResolveProjectFilePath(Assembly);
-            var project = ProjectProvider.LoadProjectDocument(location);
-            return project;
+            return ProjectProvider.LoadProjectDocument();
         }
     }
 }

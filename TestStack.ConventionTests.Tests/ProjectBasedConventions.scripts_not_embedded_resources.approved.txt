@@ -1,4 +1,4 @@
-﻿'.sql Files must be embedded resources' for 'Project file items in TestStack.ConventionTests.Tests'
----------------------------------------------------------------------------------------------------
+﻿'.sql Files must be embedded resources' for 'Project file items in ProjectName'
+-------------------------------------------------------------------------------
 
 	Scripts\Script2.sql

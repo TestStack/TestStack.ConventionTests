@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Internal;
@@ -10,7 +11,6 @@
     public static class Convention
     {
         static IResultsProcessor[] defaultProcessors;
-        static IResultsProcessor[] defaultApprovalProcessors;
 
         static Convention()
         {
@@ -32,26 +32,31 @@
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            if (defaultProcessors == null || defaultApprovalProcessors == null)
+            if (defaultProcessors == null)
                 Init(Assembly.GetCallingAssembly());
-            Execute(convention, data, defaultProcessors, resultProcessor ?? new ConventionReportTextRenderer());
+
+            Execute(convention, data, defaultProcessors.Concat(new[] { new ThrowOnFailureResultsProcessor() }), resultProcessor ?? new ConventionReportTextRenderer());
         }
 
         /// <summary>
-        /// Verifies a convention, any exceptions are written to ApprovalTests to approve
+        /// Verifies a convention, returning the failures as a string instead of throwing an exception
+        /// 
+        /// Allows you to approve or assert against the failures yourself
         /// </summary>
-        /// <example>Convention.IsWithApprovedExeptions(new SomeConvention(), Types.InAssemblyOf&lt;SomeTypeOfMine&gt;())</example>
-        public static void IsWithApprovedExeptions<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
+        /// <example>Convention.GetFailures(new SomeConvention(), Types.InAssemblyOf&lt;SomeTypeOfMine&gt;())</example>
+        public static string GetFailures<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            if (defaultProcessors == null || defaultApprovalProcessors == null)
+            if (defaultProcessors == null)
                 Init(Assembly.GetCallingAssembly());
-            Execute(convention, data, defaultApprovalProcessors, resultProcessor ?? new ConventionReportTextRenderer());
+            var captureFailuresProcessor = new CaptureFailuresProcessor();
+            Execute(convention, data, defaultProcessors.Concat(new [] { captureFailuresProcessor }), resultProcessor ?? new ConventionReportTextRenderer());
+            return captureFailuresProcessor.Failures;
         }
 
         static void Execute<TDataSource>(IConvention<TDataSource> convention, TDataSource data,
-            IResultsProcessor[] processors, ITestResultProcessor resultProcessor)
+            IEnumerable<IResultsProcessor> processors, ITestResultProcessor resultProcessor)
             where TDataSource : IConventionData
         {
             var dataDescription = string.Format("{0} in {1}", data.GetType().GetSentenceCaseName(), data.Description);
@@ -63,22 +68,17 @@
         {
             var customReporters = assembly.GetCustomAttributes(typeof(ConventionReporterAttribute), false);
 
-            defaultProcessors = new IResultsProcessor[customReporters.Length + 2];
-            defaultApprovalProcessors = new IResultsProcessor[customReporters.Length + 2];
+            defaultProcessors = new IResultsProcessor[customReporters.Length + 1];
 
             for (var index = 0; index < customReporters.Length; index++)
             {
                 var customReporter = (ConventionReporterAttribute)customReporters[index];
                 var resultsProcessor = (IResultsProcessor)Activator.CreateInstance(customReporter.ReporterType);
                 defaultProcessors[index] = resultsProcessor;
-                defaultApprovalProcessors[index] = resultsProcessor;
             }
 
             var conventionReportTraceRenderer = new ConventionReportTraceRenderer();
-            defaultProcessors[defaultProcessors.Length - 2] = conventionReportTraceRenderer;
-            defaultApprovalProcessors[defaultProcessors.Length - 2] = conventionReportTraceRenderer;
-            defaultProcessors[defaultProcessors.Length - 1] = new ThrowOnFailureResultsProcessor();
-            defaultApprovalProcessors[defaultProcessors.Length - 1] = new ApproveResultsProcessor();
+            defaultProcessors[defaultProcessors.Length - 1] = conventionReportTraceRenderer;
         }
     }
 }

@@ -4,6 +4,7 @@
 
     public interface IProjectProvider
     {
-        XDocument LoadProjectDocument(string resolveProjectFilePath);
+        XDocument LoadProjectDocument();
+        string GetName();
     }
 }

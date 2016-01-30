@@ -1,7 +1,6 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
     using System.Linq;
-    using System.Reflection;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
@@ -10,8 +9,12 @@
     /// </summary>
     public class ProjectFileItems : AbstractProjectData
     {
-        public ProjectFileItems(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
-            : base(assembly, projectProvider, projectLocator)
+        public ProjectFileItems(IProjectProvider projectProvider)
+            : base(projectProvider)
+        {
+        }
+
+        public ProjectFileItems(string projectFilePath) : base(projectFilePath)
         {
         }
 

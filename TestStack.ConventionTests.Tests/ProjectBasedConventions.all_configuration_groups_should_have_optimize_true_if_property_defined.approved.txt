@@ -1,4 +1,4 @@
-﻿'Optimize property in Release|AnyCPU must have a value of true' for 'Project property groups in TestStack.ConventionTests.Tests'
---------------------------------------------------------------------------------------------------------------------------------
+﻿'Optimize property in Release|AnyCPU must have a value of true' for 'Project property groups in ProjectName'
+------------------------------------------------------------------------------------------------------------
 
 	Optimize:false

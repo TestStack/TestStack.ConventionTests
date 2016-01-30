@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApprovalTests">
-      <HintPath>..\packages\ApprovalTests.3.0.01\lib\net40\ApprovalTests.dll</HintPath>
-    </Reference>
-    <Reference Include="ApprovalUtilities">
-      <HintPath>..\packages\ApprovalUtilities.3.0.01\lib\net35\ApprovalUtilities.dll</HintPath>
-    </Reference>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
@@ -45,6 +39,10 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly, Version=2.7.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.2.7.0-beta0002\lib\net40\Shouldly.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,7 +59,6 @@
     <Compile Include="Autofac\TestTypes\Foo.cs" />
     <Compile Include="Autofac\TestTypes\IBar.cs" />
     <Compile Include="Autofac\TestTypes\IFoo.cs" />
-    <Compile Include="ConventionAssertionClassTests.cs" />
     <Compile Include="ConventionData\ProjectPropertyGroupsTests.cs" />
     <Compile Include="ConventionFixture.cs" />
     <Compile Include="CsvReportTests.cs" />

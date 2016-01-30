@@ -23,10 +23,10 @@
         public void can_parse_a_normal_project_file_to_read_global_debug_and_release_property_groups()
         {
             projectProvider
-                   .LoadProjectDocument(Arg.Any<string>())
+                   .LoadProjectDocument()
                    .Returns(XDocument.Parse(Resources.ProjectFileWithBinReference));
 
-            var projectGroups = new ProjectPropertyGroups(typeof(ProjectPropertyGroups).Assembly, projectProvider, Substitute.For<IProjectLocator>());
+            var projectGroups = new ProjectPropertyGroups(projectProvider);
             
             Assert.That(projectGroups.PropertyGroups.Length, Is.EqualTo(3));
             Assert.That(projectGroups.PropertyGroups.Any(item => item.Debug));

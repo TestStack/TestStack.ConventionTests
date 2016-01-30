@@ -1,16 +1,18 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 
     public class ProjectReferences : AbstractProjectData
     {
-        public ProjectReferences(Assembly assembly, IProjectProvider projectProvider = null, IProjectLocator projectLocator = null)
-            : base(assembly, projectProvider, projectLocator)
+        public ProjectReferences(IProjectProvider projectProvider)
+            : base(projectProvider)
+        {
+        }
+
+        public ProjectReferences(string projectFilePath) : base(projectFilePath)
         {
         }
 

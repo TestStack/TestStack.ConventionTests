@@ -1,14 +1,12 @@
 ﻿namespace TestStack.ConventionTests.Tests
 {
-    using ApprovalTests;
-    using ApprovalTests.Reporters;
     using NUnit.Framework;
+    using Shouldly;
     using TestAssembly.Controllers;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
 
     [TestFixture]
-    [UseReporter(typeof(DiffReporter))] 
     public class MvcConventions
     {
         [Test]
@@ -17,8 +15,9 @@
             var types = Types.InAssemblyOf<TestController>();
             var convention = new MvcControllerNameAndBaseClassConvention();
 
-            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(convention, types));
-            Approvals.Verify(ex.Message);
+            var failures = Convention.GetFailures(convention, types);
+
+            failures.ShouldMatchApproved();
         }
 
         [Test]
@@ -27,8 +26,9 @@
             var types = Types.InAssemblyOf<TestController>();
             var convention = new ApiControllerNamingAndBaseClassConvention();
 
-            var ex = Assert.Throws<ConventionFailedException>(() => Convention.Is(convention, types));
-            Approvals.Verify(ex.Message);
+            var failures = Convention.GetFailures(convention, types);
+
+            failures.ShouldMatchApproved();
         } 
     }
 }
