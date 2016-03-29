@@ -1,10 +1,3 @@
----
-
-layout: layout
-
-title: ConventionTests
----
-
 ## What is ConventionTests?
 
 Convention over Configuration is a great way to cut down repetitive boilerplate code. But how do you validate that your code adheres to your conventions?

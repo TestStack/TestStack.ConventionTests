@@ -1,8 +1,3 @@
----
-layout: layout
-title: Defining Conventions
----
-
 If you want to define your own conventions, it is really easy. 
 
 ### Step 1

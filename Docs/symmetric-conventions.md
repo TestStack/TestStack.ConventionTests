@@ -1,8 +1,3 @@
----
-layout: layout
-title: Symmetric Conventions
----
-
 Symmetric conventions will verify a convention and also the inverse of that convention.
 
 An example of a symmetric convention is `ClassTypeHasSpecificNamespace`. It can verify a particular class type (dto, domain object, event handler) lives in a certain namespace, but it will also verify that ONLY that class type lives in that namespace. 

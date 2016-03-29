@@ -6,6 +6,8 @@ TestStack.ConventionTests
 [![NuGet](https://img.shields.io/nuget/vpre/TestStack.ConventionTests.svg)](https://www.nuget.org/packages/TestStack.ConventionTests)
 
 [![Join the chat at https://gitter.im/TestStack/TestStack.ConventionTests](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TestStack/TestStack.ConventionTests?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Documentation Status](https://readthedocs.org/projects/teststackconventiontests/badge/?version=latest)](http://teststackconventiontests.readthedocs.org/en/latest/?badge=latest)
+
 
 ### What is ConventionTests?
 Convention over Configuration is a great way to cut down repetitive boilerplate code. 
