@@ -19,20 +19,11 @@
             this.componentRegistry = componentRegistry;
         }
 
-        public string Description
-        {
-            get { return "All AutofacContainer Registrations"; }
-        }
+        public string Description => "All AutofacContainer Registrations";
 
-        public bool HasData
-        {
-            get { return true; }
-        }
+        public bool HasData => true;
 
-        public IComponentRegistry ComponentRegistry
-        {
-            get { return componentRegistry; }
-        }
+        public IComponentRegistry ComponentRegistry => componentRegistry;
 
         public Type GetConcreteType(IComponentRegistration r)
         {

@@ -37,13 +37,8 @@
             result.Is("Can resolve all types registered with Autofac", failingTypes);
         }
 
-        public string ConventionReason
-        {
-            get
-            {
-                return "Container resolution failings are runtime exceptions, this convention allows you to detect missing registrations faster!";
-            }
-        }
+        public string ConventionReason => 
+            "Container resolution failings are runtime exceptions, this convention allows you to detect missing registrations faster!";
 
         private IEnumerable<Type> GetGenericFactoryTypes(AutofacRegistrations data, IComponentRegistration componentRegistration)
         {

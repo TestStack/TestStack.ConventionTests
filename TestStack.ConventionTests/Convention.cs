@@ -59,7 +59,7 @@
             IEnumerable<IResultsProcessor> processors, ITestResultProcessor resultProcessor)
             where TDataSource : IConventionData
         {
-            var dataDescription = string.Format("{0} in {1}", data.GetType().GetSentenceCaseName(), data.Description);
+            var dataDescription = $"{data.GetType().GetSentenceCaseName()} in {data.Description}";
             var context = new ConventionContext(dataDescription, Formatters, processors, resultProcessor);
             context.Execute(convention, data);
         }
