@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		GitVersionConfig.yaml = GitVersionConfig.yaml
-		mkdocs.yml = mkdocs.yml
+		docs\mkdocs.yml = docs\mkdocs.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -32,9 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Tests", "Samples\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{D822A12B-D358-48BC-8158-EB5CC253C858}"
 	ProjectSection(SolutionItems) = preProject
+		docs\changelog.md = docs\changelog.md
 		Docs\defining-conventions.md = Docs\defining-conventions.md
 		Docs\index.md = Docs\index.md
-		doc\mkdocs.yml = doc\mkdocs.yml
+		docs\mkdocs.yml = docs\mkdocs.yml
 		Docs\symmetric-conventions.md = Docs\symmetric-conventions.md
 	EndProjectSection
 EndProject

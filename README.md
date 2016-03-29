@@ -1,8 +1,6 @@
 TestStack.ConventionTests
 =========================
-
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/TestSTack/TestStack.ConventionTests?branch=master&svg=true)](https://ci.appveyor.com/project/TestStack/TestStack.ConventionTests) 
-[![NuGet](https://img.shields.io/nuget/dt/TestStack.ConventionTests.svg)](https://www.nuget.org/packages/TestStack.ConventionTests) 
+[![Build status](https://ci.appveyor.com/api/projects/status/rd41l8kf510a98i5/branch/master?svg=true)](https://ci.appveyor.com/project/TestStack/teststack-conventiontests/branch/master)
 [![NuGet](https://img.shields.io/nuget/vpre/TestStack.ConventionTests.svg)](https://www.nuget.org/packages/TestStack.ConventionTests)
 
 [![Join the chat at https://gitter.im/TestStack/TestStack.ConventionTests](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TestStack/TestStack.ConventionTests?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
