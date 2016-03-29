@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{D822A12B-D
 	ProjectSection(SolutionItems) = preProject
 		Docs\defining-conventions.md = Docs\defining-conventions.md
 		Docs\index.md = Docs\index.md
-		mkdocs.yml = mkdocs.yml
+		doc\mkdocs.yml = doc\mkdocs.yml
 		Docs\symmetric-conventions.md = Docs\symmetric-conventions.md
 	EndProjectSection
 EndProject
