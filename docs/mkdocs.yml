@@ -6,3 +6,4 @@ pages:
 - Home: index.md
 - 'Defining Conventions': 'defining-conventions.md'
 - 'Symmetric Conventions': 'symmetric-conventions.md'
+- 'Changelog': 'changelog.md'

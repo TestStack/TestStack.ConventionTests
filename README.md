@@ -30,7 +30,7 @@ TestStack.ConventionTests also will generate a convention report of the conventi
         Convention.Is(new AllMethodsAreVirtual(), nhibernateEntities);
     }
 
-For more information [view the TestStack.ConventionTests documentation](http://conventiontests.teststack.net/docs/)
+For more information [view the TestStack.ConventionTests documentation](http://teststackconventiontests.readthedocs.org/)
 
 ### Packaged Conventions
 Here is a list of some of the pacakged conventions
@@ -47,7 +47,7 @@ Here is a list of some of the pacakged conventions
     - Types ending in *Controller must inherit from ApiController (or Controller), and
     - Types inheriting from ApiController must be named *Controller
 
-If you would like to define your own conventions see [Defining Conventions](http://conventiontests.teststack.net/docs/getting-started#section-defining-conventions)
+If you would like to define your own conventions see [Defining Conventions](http://teststackconventiontests.readthedocs.org/en/latest/defining-conventions/)
 
 ### More Information
 [Krzysztof Koźmic](https://github.com/kkozmic) first spoke about ConventionTests at NDC 2012. You can find the video of that talk [here](http://vimeo.com/43676874), slides [here](http://kozmic.pl/presentations/) and the introductory blog post [here](http://kozmic.pl/2012/06/14/using-conventiontests/).
