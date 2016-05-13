@@ -71,6 +71,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TestConventions\CollectionsRelationsConvention.cs" />
+    <Compile Include="ConventionData\TypeExtensionsTests.cs" />
     <Compile Include="TypeBasedConventions.cs" />
   </ItemGroup>
   <ItemGroup>

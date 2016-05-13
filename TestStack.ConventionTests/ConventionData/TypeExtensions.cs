@@ -22,7 +22,7 @@
 
         public static bool IsStatic(this Type type)
         {
-            return type.IsClass && !(type.IsSealed && type.IsAbstract);
+            return type.IsClass && type.IsSealed && type.IsAbstract;
         }
 
         public static bool IsCompilerGenerated(this Type type)
