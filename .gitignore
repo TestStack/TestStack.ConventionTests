@@ -6,6 +6,7 @@ obj
 TestResult*
 
 # Misc
+.vscode
 _ReSharper.*
 *.user
 *.suo
