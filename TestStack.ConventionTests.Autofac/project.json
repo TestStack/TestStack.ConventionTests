@@ -1,0 +1,14 @@
+{
+    "dependencies": {
+        // "TestStack.ConventionTests.Tests": { "target": "project" }
+        "Autofac": "4.2.1"
+    },
+    "description": "",
+    "frameworks": {
+        "netstandard1.6": {}
+    },
+    "packOptions": {
+        
+    },
+    "version": "1.0.0-*"
+}

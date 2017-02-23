@@ -1,9 +1,13 @@
 ﻿namespace TestStack.ConventionTests.Internal
 {
     using System;
+    #if Serializable
     using System.Runtime.Serialization;
+    #endif
 
-    [Serializable]
+    #if Serializable
+    [System.Serializable]
+    #endif
     public class NoDataFormatterFoundException : Exception
     {
         public NoDataFormatterFoundException()
@@ -18,10 +22,12 @@
         {
         }
 
+        #if Serializable
         protected NoDataFormatterFoundException(
             SerializationInfo info,
             StreamingContext context) : base(info, context)
         {
         }
+        #endif
     }
 }
