@@ -12,7 +12,7 @@
     {
         public static bool IsConcreteClass(this Type t)
         {
-            return t.IsClass && !t.IsAbstract;
+            return t.GetTypeInfo().IsClass && !t.GetTypeInfo().IsAbstract;
         }
 
         public static bool IsEnum(this Type type)
@@ -22,12 +22,12 @@
 
         public static bool IsStatic(this Type type)
         {
-            return type.IsClass && type.IsSealed && type.IsAbstract;
+            return type.GetTypeInfo().IsClass && type.GetTypeInfo().IsSealed && type.GetTypeInfo().IsAbstract;
         }
 
         public static bool IsCompilerGenerated(this Type type)
         {
-            return type.IsDefined(typeof(CompilerGeneratedAttribute), true);
+            return type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true);
         }
 
         public static bool HasDefaultConstructor(this Type type)
@@ -64,7 +64,7 @@
         public static IEnumerable<Type> GetClosedInterfacesOf(this Type type, Type openGeneric)
         {
             return from i in type.GetInterfaces()
-                   where i.IsGenericType
+                   where i.GetTypeInfo().IsGenericType
                    let defn = i.GetGenericTypeDefinition()
                    where defn == openGeneric
                    select i;
@@ -91,7 +91,7 @@
             if (nullableType != null)
                 return nullableType.Name + "?";
 
-            if (!type.IsGenericType)
+            if (!type.GetTypeInfo().IsGenericType)
                 switch (type.Name)
                 {
                     case "String":

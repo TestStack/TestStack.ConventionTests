@@ -58,7 +58,7 @@
         /// <param name="predicate">A function to test each type for a condition.</param>
         public static Types InAssemblyOf(Type type, Func<Type, bool> predicate)
         {
-            return InAssembly(type.Assembly, predicate);
+            return InAssembly(type.GetTypeInfo().Assembly, predicate);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@
         /// <param name="predicate">A function to test each type for a condition.</param>
         public static Types InAssemblyOf(Type type, string descriptionOfTypes, Func<Type, bool> predicate)
         {
-            return InAssembly(type.Assembly, descriptionOfTypes, predicate);
+            return InAssembly(type.GetTypeInfo().Assembly, descriptionOfTypes, predicate);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@
         /// <param name="excludeCompilerGeneratedTypes">Compiler generated types will be excluded if set to <c>true</c>.</param>
         public static Types InAssemblyOf(Type type, bool excludeCompilerGeneratedTypes = true)
         {
-            return InAssembly(type.Assembly, excludeCompilerGeneratedTypes);
+            return InAssembly(type.GetTypeInfo().Assembly, excludeCompilerGeneratedTypes);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@
         [Obsolete("This method is obsolete and should not be used. Use the overload with a predicate instead.")]
         public static Types InAssemblyOf<T>(string descriptionOfTypes, Func<IEnumerable<Type>, IEnumerable<Type>> types)
         {
-            return InCollection(types(typeof(T).Assembly.GetTypes()), descriptionOfTypes);
+            return InCollection(types(typeof(T).GetTypeInfo().Assembly.GetTypes()), descriptionOfTypes);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@
         /// <param name="excludeCompilerGeneratedTypes">Compiler generated types will be excluded if set to <c>true</c>.</param>
         public static Types InAssemblyOf(Type type, string descriptionOfTypes, bool excludeCompilerGeneratedTypes = true)
         {
-            return InAssembly(type.Assembly, descriptionOfTypes, excludeCompilerGeneratedTypes);
+            return InAssembly(type.GetTypeInfo().Assembly, descriptionOfTypes, excludeCompilerGeneratedTypes);
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿namespace TestStack.ConventionTests
 {
     using System;
+    using System.Reflection;
     using TestStack.ConventionTests.Reporting;
 
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]

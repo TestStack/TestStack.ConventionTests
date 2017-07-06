@@ -25,7 +25,7 @@
         {
             get
             {
-                return !Global && Condition.IndexOf("debug", StringComparison.InvariantCultureIgnoreCase) > -1;
+                return !Global && Condition.IndexOf("debug", StringComparison.OrdinalIgnoreCase) > -1;
             }
         }
 
@@ -52,7 +52,7 @@
         {
             get
             {
-                return !Global && Condition.IndexOf("release", StringComparison.InvariantCultureIgnoreCase) > -1;
+                return !Global && Condition.IndexOf("release", StringComparison.OrdinalIgnoreCase) > -1;
             }
         }
 
