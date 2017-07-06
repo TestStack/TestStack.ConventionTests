@@ -32,8 +32,13 @@
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            if (defaultProcessors == null)
-                Init(Assembly.GetCallingAssembly());
+            if (defaultProcessors == null) {
+                // var assembly = typeof(TDataSource).GetTypeInfo().Assembly;
+                var attributes = typeof(TDataSource).GetTypeInfo().GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+                Init(attributes.ToList());
+                // Init(Assembly.GetCallingAssembly());
+            }
+                
 
             Execute(convention, data, defaultProcessors.Concat(new[] { new ThrowOnFailureResultsProcessor() }), resultProcessor ?? new ConventionReportTextRenderer());
         }
@@ -48,8 +53,11 @@
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            if (defaultProcessors == null)
-                Init(Assembly.GetCallingAssembly());
+            if (defaultProcessors == null) {
+
+            }
+                var attributes = typeof(TDataSource).GetTypeInfo().GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+                Init(attributes.ToList());
             var captureFailuresProcessor = new CaptureFailuresProcessor();
             Execute(convention, data, defaultProcessors.Concat(new [] { captureFailuresProcessor }), resultProcessor ?? new ConventionReportTextRenderer());
             return captureFailuresProcessor.Failures;
@@ -64,13 +72,12 @@
             context.Execute(convention, data);
         }
 
-        static void Init(Assembly assembly)
+        static void Init(IList<Attribute> attributes)
         {
-            var customReporters = assembly.GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+            var customReporters = attributes;
+            defaultProcessors = new IResultsProcessor[customReporters.Count + 1];
 
-            defaultProcessors = new IResultsProcessor[customReporters.Length + 1];
-
-            for (var index = 0; index < customReporters.Length; index++)
+            for (var index = 0; index < customReporters.Count; index++)
             {
                 var customReporter = (ConventionReporterAttribute)customReporters[index];
                 var resultsProcessor = (IResultsProcessor)Activator.CreateInstance(customReporter.ReporterType);
