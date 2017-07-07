@@ -8,6 +8,7 @@ TestResult*
 # Misc
 .vscode
 _ReSharper.*
+.idea
 *.user
 *.suo
 *.crunchproject.local.xml
