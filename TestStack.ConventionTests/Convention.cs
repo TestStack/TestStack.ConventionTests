@@ -33,12 +33,9 @@
             where TDataSource : IConventionData
         {
             if (defaultProcessors == null) {
-                // var assembly = typeof(TDataSource).GetTypeInfo().Assembly;
-                var attributes = typeof(TDataSource).GetTypeInfo().GetCustomAttributes(typeof(ConventionReporterAttribute), false);
-                Init(attributes.ToList());
-                // Init(Assembly.GetCallingAssembly());
+                var reporters = GetCustomReporters<TDataSource>();
+                Init(reporters.ToList());
             }
-                
 
             Execute(convention, data, defaultProcessors.Concat(new[] { new ThrowOnFailureResultsProcessor() }), resultProcessor ?? new ConventionReportTextRenderer());
         }
@@ -53,11 +50,12 @@
             ITestResultProcessor resultProcessor = null)
             where TDataSource : IConventionData
         {
-            if (defaultProcessors == null) {
-
+            if (defaultProcessors == null)
+            {
+                var reporters = GetCustomReporters<TDataSource>();
+                Init(reporters.ToList());
             }
-                var attributes = typeof(TDataSource).GetTypeInfo().GetCustomAttributes(typeof(ConventionReporterAttribute), false);
-                Init(attributes.ToList());
+            
             var captureFailuresProcessor = new CaptureFailuresProcessor();
             Execute(convention, data, defaultProcessors.Concat(new [] { captureFailuresProcessor }), resultProcessor ?? new ConventionReportTextRenderer());
             return captureFailuresProcessor.Failures;
@@ -72,9 +70,8 @@
             context.Execute(convention, data);
         }
 
-        static void Init(IList<Attribute> attributes)
+        static void Init(IList<Attribute> customReporters)
         {
-            var customReporters = attributes;
             defaultProcessors = new IResultsProcessor[customReporters.Count + 1];
 
             for (var index = 0; index < customReporters.Count; index++)
@@ -86,6 +83,16 @@
 
             var conventionReportTraceRenderer = new ConventionReportTraceRenderer();
             defaultProcessors[defaultProcessors.Length - 1] = conventionReportTraceRenderer;
+        }
+
+        static IEnumerable<Attribute> GetCustomReporters<TDataSource>()
+        {
+            #if NewReflection
+            return typeof(TDataSource).GetTypeInfo().GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+            #else
+            var assembly = Assembly.GetCallingAssembly();
+            return assembly.GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+            #endif
         }
     }
 }

@@ -6,6 +6,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
+    using TestStack.ConventionTests.Internal;
 
     /// <summary>
     ///  ConventionTests data source of Types
@@ -58,7 +59,7 @@
         /// <param name="predicate">A function to test each type for a condition.</param>
         public static Types InAssemblyOf(Type type, Func<Type, bool> predicate)
         {
-            return InAssembly(type.GetTypeInfo().Assembly, predicate);
+            return InAssembly(type.GetAssembly(), predicate);
         }
 
         /// <summary>
@@ -92,7 +93,7 @@
         /// <param name="predicate">A function to test each type for a condition.</param>
         public static Types InAssemblyOf(Type type, string descriptionOfTypes, Func<Type, bool> predicate)
         {
-            return InAssembly(type.GetTypeInfo().Assembly, descriptionOfTypes, predicate);
+            return InAssembly(type.GetAssembly(), descriptionOfTypes, predicate);
         }
 
         /// <summary>
@@ -134,7 +135,7 @@
         /// <param name="excludeCompilerGeneratedTypes">Compiler generated types will be excluded if set to <c>true</c>.</param>
         public static Types InAssemblyOf(Type type, bool excludeCompilerGeneratedTypes = true)
         {
-            return InAssembly(type.GetTypeInfo().Assembly, excludeCompilerGeneratedTypes);
+            return InAssembly(type.GetAssembly(), excludeCompilerGeneratedTypes);
         }
 
         /// <summary>
@@ -158,7 +159,12 @@
         [Obsolete("This method is obsolete and should not be used. Use the overload with a predicate instead.")]
         public static Types InAssemblyOf<T>(string descriptionOfTypes, Func<IEnumerable<Type>, IEnumerable<Type>> types)
         {
-            return InCollection(types(typeof(T).GetTypeInfo().Assembly.GetTypes()), descriptionOfTypes);
+            #if NewReflection
+            var typeInfoTypes = typeof(T).GetTypeInfo().Assembly.GetTypes();
+            #else
+            var typeInfoTypes = typeof(T).Assembly.GetTypes();
+            #endif
+            return InCollection(types(typeInfoTypes), descriptionOfTypes);
         }
 
         /// <summary>
@@ -180,7 +186,7 @@
         /// <param name="excludeCompilerGeneratedTypes">Compiler generated types will be excluded if set to <c>true</c>.</param>
         public static Types InAssemblyOf(Type type, string descriptionOfTypes, bool excludeCompilerGeneratedTypes = true)
         {
-            return InAssembly(type.GetTypeInfo().Assembly, descriptionOfTypes, excludeCompilerGeneratedTypes);
+            return InAssembly(type.GetAssembly(), descriptionOfTypes, excludeCompilerGeneratedTypes);
         }
 
         /// <summary>
