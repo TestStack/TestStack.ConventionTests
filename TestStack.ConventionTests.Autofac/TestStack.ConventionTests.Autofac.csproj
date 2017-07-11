@@ -13,8 +13,21 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
 
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TestStack.ConventionTests\TestStack.ConventionTests.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <DefineConstants>$(DefineConstants);NewReflection;</DefineConstants>
+  </PropertyGroup>
+  
 </Project>
