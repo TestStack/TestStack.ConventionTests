@@ -15,7 +15,7 @@
         #if NewReflection
              t.GetTypeInfo().IsClass && !t.GetTypeInfo().IsAbstract;
         #else
-            return t.IsClass && !t.IsAbstract;
+             t.IsClass && !t.IsAbstract;
         #endif
 
         public static bool IsEnum(this Type type)
