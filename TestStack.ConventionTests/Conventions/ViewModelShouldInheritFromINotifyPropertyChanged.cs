@@ -1,8 +1,6 @@
 ﻿namespace TestStack.ConventionTests.Conventions
 {
     using System;
-    using System.ComponentModel;
-    using System.Linq;
     using System.Reflection;
     using TestStack.ConventionTests.ConventionData;
 
@@ -25,12 +23,6 @@
                 failingData);
         }
 
-        public string ConventionReason
-        {
-            get
-            {
-                return "In different scenarios, WPF can hold onto ViewModels if they do not inherit from INotifyPropertyChanged";
-            }
-        }
+        public string ConventionReason => "In different scenarios, WPF can hold onto ViewModels if they do not inherit from INotifyPropertyChanged";
     }
 }

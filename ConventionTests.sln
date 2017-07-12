@@ -1,7 +1,6 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26114.2
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF9054EE-FE89-47A4-9156-BE54A837F2F7}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,24 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests", "TestStack.ConventionTests\TestStack.ConventionTests.csproj", "{955B0236-089F-434D-BA02-63A1E24C2B7C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests.Tests", "TestStack.ConventionTests.Tests\TestStack.ConventionTests.Tests.csproj", "{FEFF8305-A192-4CEA-A373-6CF2F365A9E5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{35B8E1F6-8E97-40A6-91E3-CB765328424F}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssembly", "TestAssembly\TestAssembly.csproj", "{D5A0D078-C660-4654-8A14-DDC816BEBC54}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E971721A-1271-4359-8F76-9FF17C29582B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests.Autofac", "TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj", "{A747FD64-5338-4572-879D-A9DEB00EBD56}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "Samples\SampleApp\SampleApp.csproj", "{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Tests", "Samples\SampleApp.Tests\SampleApp.Tests.csproj", "{8FEF48A8-6FF5-4B65-B84A-6690D735C703}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{D822A12B-D358-48BC-8158-EB5CC253C858}"
 	ProjectSection(SolutionItems) = preProject
@@ -38,6 +25,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{D822A12B-D
 		docs\mkdocs.yml = docs\mkdocs.yml
 		Docs\symmetric-conventions.md = Docs\symmetric-conventions.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStack.ConventionTests", "TestStack.ConventionTests\TestStack.ConventionTests.csproj", "{955B0236-089F-434D-BA02-63A1E24C2B7C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStack.ConventionTests.Tests", "TestStack.ConventionTests.Tests\TestStack.ConventionTests.Tests.csproj", "{FEFF8305-A192-4CEA-A373-6CF2F365A9E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssembly", "TestAssembly\TestAssembly.csproj", "{D5A0D078-C660-4654-8A14-DDC816BEBC54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStack.ConventionTests.Autofac", "TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj", "{A747FD64-5338-4572-879D-A9DEB00EBD56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "Samples\SampleApp\SampleApp.csproj", "{56467A5A-7DD6-45B3-A84C-144A3C5D0C7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp.Tests", "Samples\SampleApp.Tests\SampleApp.Tests.csproj", "{8FEF48A8-6FF5-4B65-B84A-6690D735C703}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
