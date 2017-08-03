@@ -23,7 +23,7 @@
         #if NewReflection
             type.GetTypeInfo().Assembly;
         #else
-            type.Assembly
+            type.Assembly;
         #endif
         
         public static Type GetBaseType(this Type type) =>

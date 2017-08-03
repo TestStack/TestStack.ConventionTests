@@ -91,7 +91,7 @@
             return typeof(TDataSource).GetTypeInfo().GetCustomAttributes(typeof(ConventionReporterAttribute), false);
             #else
             var assembly = Assembly.GetCallingAssembly();
-            return assembly.GetCustomAttributes(typeof(ConventionReporterAttribute), false);
+            return (IEnumerable<Attribute>)assembly.GetCustomAttributes(typeof(ConventionReporterAttribute), false);
             #endif
         }
     }
