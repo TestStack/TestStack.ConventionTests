@@ -30,6 +30,9 @@
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestAssembly\TestAssembly.csproj" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
     <DefineConstants>$(DefineConstants);Serializable</DefineConstants>
   </PropertyGroup>
