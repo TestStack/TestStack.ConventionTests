@@ -20,4 +20,9 @@
     <PackageReference Include="NUnit" Version="3.7.1" />
     <PackageReference Include="Shouldly" Version="2.8.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestAssembly\TestAssembly.csproj" />
+    <ProjectReference Include="..\TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj" />
+    <ProjectReference Include="..\TestStack.ConventionTests\TestStack.ConventionTests.csproj" />
+  </ItemGroup>
 </Project>
