@@ -25,7 +25,7 @@
                 // Oops, I forgot to set the result
             }
 
-            public string ConventionReason { get { return "Convention does not set result for testing"; } }
+            public string ConventionReason => "Convention does not set result for testing";
 
             bool IsBroken(Type type)
             {

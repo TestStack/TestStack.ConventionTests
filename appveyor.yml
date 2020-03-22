@@ -1,5 +1,8 @@
+image:
+  - Visual Studio 2019
+
 install:
-  - choco install gitversion.portable -pre -y
+  - choco install gitversion.portable -y
 
 assembly_info:
   patch: false
@@ -12,16 +15,15 @@ platform:
   - Any CPU
 
 configuration:
-  - Debug
+  - Release
  
 build:
   project: ConventionTests.sln
 
 after_build:
-  - cmd: ECHO nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
-  - cmd:      nuget pack TestStack.ConventionTests\TestStack.ConventionTests.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests\bin\%CONFIGURATION%
-  - cmd: ECHO nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
-  - cmd:      nuget pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.nuspec -version "%GitVersion_NuGetVersion%" -BasePath TestStack.ConventionTests.Autofac\bin\%CONFIGURATION%
+  - cmd: dotnet pack TestStack.ConventionTests\TestStack.ConventionTests.csproj -c Release -o .\artifacts --include-symbols -v n
+  - cmd: dotnet pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj -c Release -o .\artifacts --include-symbols -v n
+
+artifacts:
+  - path: '.\artifacts\*.nupkg'
   
-  - cmd: appveyor PushArtifact "TestStack.ConventionTests.%GitVersion_NuGetVersion%.nupkg"
-  - cmd: appveyor PushArtifact "TestStack.ConventionTests.Autofac.%GitVersion_NuGetVersion%.nupkg"
