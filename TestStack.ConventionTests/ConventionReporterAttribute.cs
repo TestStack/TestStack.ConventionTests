@@ -1,6 +1,9 @@
 ﻿namespace TestStack.ConventionTests
 {
     using System;
+    #if NewReflection
+    using System.Reflection;
+    #endif
     using TestStack.ConventionTests.Reporting;
 
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -10,9 +13,9 @@
         {
             ReporterType = reporterType;
             if (!typeof(IResultsProcessor).IsAssignableFrom(reporterType))
-                throw new ArgumentException("Reporters must inherit from IResultsProcessor", "reporterType");
+                throw new ArgumentException("Reporters must inherit from IResultsProcessor", nameof(reporterType));
         }
 
-        public Type ReporterType { get; private set; }
+        public Type ReporterType { get; }
     }
 }

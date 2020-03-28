@@ -5,6 +5,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    #if NewReflection
+    using System.Reflection;
+    #endif
 
     public class CanResolveAllRegisteredServices : IConvention<AutofacRegistrations>
     {

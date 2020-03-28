@@ -1,119 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{955B0236-089F-434D-BA02-63A1E24C2B7C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestStack.ConventionTests</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>TestStack.ConventionTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>9ee5ac36</NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\TestStack.ConventionTests.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\TestStack.ConventionTests.xml</DocumentationFile>
+    <PackageId>TestStack.ConventionTests</PackageId>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\TestAssembly\TestAssembly.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ConventionFailedException.cs" />
-    <Compile Include="ConventionData\ProjectPropertyGroup.cs" />
-    <Compile Include="ConventionData\ProjectPropertyGroups.cs" />
-    <Compile Include="ConventionData\TypeExtensions.cs" />
-    <Compile Include="Conventions\ConfigurationHasSpecificValue.cs" />
-    <Compile Include="Conventions\ViewModelShouldInheritFromINotifyPropertyChanged.cs" />
-    <Compile Include="ConventionReporterAttribute.cs" />
-    <Compile Include="IConventionResultContext.cs" />
-    <Compile Include="Conventions\ApiControllerNamingAndBaseClassConvention.cs" />
-    <Compile Include="Conventions\MvcControllerNameAndBaseClassConvention.cs" />
-    <Compile Include="Internal\ConventionContext.cs" />
-    <Compile Include="Internal\ConventionResult.cs" />
-    <Compile Include="Internal\IConventionFormatContext.cs" />
-    <Compile Include="Internal\NoDataFormatterFoundException.cs" />
-    <Compile Include="Reporting\AggregatedConventionResultsReporter.cs" />
-    <Compile Include="Reporting\CaptureFailuresProcessor.cs" />
-    <Compile Include="Reporting\ConvertibleFormatter.cs" />
-    <Compile Include="Reporting\CsvReporter.cs" />
-    <Compile Include="Reporting\DefaultFormatter.cs" />
-    <Compile Include="Reporting\FallbackFormatter.cs" />
-    <Compile Include="Reporting\GroupedByDataTypeConventionResultsReporterBase.cs" />
-    <Compile Include="Reporting\HtmlConventionResultsReporter.cs" />
-    <Compile Include="Reporting\ConventionReportTextRenderer.cs" />
-    <Compile Include="Reporting\ConventionReportTraceRenderer.cs" />
-    <Compile Include="Reporting\ITestResultProcessor.cs" />
-    <Compile Include="Reporting\MarkdownConventionResultsReporter.cs" />
-    <Compile Include="Reporting\ThrowOnFailureResultsProcessor.cs" />
-    <Compile Include="Conventions\ClassTypeHasSpecificNamespace.cs" />
-    <Compile Include="Conventions\ConventionSourceInvalidException.cs" />
-    <Compile Include="ConventionData\ProjectFileItem.cs" />
-    <Compile Include="ConventionData\ProjectFileItems.cs" />
-    <Compile Include="ConventionData\ProjectReference.cs" />
-    <Compile Include="ConventionData\ProjectReferences.cs" />
-    <Compile Include="IConventionData.cs" />
-    <Compile Include="Conventions\AllMethodsAreVirtual.cs" />
-    <Compile Include="Conventions\AllClassesHaveDefaultConstructor.cs" />
-    <Compile Include="Conventions\FilesAreEmbeddedResources.cs" />
-    <Compile Include="Reporting\IResultsProcessor.cs" />
-    <Compile Include="Reporting\IReportDataFormatter.cs" />
-    <Compile Include="Convention.cs" />
-    <Compile Include="IConvention.cs" />
-    <Compile Include="ConventionData\AbstractProjectData.cs" />
-    <Compile Include="ConventionData\Types.cs" />
-    <Compile Include="ConventionData.cs" />
-    <Compile Include="Internal\IProjectProvider.cs" />
-    <Compile Include="Internal\LinqExtensions.cs" />
-    <Compile Include="Conventions\ProjectDoesNotReferenceDllsFromBinOrObjDirectories.cs" />
-    <Compile Include="Internal\PredicateHelpers.cs" />
-    <Compile Include="Internal\ProjectFileFromDiskProvider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internal\ReflectionExtensions.cs" />
-    <Compile Include="Reporting\MethodInfoDataFormatter.cs" />
-    <Compile Include="Reporting\ProjectFileFormatter.cs" />
-    <Compile Include="Reporting\ProjectReferenceFormatter.cs" />
-    <Compile Include="Reporting\TestResult.cs" />
-    <Compile Include="Reporting\StringDataFormatter.cs" />
-    <Compile Include="Reporting\TypeDataFormatter.cs" />
-    <Compile Include="Internal\ResultNotSetException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TestStack.ConventionTests.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  -->
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="..\Readme.md" DestinationFiles="$(OutputPath)\Readme.txt" Condition="'$(NCrunch)' != '1'" />
-  </Target>
 </Project>

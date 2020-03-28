@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using TestStack.ConventionTests.ConventionData;
+    using TestStack.ConventionTests.Internal;
 
     public class MvcControllerNameAndBaseClassConvention : IConvention<Types>
     {
@@ -37,17 +39,19 @@
         static bool IsMvcController(Type arg)
         {
             var isController = arg.FullName == "System.Web.Mvc.Controller";
-            if (arg.BaseType == null)
+            var baseType = arg.GetBaseType();
+            if (baseType == null)
                 return isController;
-            return isController || IsMvcController(arg.BaseType);
+            return isController || IsMvcController(baseType);
         }
 
         protected static bool IsWebApiController(Type arg)
         {
             var isController = arg.FullName == "System.Web.Http.ApiController";
-            if (arg.BaseType == null)
+            var baseType = arg.GetBaseType();
+            if (baseType == null)
                 return isController;
-            return isController || IsWebApiController(arg.BaseType);
+            return isController || IsWebApiController(baseType);
         }
     }
 }

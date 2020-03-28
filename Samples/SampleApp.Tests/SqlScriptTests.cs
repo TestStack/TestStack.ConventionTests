@@ -2,8 +2,8 @@
 {
     using System;
     using System.IO;
+    using System.Reflection;
     using NUnit.Framework;
-    using SampleApp.Domain;
     using TestStack.ConventionTests;
     using TestStack.ConventionTests.ConventionData;
     using TestStack.ConventionTests.Conventions;
@@ -11,11 +11,13 @@
     [TestFixture]
     public class SqlScriptTests
     {
-        string projectLocation;
+        readonly string projectLocation;
 
         public SqlScriptTests()
         {
-            projectLocation = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\SampleApp\SampleApp.csproj"));
+            projectLocation =
+                Path.GetFullPath(Path.Combine(Assembly.GetExecutingAssembly().Location,
+                    @"..\..\..\..\SampleApp\SampleApp.csproj"));
         }
 
         [Test]

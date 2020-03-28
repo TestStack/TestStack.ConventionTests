@@ -9,7 +9,8 @@
         {
             foreach (var conventionResult in results)
             {
-                Trace.WriteLine(context.TestResultProcessor.Process(context, conventionResult));
+                // TODO: Fix below
+                // Trace.WriteLine(context.TestResultProcessor.Process(context, conventionResult));
             }
         }
     }

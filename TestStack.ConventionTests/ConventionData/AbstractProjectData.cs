@@ -1,6 +1,5 @@
 ﻿namespace TestStack.ConventionTests.ConventionData
 {
-    using System.IO;
     using System.Xml.Linq;
     using TestStack.ConventionTests.Internal;
 

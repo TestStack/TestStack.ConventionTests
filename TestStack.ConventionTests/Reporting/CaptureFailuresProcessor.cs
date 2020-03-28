@@ -19,7 +19,7 @@
                     Failures = failedApprovals[0];
                     break;
                 default:
-                    Failures = string.Join(Environment.NewLine, failedApprovals);
+                    Failures = string.Join(Environment.NewLine, failedApprovals.ToArray());
                     break;
             }
         }

@@ -4,6 +4,5 @@
 
     public class MyApiController : ApiController
     {
-         
     }
 }

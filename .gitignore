@@ -6,7 +6,9 @@ obj
 TestResult*
 
 # Misc
+.vscode
 _ReSharper.*
+.idea
 *.user
 *.suo
 *.crunchproject.local.xml
@@ -17,3 +19,7 @@ _NCrunch*
 *.orig
 packages
 ConventionTests.sln.ide/
+/.vs/ConventionTests/DesignTimeBuild/.dtbcache.v2
+/.vs/ConventionTests/v16/TestStore/0/000.testlog
+/.vs/ConventionTests/v16/TestStore/0/testlog.manifest
+/artifacts/**

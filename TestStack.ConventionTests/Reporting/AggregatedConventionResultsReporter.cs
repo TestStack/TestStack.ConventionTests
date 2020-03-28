@@ -25,7 +25,13 @@
             get
             {
                 // http://stackoverflow.com/questions/52797/c-how-do-i-get-the-path-of-the-assembly-the-code-is-in#answer-283917
+
+                #if NewReflection
+                var codeBase = Assembly.GetEntryAssembly().CodeBase;
+                #else
                 var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                #endif
+
                 var uri = new UriBuilder(codeBase);
                 var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
