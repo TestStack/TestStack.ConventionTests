@@ -8,7 +8,7 @@ using TestStack.ConventionTests.Reporting;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TestStack.ConventionTests.Tests")]
-[assembly: AssemblyCopyright("Copyright © TestStack 2013")]
+[assembly: AssemblyCopyright("Copyright © TestStack 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

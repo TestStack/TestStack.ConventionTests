@@ -21,8 +21,8 @@ build:
   project: ConventionTests.sln
 
 after_build:
-  - cmd: dotnet pack TestStack.ConventionTests\TestStack.ConventionTests.csproj -c Release -o .\artifacts --include-symbols -v n
-  - cmd: dotnet pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj -c Release -o .\artifacts --include-symbols -v n
+  - cmd: dotnet pack TestStack.ConventionTests\TestStack.ConventionTests.csproj -c Release -o .\artifacts -p:PackageVersion="%GitVersion_NuGetVersion%" --include-symbols -v n
+  - cmd: dotnet pack TestStack.ConventionTests.Autofac\TestStack.ConventionTests.Autofac.csproj -c Release -o .\artifacts -p:PackageVersion="%GitVersion_NuGetVersion%" --include-symbols -v n
 
 artifacts:
   - path: '.\artifacts\*.nupkg'
