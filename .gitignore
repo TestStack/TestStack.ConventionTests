@@ -19,7 +19,5 @@ _NCrunch*
 *.orig
 packages
 ConventionTests.sln.ide/
-/.vs/ConventionTests/DesignTimeBuild/.dtbcache.v2
-/.vs/ConventionTests/v16/TestStore/0/000.testlog
-/.vs/ConventionTests/v16/TestStore/0/testlog.manifest
+/.vs/
 /artifacts/**

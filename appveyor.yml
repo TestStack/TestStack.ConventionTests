@@ -8,7 +8,7 @@ assembly_info:
   patch: false
   
 before_build:
-  - nuget restore
+  - dotnet restore
   - gitversion /l console /output buildserver /updateAssemblyInfo
 
 platform:
